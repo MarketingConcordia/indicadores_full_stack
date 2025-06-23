@@ -1,0 +1,915 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Indicadores - Perfil Gestor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar bg-gradient-to-b from-blue-900 to-blue-800 text-white py-4 flex flex-col">
+            <div class="px-4 py-2 flex items-center ">
+                <div class="flex items-center space-x-2">
+                    <!-- Logo e nome da empresa removidos conforme solicitado -->
+                </div>
+                <button id="toggle-sidebar" class="text-white focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="mt-8 flex-1">
+                <nav>
+                    <a href="indexgestores.html" class="flex items-center px-4 py-3 bg-blue-700 text-white hover:bg-blue-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                        </svg>
+                        <span class="sidebar-item">Dashboard Geral</span>
+                    </a>
+                    <a href="relatorio-gestores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="sidebar-item">Relatórios</span>
+                    </a>
+                    <a href="preencher-indicadores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        <span class="sidebar-item">Preencher indicadores</span>
+                    </a>
+                    <a href="configuracoes-gestores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="sidebar-item">Configurações</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <div class="mt-auto px-4 py-2">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                        <span class="font-semibold text-sm">G</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="text-sm font-medium">Gestor</div>
+                        <div class="text-xs text-blue-200">Perfil Limitado</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Navbar -->
+            <header class="bg-white shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-3">
+                    <div class="flex items-center">
+                        <h1 class="text-xl font-semibold text-gray-800">Acompanhamento de Indicadores</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                                <div class="relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                    </svg>
+                                    <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="relative">
+                            <button id="profileButton" class="flex items-center space-x-2 focus:outline-none">
+                                <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                                    <span class="font-semibold text-white text-sm">G</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">Gestor</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Meu Perfil</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
+                                <div class="border-t border-gray-100"></div>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Filtros -->
+            <div class="bg-white shadow-sm p-4 border-b">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Área/Setor</label>
+                        <select id="filter-setor" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="todos">Todos os Setores</option>
+                            <option value="corporativo">Corporativo</option>
+                            <option value="revenda">Revenda</option>
+                            <option value="ecommerce">E-commerce</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="logistica">Logística</option>
+                            <option value="rh">RH</option>
+                            <option value="juridico">Jurídico</option>
+                            <option value="financeiro">Financeiro</option>
+                            <option value="controladoria">Controladoria</option>
+                            <option value="produtos-green">Produtos Green</option>
+                            <option value="produtos-blue">Produtos Blue</option>
+                            <option value="produtos-red">Produtos RED</option>
+                            <option value="pos-venda">Pós Venda</option>
+                            <option value="compras">Compras</option>
+                            <option value="projetos">Projetos</option>
+                            <option value="producao">Produção</option>
+                            <option value="engenharia">Engenharia</option>
+                            <option value="qualidade">Qualidade</option>
+                        </select>
+                    </div>
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Período</label>
+                        <select id="filter-periodo" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="mes-atual">Mês Atual</option>
+                            <option value="mes-anterior">Mês Anterior</option>
+                            <option value="trimestre-atual">Trimestre Atual</option>
+                            <option value="trimestre-anterior">Trimestre Anterior</option>
+                            <option value="personalizado">Período Personalizado</option>
+                        </select>
+                    </div>
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select id="filter-status" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="todos">Todos</option>
+                            <option value="atingidos">Atingidos</option>
+                            <option value="nao-atingidos">Não Atingidos</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button id="limpar-filtros" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                            Limpar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <main class="flex-1 overflow-y-auto bg-gray-50 p-4">
+                <div class="indicadores-grid" id="indicadores-container">
+                    <!-- Os cards de indicadores serão inseridos aqui via JavaScript -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes -->
+    <div id="detalhe-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6" id="modal-content">
+                <!-- Conteúdo do modal será inserido aqui via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Meta -->
+    <div id="editar-meta-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Editar Meta</h3>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Indicador</label>
+                    <input type="text" id="editar-meta-nome" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Meta Atual</label>
+                    <input type="text" id="editar-meta-atual" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nova Meta</label>
+                    <input type="number" id="editar-meta-nova" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button id="cancelar-meta" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                        Cancelar
+                    </button>
+                    <button id="salvar-meta" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                        Salvar Alteração
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados de exemplo para os indicadores
+        const indicadores = [
+            {
+                id: 1,
+                nome: "Faturamento Mensal",
+                setor: "Financeiro",
+                status: "atingido",
+                valorAtual: 520000,
+                meta: 500000,
+                variacao: 12,
+                tendencia: "aumento",
+                responsavel: "Ana Silva",
+                ultimaAtualizacao: "2023-06-15 14:30",
+                historico: [
+                    { mes: "Janeiro", valor: 480000, meta: 500000, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 490000, meta: 500000, status: "nao-atingido" },
+                    { mes: "Março", valor: 510000, meta: 500000, status: "atingido" },
+                    { mes: "Abril", valor: 505000, meta: 500000, status: "atingido" },
+                    { mes: "Maio", valor: 515000, meta: 500000, status: "atingido" },
+                    { mes: "Junho", valor: 520000, meta: 500000, status: "atingido" }
+                ],
+                provas: ["prova1.jpg", "prova2.jpg"],
+                comentarios: "Excelente desempenho no último trimestre."
+            },
+            {
+                id: 2,
+                nome: "Novos Clientes",
+                setor: "Marketing",
+                status: "nao-atingido",
+                valorAtual: 45,
+                meta: 50,
+                variacao: -8,
+                tendencia: "diminuicao",
+                responsavel: "Carlos Mendes",
+                ultimaAtualizacao: "2023-06-14 09:15",
+                historico: [
+                    { mes: "Janeiro", valor: 52, meta: 50, status: "atingido" },
+                    { mes: "Fevereiro", valor: 55, meta: 50, status: "atingido" },
+                    { mes: "Março", valor: 53, meta: 50, status: "atingido" },
+                    { mes: "Abril", valor: 49, meta: 50, status: "nao-atingido" },
+                    { mes: "Maio", valor: 47, meta: 50, status: "nao-atingido" },
+                    { mes: "Junho", valor: 45, meta: 50, status: "nao-atingido" }
+                ],
+                provas: ["prova3.jpg"],
+                comentarios: "Necessário revisar estratégia de aquisição."
+            },
+            {
+                id: 3,
+                nome: "Tempo de Entrega",
+                setor: "Logística",
+                status: "atingido",
+                valorAtual: 2.3,
+                meta: 3,
+                variacao: 15,
+                tendencia: "aumento",
+                responsavel: "Mariana Costa",
+                ultimaAtualizacao: "2023-06-15 11:20",
+                historico: [
+                    { mes: "Janeiro", valor: 3.2, meta: 3, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 3.1, meta: 3, status: "nao-atingido" },
+                    { mes: "Março", valor: 2.9, meta: 3, status: "atingido" },
+                    { mes: "Abril", valor: 2.7, meta: 3, status: "atingido" },
+                    { mes: "Maio", valor: 2.5, meta: 3, status: "atingido" },
+                    { mes: "Junho", valor: 2.3, meta: 3, status: "atingido" }
+                ],
+                provas: ["prova4.jpg", "prova5.jpg"],
+                comentarios: "Melhorias significativas após implementação do novo sistema."
+            },
+            {
+                id: 4,
+                nome: "Taxa de Conversão",
+                setor: "E-commerce",
+                status: "atingido",
+                valorAtual: 3.8,
+                meta: 3.5,
+                variacao: 5,
+                tendencia: "aumento",
+                responsavel: "Paulo Ribeiro",
+                ultimaAtualizacao: "2023-06-14 16:45",
+                historico: [
+                    { mes: "Janeiro", valor: 3.2, meta: 3.5, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 3.3, meta: 3.5, status: "nao-atingido" },
+                    { mes: "Março", valor: 3.4, meta: 3.5, status: "nao-atingido" },
+                    { mes: "Abril", valor: 3.5, meta: 3.5, status: "atingido" },
+                    { mes: "Maio", valor: 3.6, meta: 3.5, status: "atingido" },
+                    { mes: "Junho", valor: 3.8, meta: 3.5, status: "atingido" }
+                ],
+                provas: ["prova6.jpg"],
+                comentarios: "Otimização da jornada do cliente está funcionando."
+            },
+            {
+                id: 5,
+                nome: "Produtividade",
+                setor: "Produção",
+                status: "nao-atingido",
+                valorAtual: 85,
+                meta: 90,
+                variacao: -2,
+                tendencia: "diminuicao",
+                responsavel: "Roberto Almeida",
+                ultimaAtualizacao: "2023-06-15 08:30",
+                historico: [
+                    { mes: "Janeiro", valor: 88, meta: 90, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 89, meta: 90, status: "nao-atingido" },
+                    { mes: "Março", valor: 90, meta: 90, status: "atingido" },
+                    { mes: "Abril", valor: 91, meta: 90, status: "atingido" },
+                    { mes: "Maio", valor: 87, meta: 90, status: "nao-atingido" },
+                    { mes: "Junho", valor: 85, meta: 90, status: "nao-atingido" }
+                ],
+                provas: ["prova7.jpg", "prova8.jpg"],
+                comentarios: "Queda devido à manutenção de equipamentos."
+            },
+            {
+                id: 6,
+                nome: "Satisfação do Cliente",
+                setor: "Pós Venda",
+                status: "atingido",
+                valorAtual: 4.7,
+                meta: 4.5,
+                variacao: 2,
+                tendencia: "aumento",
+                responsavel: "Juliana Santos",
+                ultimaAtualizacao: "2023-06-14 14:10",
+                historico: [
+                    { mes: "Janeiro", valor: 4.5, meta: 4.5, status: "atingido" },
+                    { mes: "Fevereiro", valor: 4.5, meta: 4.5, status: "atingido" },
+                    { mes: "Março", valor: 4.6, meta: 4.5, status: "atingido" },
+                    { mes: "Abril", valor: 4.6, meta: 4.5, status: "atingido" },
+                    { mes: "Maio", valor: 4.7, meta: 4.5, status: "atingido" },
+                    { mes: "Junho", valor: 4.7, meta: 4.5, status: "atingido" }
+                ],
+                provas: ["prova9.jpg"],
+                comentarios: "Manter o bom trabalho da equipe."
+            },
+            {
+                id: 7,
+                nome: "Rotatividade",
+                setor: "RH",
+                status: "nao-atingido",
+                valorAtual: 5.2,
+                meta: 4,
+                variacao: 10,
+                tendencia: "aumento",
+                responsavel: "Fernanda Lima",
+                ultimaAtualizacao: "2023-06-15 10:00",
+                historico: [
+                    { mes: "Janeiro", valor: 4.2, meta: 4, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 4.0, meta: 4, status: "atingido" },
+                    { mes: "Março", valor: 4.1, meta: 4, status: "nao-atingido" },
+                    { mes: "Abril", valor: 4.5, meta: 4, status: "nao-atingido" },
+                    { mes: "Maio", valor: 4.8, meta: 4, status: "nao-atingido" },
+                    { mes: "Junho", valor: 5.2, meta: 4, status: "nao-atingido" }
+                ],
+                provas: ["prova10.jpg"],
+                comentarios: "Implementar plano de retenção urgentemente."
+            },
+            {
+                id: 8,
+                nome: "Qualidade do Produto",
+                setor: "Qualidade",
+                status: "atingido",
+                valorAtual: 98.5,
+                meta: 97,
+                variacao: 1,
+                tendencia: "aumento",
+                responsavel: "Marcelo Souza",
+                ultimaAtualizacao: "2023-06-14 15:30",
+                historico: [
+                    { mes: "Janeiro", valor: 97.2, meta: 97, status: "atingido" },
+                    { mes: "Fevereiro", valor: 97.5, meta: 97, status: "atingido" },
+                    { mes: "Março", valor: 97.8, meta: 97, status: "atingido" },
+                    { mes: "Abril", valor: 98.0, meta: 97, status: "atingido" },
+                    { mes: "Maio", valor: 98.2, meta: 97, status: "atingido" },
+                    { mes: "Junho", valor: 98.5, meta: 97, status: "atingido" }
+                ],
+                provas: ["prova11.jpg", "prova12.jpg"],
+                comentarios: "Excelente trabalho da equipe de qualidade."
+            },
+            {
+                id: 9,
+                nome: "Custo por Aquisição",
+                setor: "Marketing",
+                status: "nao-atingido",
+                valorAtual: 75,
+                meta: 65,
+                variacao: 5,
+                tendencia: "aumento",
+                responsavel: "Renata Oliveira",
+                ultimaAtualizacao: "2023-06-15 09:45",
+                historico: [
+                    { mes: "Janeiro", valor: 68, meta: 65, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 67, meta: 65, status: "nao-atingido" },
+                    { mes: "Março", valor: 66, meta: 65, status: "nao-atingido" },
+                    { mes: "Abril", valor: 70, meta: 65, status: "nao-atingido" },
+                    { mes: "Maio", valor: 72, meta: 65, status: "nao-atingido" },
+                    { mes: "Junho", valor: 75, meta: 65, status: "nao-atingido" }
+                ],
+                provas: ["prova13.jpg"],
+                comentarios: "Revisar canais de marketing e estratégias."
+            },
+            {
+                id: 10,
+                nome: "Margem de Lucro",
+                setor: "Financeiro",
+                status: "atingido",
+                valorAtual: 22.5,
+                meta: 20,
+                variacao: 7,
+                tendencia: "aumento",
+                responsavel: "Gustavo Martins",
+                ultimaAtualizacao: "2023-06-14 17:20",
+                historico: [
+                    { mes: "Janeiro", valor: 19.5, meta: 20, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 20.1, meta: 20, status: "atingido" },
+                    { mes: "Março", valor: 20.8, meta: 20, status: "atingido" },
+                    { mes: "Abril", valor: 21.2, meta: 20, status: "atingido" },
+                    { mes: "Maio", valor: 22.0, meta: 20, status: "atingido" },
+                    { mes: "Junho", valor: 22.5, meta: 20, status: "atingido" }
+                ],
+                provas: ["prova14.jpg", "prova15.jpg"],
+                comentarios: "Estratégia de precificação está funcionando bem."
+            },
+            {
+                id: 11,
+                nome: "Tempo de Desenvolvimento",
+                setor: "Engenharia",
+                status: "nao-atingido",
+                valorAtual: 45,
+                meta: 40,
+                variacao: -5,
+                tendencia: "diminuicao",
+                responsavel: "Lucas Ferreira",
+                ultimaAtualizacao: "2023-06-15 13:15",
+                historico: [
+                    { mes: "Janeiro", valor: 50, meta: 40, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 48, meta: 40, status: "nao-atingido" },
+                    { mes: "Março", valor: 47, meta: 40, status: "nao-atingido" },
+                    { mes: "Abril", valor: 46, meta: 40, status: "nao-atingido" },
+                    { mes: "Maio", valor: 46, meta: 40, status: "nao-atingido" },
+                    { mes: "Junho", valor: 45, meta: 40, status: "nao-atingido" }
+                ],
+                provas: ["prova16.jpg"],
+                comentarios: "Melhorando, mas ainda acima da meta."
+            },
+            {
+                id: 12,
+                nome: "Vendas Online",
+                setor: "E-commerce",
+                status: "atingido",
+                valorAtual: 320000,
+                meta: 300000,
+                variacao: 15,
+                tendencia: "aumento",
+                responsavel: "Camila Rocha",
+                ultimaAtualizacao: "2023-06-14 12:40",
+                historico: [
+                    { mes: "Janeiro", valor: 280000, meta: 300000, status: "nao-atingido" },
+                    { mes: "Fevereiro", valor: 290000, meta: 300000, status: "nao-atingido" },
+                    { mes: "Março", valor: 305000, meta: 300000, status: "atingido" },
+                    { mes: "Abril", valor: 310000, meta: 300000, status: "atingido" },
+                    { mes: "Maio", valor: 315000, meta: 300000, status: "atingido" },
+                    { mes: "Junho", valor: 320000, meta: 300000, status: "atingido" }
+                ],
+                provas: ["prova17.jpg", "prova18.jpg"],
+                comentarios: "Crescimento consistente no último trimestre."
+            }
+        ];
+
+        // Função para renderizar os cards de indicadores
+        function renderizarIndicadores(dados) {
+            const container = document.getElementById('indicadores-container');
+            container.innerHTML = '';
+
+            // Cores para os diferentes setores
+            const coresSetores = {
+                "Financeiro": "#4f46e5", // indigo
+                "Marketing": "#ec4899", // pink
+                "Logística": "#f59e0b", // amber
+                "E-commerce": "#06b6d4", // cyan
+                "Produção": "#10b981", // emerald
+                "Pós Venda": "#8b5cf6", // violet
+                "RH": "#f43f5e", // rose
+                "Qualidade": "#0ea5e9", // sky
+                "Engenharia": "#84cc16", // lime
+                "Corporativo": "#6366f1", // indigo
+                "Revenda": "#d946ef", // fuchsia
+                "Jurídico": "#64748b", // slate
+                "Controladoria": "#0891b2", // cyan
+                "Produtos Green": "#22c55e", // green
+                "Produtos Blue": "#3b82f6", // blue
+                "Produtos RED": "#ef4444", // red
+                "Compras": "#a855f7", // purple
+                "Projetos": "#14b8a6"  // teal
+            };
+
+            dados.forEach(indicador => {
+                const card = document.createElement('div');
+                card.className = `indicador-card bg-white rounded-lg shadow-md overflow-hidden relative`;
+                card.dataset.id = indicador.id;
+
+                // Barra de status (meta atingida ou não) no lado esquerdo
+                const statusClass = indicador.status === 'atingido' ? 'bg-green-500' : 'bg-red-500';
+                const statusBar = `<div class="trend-bar ${statusClass}"></div>`;
+
+                // Cor de fundo para o badge do setor
+                const corSetor = coresSetores[indicador.setor] || "#64748b"; // cor padrão se não encontrar
+
+                // Formatação do valor e meta
+                const formatarValor = (valor) => {
+                    if (valor >= 1000) {
+                        return valor.toLocaleString('pt-BR');
+                    }
+                    return valor;
+                };
+
+                // Variação com seta
+                const variacaoIcon = indicador.variacao >= 0 ? '↑' : '↓';
+                const variacaoClass = indicador.variacao >= 0 ? 'text-green-500' : 'text-red-500';
+                const variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior</span></span>`;
+
+                // Status icon
+                const statusIcon = indicador.status === 'atingido' ? '✅' : '❌';
+
+                card.innerHTML = `
+                    ${statusBar}
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-blue-800">${indicador.nome}</h3>
+                            ${variacaoText}
+                        </div>
+                        <div class="inline-block text-white text-xs px-2 py-1 rounded mb-3" style="background-color: ${corSetor}">${indicador.setor}</div>
+                        <div class="flex items-center mb-2">
+                            <span class="mr-2">${statusIcon}</span>
+                            <span class="text-sm">${indicador.status === 'atingido' ? 'Meta atingida' : 'Meta não atingida'}</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-3">
+                            Atual: ${formatarValor(indicador.valorAtual)} / Meta: ${formatarValor(indicador.meta)}
+                        </div>
+                        <div class="flex justify-end">
+                            <button class="btn-detalhes bg-amber-400 hover:bg-amber-500 text-amber-900 text-xs px-3 py-1 rounded transition-colors">
+                                Ver +
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+
+                // Adicionar evento de clique para mostrar detalhes
+                card.querySelector('.btn-detalhes').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mostrarDetalhes(indicador);
+                });
+
+                // Também adicionar evento de clique ao card inteiro
+                card.addEventListener('click', () => {
+                    mostrarDetalhes(indicador);
+                });
+            });
+        }
+
+        // Função para mostrar detalhes do indicador
+        function mostrarDetalhes(indicador) {
+            const modal = document.getElementById('detalhe-modal');
+            const modalContent = document.getElementById('modal-content');
+
+            // Formatação do valor e meta
+            const formatarValor = (valor) => {
+                if (valor >= 1000) {
+                    return valor.toLocaleString('pt-BR');
+                }
+                return valor;
+            };
+
+            // Criar conteúdo do modal
+            modalContent.innerHTML = `
+                <div class="flex justify-between items-start mb-6">
+                    <h2 class="text-2xl font-bold text-blue-800">${indicador.nome}</h2>
+                    <button id="fechar-modal" class="text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-3">Informações Gerais</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Setor:</span>
+                                <span class="font-medium">${indicador.setor}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Status:</span>
+                                <span class="font-medium ${indicador.status === 'atingido' ? 'text-green-600' : 'text-red-600'}">
+                                    ${indicador.status === 'atingido' ? 'Meta atingida' : 'Meta não atingida'}
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Valor Atual:</span>
+                                <span class="font-medium">${formatarValor(indicador.valorAtual)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Meta:</span>
+                                <span class="font-medium">${formatarValor(indicador.meta)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Variação:</span>
+                                <span class="font-medium ${indicador.variacao >= 0 ? 'text-green-600' : 'text-red-600'}">
+                                    ${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}%
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Responsável:</span>
+                                <span class="font-medium">${indicador.responsavel}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Última Atualização:</span>
+                                <span class="font-medium">${new Date(indicador.ultimaAtualizacao).toLocaleString('pt-BR')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow" style="height: 300px;">
+                        <h3 class="text-lg font-semibold mb-3">Tendência</h3>
+                        <canvas id="grafico-tendencia" class="w-full h-full"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Histórico</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mês</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meta</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                ${indicador.historico.map(item => `
+                                    <tr class="${item.status === 'atingido' ? 'bg-green-50' : 'bg-red-50'}">
+                                        <td class="px-4 py-2 whitespace-nowrap">${item.mes}</td>
+                                        <td class="px-4 py-2 whitespace-nowrap">${formatarValor(item.valor)}</td>
+                                        <td class="px-4 py-2 whitespace-nowrap">${formatarValor(item.meta)}</td>
+                                        <td class="px-4 py-2 whitespace-nowrap">
+                                            <span class="${item.status === 'atingido' ? 'text-green-600' : 'text-red-600'}">
+                                                ${item.status === 'atingido' ? '✅ Atingido' : '❌ Não atingido'}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-3">Provas Enviadas</h3>
+                        <div class="flex flex-wrap gap-2">
+                            ${indicador.provas.map(prova => `
+                                <div class="relative group">
+                                    <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded">
+                                        <button class="text-white bg-blue-600 hover:bg-blue-700 rounded-full p-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Origem das Provas:</label>
+                            <input type="text" id="origem-provas-input" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Informe o link ou caminho da origem das provas" />
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-3">Comentários</h3>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200 mb-3">
+                            <p class="text-gray-700">${indicador.comentarios || 'Nenhum comentário registrado.'}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Adicionar comentário:</label>
+                            <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" rows="2"></textarea>
+                            <div class="flex justify-end mt-2">
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors">
+                                    Salvar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button id="solicitar-revisao" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                        Solicitar Revisão
+                    </button>
+                    <button id="editar-meta" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors" data-id="${indicador.id}">
+                        Editar Meta
+                    </button>
+                </div>
+            `;
+
+            // Mostrar o modal
+            modal.classList.remove('hidden');
+
+            // Criar gráfico de tendência
+            setTimeout(() => {
+                const ctx = document.getElementById('grafico-tendencia').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: indicador.historico.map(item => item.mes),
+                        datasets: [
+                            {
+                                label: 'Valor',
+                                data: indicador.historico.map(item => item.valor),
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            },
+                            {
+                                label: 'Meta',
+                                data: indicador.historico.map(item => item.meta),
+                                borderColor: '#ef4444',
+                                borderDash: [5, 5],
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                });
+            }, 100);
+
+            // Adicionar evento para fechar o modal
+            document.getElementById('fechar-modal').addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+
+            // Adicionar evento para o botão de editar meta
+            document.getElementById('editar-meta').addEventListener('click', () => {
+                const editarMetaModal = document.getElementById('editar-meta-modal');
+                document.getElementById('editar-meta-nome').value = indicador.nome;
+                document.getElementById('editar-meta-atual').value = indicador.meta;
+                document.getElementById('editar-meta-nova').value = indicador.meta;
+                editarMetaModal.classList.remove('hidden');
+            });
+
+            // Adicionar evento para o botão de solicitar revisão
+            document.getElementById('solicitar-revisao').addEventListener('click', () => {
+                alert(`Solicitação de revisão enviada para ${indicador.responsavel}`);
+            });
+        }
+
+        // Inicializar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Renderizar indicadores
+            renderizarIndicadores(indicadores);
+
+            // Configurar eventos de filtro
+            const filtroSetor = document.getElementById('filter-setor');
+            const filtroPeriodo = document.getElementById('filter-periodo');
+            const filtroStatus = document.getElementById('filter-status');
+            const limparFiltros = document.getElementById('limpar-filtros');
+
+            function aplicarFiltros() {
+                const setorSelecionado = filtroSetor.value;
+                const periodoSelecionado = filtroPeriodo.value;
+                const statusSelecionado = filtroStatus.value;
+
+                let indicadoresFiltrados = [...indicadores];
+
+                // Filtrar por setor
+                if (setorSelecionado !== 'todos') {
+                    indicadoresFiltrados = indicadoresFiltrados.filter(ind => 
+                        ind.setor.toLowerCase() === setorSelecionado.replace('-', ' ')
+                    );
+                }
+
+                // Filtrar por status
+                if (statusSelecionado !== 'todos') {
+                    indicadoresFiltrados = indicadoresFiltrados.filter(ind => 
+                        ind.status === statusSelecionado.replace('atingidos', 'atingido').replace('nao-atingidos', 'nao-atingido')
+                    );
+                }
+
+                // Renderizar indicadores filtrados
+                renderizarIndicadores(indicadoresFiltrados);
+            }
+
+            filtroSetor.addEventListener('change', aplicarFiltros);
+            filtroPeriodo.addEventListener('change', aplicarFiltros);
+            filtroStatus.addEventListener('change', aplicarFiltros);
+
+            limparFiltros.addEventListener('click', () => {
+                filtroSetor.value = 'todos';
+                filtroPeriodo.value = 'mes-atual';
+                filtroStatus.value = 'todos';
+                renderizarIndicadores(indicadores);
+            });
+
+            // Configurar eventos do modal de edição de meta
+            const editarMetaModal = document.getElementById('editar-meta-modal');
+            const cancelarMeta = document.getElementById('cancelar-meta');
+            const salvarMeta = document.getElementById('salvar-meta');
+
+            cancelarMeta.addEventListener('click', () => {
+                editarMetaModal.classList.add('hidden');
+            });
+
+            salvarMeta.addEventListener('click', () => {
+                const novaMeta = parseFloat(document.getElementById('editar-meta-nova').value);
+                const nomeIndicador = document.getElementById('editar-meta-nome').value;
+                
+                // Aqui você implementaria a lógica para salvar a nova meta
+                alert(`Meta do indicador "${nomeIndicador}" atualizada para ${novaMeta}`);
+                
+                editarMetaModal.classList.add('hidden');
+                document.getElementById('detalhe-modal').classList.add('hidden');
+                
+                // Atualizar os dados e re-renderizar
+                const indicadorId = document.getElementById('editar-meta').dataset.id;
+                const indicador = indicadores.find(ind => ind.id === parseInt(indicadorId));
+                if (indicador) {
+                    indicador.meta = novaMeta;
+                    indicador.status = indicador.valorAtual >= novaMeta ? 'atingido' : 'nao-atingido';
+                    renderizarIndicadores(indicadores);
+                }
+            });
+
+            // Configurar evento para o botão de perfil
+            const profileButton = document.getElementById('profileButton');
+            const profileMenu = document.getElementById('profileMenu');
+
+            profileButton.addEventListener('click', () => {
+                profileMenu.classList.toggle('hidden');
+            });
+
+            // Fechar o menu de perfil ao clicar fora dele
+            document.addEventListener('click', (e) => {
+                if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                    profileMenu.classList.add('hidden');
+                }
+            });
+
+            // Configurar evento para o botão de alternar sidebar
+            const toggleSidebar = document.getElementById('toggle-sidebar');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+
+            toggleSidebar.addEventListener('click', () => {
+                sidebar.classList.toggle('sidebar-collapsed');
+                sidebarItems.forEach(item => {
+                    if (sidebar.classList.contains('sidebar-collapsed')) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = 'inline';
+                    }
+                });
+            });
+
+            // Fechar modais ao clicar fora deles
+            const detalheModal = document.getElementById('detalhe-modal');
+            
+            detalheModal.addEventListener('click', (e) => {
+                if (e.target === detalheModal) {
+                    detalheModal.classList.add('hidden');
+                }
+            });
+
+            editarMetaModal.addEventListener('click', (e) => {
+                if (e.target === editarMetaModal) {
+                    editarMetaModal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94e94147f36664f6',t:'MTc0OTczMDMzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
