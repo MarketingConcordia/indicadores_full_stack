@@ -1,15 +1,15 @@
-from rest_framework import permissions
+from rest_framework.permissions import BasePermission
 
-
-class IsMaster(permissions.BasePermission):
+class IsMasterUser(BasePermission):
     """
-    Permissão que permite acesso apenas para usuários perfil Master (CEO).
+    Permissão que libera apenas usuários com perfil 'master'
     """
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.perfil == 'master'
+        return request.user and request.user.is_authenticated and request.user.perfil == 'master'
 
 
-class IsGestor(permissions.BasePermission):
+
+class IsGestor(BasePermission):
     """
     Permissão que permite acesso apenas para usuários perfil Gestor.
     """

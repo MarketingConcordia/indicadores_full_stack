@@ -1,61 +1,74 @@
+# Imports padrão do views.py
+from datetime import datetime
 from django.db import models
-from rest_framework import viewsets, permissions
-from .models import Setor, Usuario, Indicador, Preenchimento, Notificacao
-from .models import Preenchimento, PermissaoIndicador, ConfiguracaoArmazenamento
+from rest_framework import viewsets, permissions, generics
+from .models import (
+    Setor, Usuario, Indicador, Preenchimento, Notificacao, LogDeAcao,
+    PermissaoIndicador, ConfiguracaoArmazenamento, ConfiguracaoNotificacao, Meta
+)
 from .serializers import (
-    SetorSerializer,
-    UsuarioSerializer,
-    IndicadorSerializer,
-    PreenchimentoSerializer,
-    NotificacaoSerializer,
-    ConfiguracaoArmazenamentoSerializer
+    SetorSerializer, UsuarioSerializer, IndicadorSerializer, PreenchimentoSerializer, MetaSerializer,
+    NotificacaoSerializer, ConfiguracaoArmazenamentoSerializer, ConfiguracaoNotificacaoSerializer,
+    LogDeAcaoSerializer
 )
 from .storage_service import upload_arquivo
-from .models import ConfiguracaoArmazenamento
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import F, Q, Count
-from .models import Preenchimento, PermissaoIndicador, Indicador
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+from openpyxl import Workbook
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .permissions import IsMasterUser
 
-
-# 🔹 Permitir que qualquer um autenticado use (GET, POST, PUT, DELETE)
+# 🔹 SETOR
 class SetorViewSet(viewsets.ModelViewSet):
     queryset = Setor.objects.all()
     serializer_class = SetorSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
+# 🔹 USUARIO
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UsuarioSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
+# 🔹 INDICADOR
 class IndicadorViewSet(viewsets.ModelViewSet):
     queryset = Indicador.objects.all()
     serializer_class = IndicadorSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
+    def perform_update(self, serializer):
+        indicador = serializer.save()
 
-        setor = self.request.query_params.get('setor')
-        status = self.request.query_params.get('status')
-        periodo = self.request.query_params.get('periodo')
+        LogDeAcao.objects.create(
+            usuario=self.request.user,
+            acao=f"Alterou a meta do indicador '{indicador.nome}' para {indicador.meta}."
+        )
 
-        if setor:
-            queryset = queryset.filter(setor__iexact=setor)
+        masters = Usuario.objects.filter(perfil='master')
+        for master in masters:
+            Notificacao.objects.create(
+                usuario=master,
+                texto=f"A meta do indicador '{indicador.nome}' foi alterada para {indicador.meta}."
+            )
 
-        if status:
-            queryset = queryset.filter(status__iexact=status)
+        gestores = Usuario.objects.filter(perfil='gestor', setores=indicador.setor)
+        for gestor in gestores:
+            Notificacao.objects.create(
+                usuario=gestor,
+                texto=f"A meta do indicador '{indicador.nome}' foi alterada para {indicador.meta}."
+            )
 
-        # Filtros de período (exemplo simples)
-        # 🔥 Aqui, você pode implementar lógica para pegar "mês atual", "trimestre atual", etc.
 
-        return queryset
-
+# 🔹 PREENCHIMENTO
 class PreenchimentoViewSet(viewsets.ModelViewSet):
     serializer_class = PreenchimentoSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -84,37 +97,112 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+    def perform_create(self, serializer):
+        preenchimento = serializer.save(usuario=self.request.user)
+
+        LogDeAcao.objects.create(
+            usuario=self.request.user,
+            acao=f"Criou preenchimento no indicador '{preenchimento.indicador.nome}' para o mês {preenchimento.mes}."
+        )
+
+        if preenchimento.valor < preenchimento.indicador.meta:
+            Notificacao.objects.create(
+                usuario=preenchimento.usuario,
+                texto=f"A meta do indicador '{preenchimento.indicador.nome}' não foi atingida no mês {preenchimento.mes}."
+            )
+
+            masters = Usuario.objects.filter(perfil='master')
+            for master in masters:
+                Notificacao.objects.create(
+                    usuario=master,
+                    texto=f"O gestor '{preenchimento.usuario.first_name}' não atingiu a meta do indicador '{preenchimento.indicador.nome}' no mês {preenchimento.mes}."
+                )
+
+    def perform_destroy(self, instance):
+        LogDeAcao.objects.create(
+            usuario=self.request.user,
+            acao=f"Excluiu preenchimento do indicador '{instance.indicador.nome}' do mês {instance.mes}."
+        )
+        instance.delete()
 
 
+# 🔹 NOTIFICAÇÃO
 class NotificacaoViewSet(viewsets.ModelViewSet):
     queryset = Notificacao.objects.all()
     serializer_class = NotificacaoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        return Notificacao.objects.filter(usuario=self.request.user).order_by('-data')
 
+
+# 🔹 CONFIGURAÇÃO DE ARMAZENAMENTO
+class ConfiguracaoArmazenamentoViewSet(viewsets.ModelViewSet):
+    queryset = ConfiguracaoArmazenamento.objects.all()
+    serializer_class = ConfiguracaoArmazenamentoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+# 🔹 CONFIGURAÇÃO DE NOTIFICAÇÃO
+class ConfiguracaoNotificacaoViewSet(viewsets.ModelViewSet):
+    queryset = ConfiguracaoNotificacao.objects.all()
+    serializer_class = ConfiguracaoNotificacaoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.perfil == 'master':
+            return ConfiguracaoNotificacao.objects.all()
+        return ConfiguracaoNotificacao.objects.none()
+
+    def perform_create(self, serializer):
+        notificacao = serializer.save()
+
+        LogDeAcao.objects.create(
+            usuario=self.request.user,
+            acao=f"Criou configuração de notificação chamada '{notificacao.nome}'."
+        )
+
+    def perform_destroy(self, instance):
+        LogDeAcao.objects.create(
+            usuario=self.request.user,
+            acao=f"Excluiu configuração de notificação chamada '{instance.nome}'."
+        )
+        instance.delete()
+
+
+# 🔹 LOGS DE AÇÃO
+class LogDeAcaoViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = LogDeAcao.objects.all()
+    serializer_class = LogDeAcaoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.perfil == 'master':
+            return LogDeAcao.objects.all().order_by('-data')
+        return LogDeAcao.objects.none()
+
+
+# 🔹 RELATÓRIO
 class RelatorioView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
-
-        setor = request.query_params.get('setor')  # ID do setor
-        mes = request.query_params.get('mes')      # Formato: MM/YYYY
-        indicador = request.query_params.get('indicador')  # ID do indicador
+        setor = request.query_params.get('setor')
+        mes = request.query_params.get('mes')
+        indicador = request.query_params.get('indicador')
 
         preenchimentos = Preenchimento.objects.all()
 
-        # 🔥 Aplicar filtro de acordo com permissões
         if user.perfil == 'gestor':
             setores_ids = user.setores.all().values_list('id', flat=True)
             indicadores_ids_setor = Indicador.objects.filter(setor_id__in=setores_ids).values_list('id', flat=True)
             indicadores_ids_manual = PermissaoIndicador.objects.filter(usuario=user).values_list('indicador_id', flat=True)
-
             indicadores_ids = list(indicadores_ids_setor) + list(indicadores_ids_manual)
-
             preenchimentos = preenchimentos.filter(indicador_id__in=indicadores_ids)
 
-        # 🔥 Aplicar filtros opcionais
         if setor:
             preenchimentos = preenchimentos.filter(indicador__setor__id=setor)
         if mes:
@@ -123,13 +211,10 @@ class RelatorioView(APIView):
             preenchimentos = preenchimentos.filter(indicador__id=indicador)
 
         total = preenchimentos.count()
-
         atingidos = preenchimentos.filter(valor__gte=F('indicador__meta')).count()
         nao_atingidos = total - atingidos
 
-        dados_por_indicador = preenchimentos.values(
-            'indicador__nome'
-        ).annotate(
+        dados_por_indicador = preenchimentos.values('indicador__nome').annotate(
             total=Count('id'),
             atingidos=Count('id', filter=Q(valor__gte=F('indicador__meta'))),
             nao_atingidos=Count('id', filter=Q(valor__lt=F('indicador__meta')))
@@ -142,7 +227,115 @@ class RelatorioView(APIView):
             "detalhes_por_indicador": dados_por_indicador
         })
 
-class ConfiguracaoArmazenamentoViewSet(viewsets.ModelViewSet):
-    queryset = ConfiguracaoArmazenamento.objects.all()
-    serializer_class = ConfiguracaoArmazenamentoSerializer
+
+# 🔹 PDF
+def gerar_relatorio_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="relatorio.pdf"'
+
+    p = canvas.Canvas(response)
+    p.setFont("Helvetica", 14)
+    p.drawString(100, 800, "Relatório de Indicadores")
+
+    y = 760
+    preenchimentos = Preenchimento.objects.all()
+
+    for pch in preenchimentos:
+        texto = f"{pch.indicador.nome} - {pch.mes} - Valor: {pch.valor} - Meta: {pch.indicador.meta}"
+        p.drawString(100, y, texto)
+        y -= 20
+        if y < 50:
+            p.showPage()
+            y = 800
+
+    p.showPage()
+    p.save()
+    return response
+
+
+# 🔹 EXCEL
+def gerar_relatorio_excel(request):
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename=relatorio.xlsx'
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Relatório"
+
+    ws.append(["Indicador", "Mês", "Valor", "Meta", "Comentário"])
+
+    preenchimentos = Preenchimento.objects.all()
+
+    for pch in preenchimentos:
+        ws.append([
+            pch.indicador.nome,
+            pch.mes,
+            pch.valor,
+            pch.indicador.meta,
+            pch.comentario or ""
+        ])
+
+    wb.save(response)
+    return response
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_me(request):
+    user = request.user
+    return Response({
+        'id': user.id,
+        'email': user.email,
+        'perfil': user.perfil
+    })
+
+class IndicadorListCreateView(generics.ListCreateAPIView):
+    queryset = Indicador.objects.all()
+    serializer_class = IndicadorSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        # Apenas usuários master podem criar
+        if self.request.user.perfil != 'master':
+            raise permissions.PermissionDenied("Apenas usuários Master podem criar indicadores.")
+        serializer.save()
+
+
+class MetaCreateView(generics.CreateAPIView):
+    queryset = Meta.objects.all()
+    serializer_class = MetaSerializer
+    permission_classes = [permissions.IsAuthenticated, IsMasterUser]
+
+    def perform_create(self, serializer):
+        serializer.save(definida_por=self.request.user)
+
+
+class PreenchimentoListCreateView(generics.ListCreateAPIView):
+    queryset = Preenchimento.objects.all()
+    serializer_class = PreenchimentoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(preenchido_por=self.request.user)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def meus_preenchimentos(request):
+    preenchimentos = Preenchimento.objects.filter(preenchido_por=request.user)
+    serializer = PreenchimentoSerializer(preenchimentos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def indicadores_pendentes(request):
+    hoje = datetime.today()
+    mes = hoje.month
+    ano = hoje.year
+
+    indicadores = Indicador.objects.all()
+    preenchidos = Preenchimento.objects.filter(mes=mes, ano=ano).values_list('indicador_id', flat=True)
+    pendentes = indicadores.exclude(id__in=preenchidos)
+
+    serializer = IndicadorSerializer(pendentes, many=True)
+    return Response(serializer.data)

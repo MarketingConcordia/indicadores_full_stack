@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Master - Fort Indicadores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen flex items-center justify-center p-4">
+
+    <main class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-blue-100">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-blue-900">
+                Criar Conta Master
+            </h1>
+        </div>
+
+        <form id="formCadastro" class="space-y-5">
+            <div>
+                <label for="nome" class="block mb-1 text-sm font-medium text-gray-700">Nome completo</label>
+                <input type="text" id="nome" required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                    placeholder="Digite seu nome completo">
+            </div>
+
+            <div>
+                <label for="email" class="block mb-1 text-sm font-medium text-gray-700">E-mail</label>
+                <input type="email" id="email" required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                    placeholder="seu@email.com">
+            </div>
+
+            <div>
+                <label for="senha" class="block mb-1 text-sm font-medium text-gray-700">Senha</label>
+                <div class="relative">
+                    <input type="password" id="senha" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                        placeholder="Crie uma senha segura">
+                    <button type="button" id="togglePassword" class="absolute right-3 top-3 text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="mt-1.5">
+                    <div class="h-1.5 flex gap-1">
+                        <div id="strength-1" class="h-full w-1/4 rounded-full bg-gray-200"></div>
+                        <div id="strength-2" class="h-full w-1/4 rounded-full bg-gray-200"></div>
+                        <div id="strength-3" class="h-full w-1/4 rounded-full bg-gray-200"></div>
+                        <div id="strength-4" class="h-full w-1/4 rounded-full bg-gray-200"></div>
+                    </div>
+                    <p id="password-strength-text" class="text-xs text-gray-500 mt-1">Força da senha</p>
+                </div>
+            </div>
+
+            <div>
+                <label for="confirmarSenha" class="block mb-1 text-sm font-medium text-gray-700">Confirmar senha</label>
+                <input type="password" id="confirmarSenha" required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+                    placeholder="Confirme sua senha">
+            </div>
+
+            <div class="flex items-start mt-4">
+                <input type="checkbox" id="termos" class="mt-1 h-4 w-4 text-blue-600 rounded focus:ring-blue-500" required>
+                <label for="termos" class="ml-2 text-sm text-gray-600">
+                    Concordo com os <a href="#" class="text-blue-600 hover:underline">Termos de Uso</a> e <a href="#" class="text-blue-600 hover:underline">Política de Privacidade</a>
+                </label>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-3 rounded-lg shadow-md transition transform hover:scale-[1.02] active:scale-[0.98]">
+                Criar Conta
+            </button>
+
+            <p class="text-sm text-center mt-4">
+                Já tem conta? 
+                <a href="login.html" class="text-blue-600 hover:underline font-medium">
+                    Fazer Login
+                </a>
+            </p>
+        </form>
+
+        <!-- Modal de sucesso -->
+        <div id="successModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 hidden">
+            <div class="bg-white rounded-lg p-8 max-w-md w-full shadow-xl">
+                <div class="text-center">
+                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                        <svg class="h-10 w-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-medium text-gray-900 mb-2">Cadastro realizado com sucesso!</h3>
+                    <p class="text-gray-600 mb-6">Sua conta foi criada. Você receberá um e-mail de confirmação em breve.</p>
+                    <button id="closeModal" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition">
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('formCadastro');
+            const passwordInput = document.getElementById('senha');
+            const confirmPasswordInput = document.getElementById('confirmarSenha');
+            const togglePasswordBtn = document.getElementById('togglePassword');
+            const successModal = document.getElementById('successModal');
+            const closeModalBtn = document.getElementById('closeModal');
+
+            const strengthBars = [
+                document.getElementById('strength-1'),
+                document.getElementById('strength-2'),
+                document.getElementById('strength-3'),
+                document.getElementById('strength-4')
+            ];
+            const strengthText = document.getElementById('password-strength-text');
+
+            // 👉 Função de força da senha
+            passwordInput.addEventListener('input', function() {
+                const senha = passwordInput.value;
+                const forca = calcularForcaSenha(senha);
+
+                // Resetar cores
+                strengthBars.forEach(bar => {
+                    bar.classList.remove('bg-red-500', 'bg-yellow-500', 'bg-green-500');
+                    bar.classList.add('bg-gray-200');
+                });
+
+                if (forca === 1) {
+                    strengthBars[0].classList.add('bg-red-500');
+                    strengthText.innerText = 'Fraca';
+                    strengthText.className = 'text-red-600 text-xs';
+                } else if (forca === 2) {
+                    strengthBars[0].classList.add('bg-yellow-500');
+                    strengthBars[1].classList.add('bg-yellow-500');
+                    strengthText.innerText = 'Média';
+                    strengthText.className = 'text-yellow-600 text-xs';
+                } else if (forca >= 3) {
+                    strengthBars.forEach(bar => bar.classList.add('bg-green-500'));
+                    strengthText.innerText = 'Forte';
+                    strengthText.className = 'text-green-600 text-xs';
+                } else {
+                    strengthText.innerText = 'Força da senha';
+                    strengthText.className = 'text-xs text-gray-500';
+                }
+            });
+
+            function calcularForcaSenha(senha) {
+                let forca = 0;
+                if (senha.length >= 6) forca++;
+                if (/[A-Z]/.test(senha)) forca++;
+                if (/[0-9]/.test(senha)) forca++;
+                if (/[^A-Za-z0-9]/.test(senha)) forca++;
+                return forca;
+            }
+
+            // 👉 Mostrar/Ocultar Senha
+            togglePasswordBtn.addEventListener('click', function() {
+                const tipo = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', tipo);
+                togglePasswordBtn.classList.toggle('text-blue-600');
+            });
+
+            // 👉 Enviar Formulário
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    alert('As senhas não coincidem. Por favor, verifique.');
+                    return;
+                }
+
+                const payload = {
+                    first_name: document.getElementById('nome').value,
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('senha').value,
+                    perfil: 'master'
+                };
+
+                fetch('http://127.0.0.1:8000/api/usuarios/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        successModal.classList.remove('hidden');
+                    } else {
+                        alert('Erro ao criar conta. Verifique se o e-mail já está cadastrado ou se há outro problema.');
+                    }
+                })
+                .catch(error => {
+                    alert('Erro de conexão com o servidor.');
+                    console.error(error);
+                });
+            });
+
+            // 👉 Fechar Modal
+            closeModalBtn.addEventListener('click', function() {
+                successModal.classList.add('hidden');
+                form.reset();
+
+                strengthBars.forEach(bar => {
+                    bar.classList.remove('bg-red-500', 'bg-yellow-500', 'bg-green-500');
+                    bar.classList.add('bg-gray-200');
+                });
+
+                strengthText.textContent = 'Força da senha';
+                strengthText.className = 'text-xs text-gray-500';
+            });
+        });
+
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'954db8123296cb59',t:'MTc1MDc4Mzc3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

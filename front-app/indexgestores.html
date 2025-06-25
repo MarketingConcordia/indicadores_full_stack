@@ -99,7 +99,10 @@
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Meu Perfil</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
                                 <div class="border-t border-gray-100"></div>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
+                                <button onclick="logout()" 
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
+                                    Sair
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -207,6 +210,11 @@
     </div>
 
     <script>
+        const token = localStorage.getItem('access');
+
+        if (!token) {
+            window.location.href = 'login.html';
+        }
         // Dados de exemplo para os indicadores
         const indicadores = [
             {
@@ -910,6 +918,11 @@
                 }
             });
         });
+        function logout() {
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            window.location.href = 'login.html';
+        }
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94e94147f36664f6',t:'MTc0OTczMDMzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

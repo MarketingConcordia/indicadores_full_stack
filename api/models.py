@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 
 # 🔹 Modelo de Setor
@@ -40,18 +41,6 @@ class Indicador(models.Model):
     def __str__(self):
         return f"{self.nome} ({self.setor})"
 
-# 🔹 Preenchimento feito pelo gestor mensalmente
-class Preenchimento(models.Model):
-    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    valor = models.DecimalField(max_digits=10, decimal_places=2)
-    mes = models.CharField(max_length=7)  # Formato: MM/YYYY
-    provas = models.URLField(blank=True, null=True)
-    comentario = models.TextField(blank=True, null=True)
-    data_envio = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.indicador.nome} - {self.mes} - {self.usuario.first_name}"
 
 # 🔹 Notificações internas do sistema
 class Notificacao(models.Model):
@@ -63,6 +52,19 @@ class Notificacao(models.Model):
     def __str__(self):
         return f"Notificação para {self.usuario.email}"
 
+class Indicador(models.Model):
+    TIPO_META_CHOICES = [
+        ('crescente', 'Para cima'),
+        ('decrescente', 'Para baixo'),
+        ('acompanhamento', 'Acompanhamento'),
+    ]
+
+    nome = models.CharField(max_length=255)
+    setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
+    tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
+
+    def __str__(self):
+        return self.nome
 
 class PermissaoIndicador(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -100,3 +102,58 @@ class ConfiguracaoArmazenamento(models.Model):
     def __str__(self):
         return f"Armazenamento: {self.tipo}"
 
+class ConfiguracaoNotificacao(models.Model):
+    DESTINATARIOS = [
+        ('master', 'Master (CEO)'),
+        ('gestor', 'Gestores'),
+        ('todos', 'Master e Gestores'),
+    ]
+
+    nome = models.CharField(max_length=100)  # Ex.: "Aviso de Início"
+    mensagem = models.TextField()  # Texto que aparecerá na notificação
+    dia_do_mes = models.IntegerField()  # Ex.: 1, 6, 15 (dia do mês)
+    repetir_todo_mes = models.BooleanField(default=True)  # Se repete mensalmente
+    destinatarios = models.CharField(max_length=10, choices=DESTINATARIOS)
+    ativo = models.BooleanField(default=True)  # Se está ativa ou não
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.nome} - Dia {self.dia_do_mes}"
+
+class LogDeAcao(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True)
+    acao = models.CharField(max_length=255)  # Descrição da ação
+    data = models.DateTimeField(auto_now_add=True)  # Quando ocorreu
+
+    def __str__(self):
+        return f"{self.usuario} - {self.acao} - {self.data.strftime('%d/%m/%Y %H:%M')}"
+
+
+class Meta(models.Model):
+    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
+    valor_esperado = models.DecimalField(max_digits=10, decimal_places=2)
+    mes = models.IntegerField()
+    ano = models.IntegerField()
+    definida_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        unique_together = ('indicador', 'mes', 'ano')
+
+    def __str__(self):
+        return f"Meta de {self.indicador.nome} para {self.mes}/{self.ano}"
+
+
+class Preenchimento(models.Model):
+    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
+    valor_realizado = models.DecimalField(max_digits=10, decimal_places=2)
+    mes = models.IntegerField()
+    ano = models.IntegerField()
+    preenchido_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    data_preenchimento = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('indicador', 'mes', 'ano', 'preenchido_por')
+
+    def __str__(self):
+        return f"{self.indicador.nome} - {self.valor_realizado} ({self.mes}/{self.ano})"

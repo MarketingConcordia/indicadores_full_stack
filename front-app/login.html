@@ -31,45 +31,6 @@
     </form>
   </div>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
-    e.preventDefault(); // Impede o formulário de recarregar a página
-
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
-
-    fetch('http://127.0.0.1:8000/api/token/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: email,
-            password: senha
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Email ou senha incorretos');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Salvar os tokens no localStorage
-        localStorage.setItem('access', data.access);
-        localStorage.setItem('refresh', data.refresh);
-
-        // Redireciona para o dashboard (master ou gestor)
-        // Aqui você pode fazer uma lógica futura para diferenciar master ou gestor
-        window.location.href = 'index.html'; // ou indexgestores.html
-    })
-    .catch(error => {
-        const erroDiv = document.getElementById('erroLogin');
-        erroDiv.innerText = error.message;
-        erroDiv.classList.remove('hidden');
-    });
-});
-
-  </script>
+  <script src="js/login.js"></script>
 </body>
 </html>

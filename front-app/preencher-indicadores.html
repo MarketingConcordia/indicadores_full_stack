@@ -146,36 +146,71 @@
 </div>
 
 <script>
+    let preenchimentosRealizados = new Set();
+
+    function carregarPreenchimentos() {
+        const token = localStorage.getItem('access');
+
+        return fetch('http://127.0.0.1:8000/api/preenchimentos/meus/', {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(item => {
+            const chave = `${item.indicador}_${item.mes}_${item.ano}`;
+            preenchimentosRealizados.add(chave);
+            });
+        });
+        }
+
 
 let indicadorSelecionado = null;
 
 // 🔥 Função para buscar e listar os indicadores
 function carregarIndicadores() {
-    const token = localStorage.getItem('access');
+  const token = localStorage.getItem('access');
 
-    fetch('http://127.0.0.1:8000/api/indicadores/', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(res => res.json())
-    .then(indicadores => {
-        const container = document.getElementById('indicadores-container');
-        container.innerHTML = '';
+  fetch('http://127.0.0.1:8000/api/indicadores/', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById('indicadoresContainer');
+    container.innerHTML = '';
 
-        indicadores.forEach(indicador => {
-            const card = document.createElement('div');
-            card.className = 'bg-white p-4 rounded shadow cursor-pointer hover:bg-blue-50';
-            card.innerHTML = `
-                <h3 class="text-lg font-semibold text-blue-900 mb-2">${indicador.nome}</h3>
-                <p>${indicador.descricao}</p>
-                <p class="text-sm text-gray-500 mt-2">Meta: <strong>${indicador.meta}</strong></p>
-            `;
-            card.addEventListener('click', () => abrirModal(indicador));
-            container.appendChild(card);
-        });
+    const hoje = new Date();
+    const mesAtual = hoje.getMonth() + 1;
+    const anoAtual = hoje.getFullYear();
+
+    data.forEach(indicador => {
+      const chaveAtual = `${indicador.id}_${mesAtual}_${anoAtual}`;
+
+      // Só renderiza se o indicador ainda não foi preenchido
+      if (!preenchimentosRealizados.has(chaveAtual)) {
+        const div = document.createElement('div');
+        div.className = "bg-white p-4 rounded shadow-md";
+
+        div.innerHTML = `
+          <h3 class="text-lg font-bold mb-1">${indicador.nome}</h3>
+          <p class="text-sm text-gray-600">${indicador.descricao || ''}</p>
+          <button onclick="abrirModal(${indicador.id})" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded">
+            Preencher
+          </button>
+        `;
+
+        container.appendChild(div);
+      }
     });
+  })
+  .catch(error => {
+    console.error('Erro ao carregar indicadores:', error);
+  });
 }
+
 
 // 🔥 Função para abrir o modal de preenchimento
 function abrirModal(indicador) {
@@ -196,25 +231,24 @@ document.getElementById('formPreenchimento').addEventListener('submit', function
     const token = localStorage.getItem('access');
 
     const valor = document.getElementById('valor').value;
-    const mes = document.getElementById('mes').value;
-    const comentario = document.getElementById('comentario').value;
-    const arquivo = document.getElementById('provas').files[0];
+    const mesAno = document.getElementById('mes').value; // formato: MM/AAAA
 
-    const formData = new FormData();
-    formData.append('indicador', indicadorSelecionado.id);
-    formData.append('valor', valor);
-    formData.append('mes', mes);
-    formData.append('comentario', comentario);
-    if (arquivo) {
-        formData.append('provas', arquivo);
-    }
+    const [mes, ano] = mesAno.split('/');  // divide "06/2025" em ["06", "2025"]
+
+    const payload = {
+        indicador: indicadorSelecionado.id,
+        valor_realizado: valor,
+        mes: parseInt(mes),
+        ano: parseInt(ano)
+    };
 
     fetch('http://127.0.0.1:8000/api/preenchimentos/', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify(payload)
     })
     .then(response => {
         if (!response.ok) {
@@ -232,8 +266,15 @@ document.getElementById('formPreenchimento').addEventListener('submit', function
     });
 });
 
+
 // 🔥 Carregar os indicadores quando a página abrir
 document.addEventListener('DOMContentLoaded', carregarIndicadores);
+
+window.onload = () => {
+  carregarPreenchimentos().then(() => {
+    carregarIndicadores();
+  });
+};
 
 </script>
 </body>

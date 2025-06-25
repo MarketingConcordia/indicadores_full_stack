@@ -65,7 +65,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col bg-gray-50 overflow-hidden">
             <!-- Navbar -->
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
@@ -183,6 +183,55 @@
                     </div>
                 </div>
             </main>
+            <div id="modal-editar" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 text-blue-900">Editar Preenchimento</h2>
+            
+                    <form id="formEdicao">
+                        <div>
+                            <label>Valor:</label>
+                            <input type="number" id="edit-valor" required class="w-full border rounded px-2 py-1">
+                        </div>
+                        <div>
+                            <label>Mês (MM/AAAA):</label>
+                            <input type="text" id="edit-mes" placeholder="06/2025" required class="w-full border rounded px-2 py-1">
+                        </div>
+                        <div>
+                            <label>Comentário:</label>
+                            <input type="text" id="edit-comentario" class="w-full border rounded px-2 py-1">
+                        </div>
+                        <div>
+                            <label>Substituir Provas (arquivo):</label>
+                            <input type="file" id="edit-provas" class="w-full border rounded px-2 py-1">
+                        </div>
+            
+                        <div class="mt-4 flex justify-end gap-2">
+                            <button type="button" onclick="fecharModalEdicao()" 
+                                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                                Cancelar
+                            </button>
+                            <button type="submit" 
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                                Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="flex justify-end bg-gray-50 mb-6 mr-6">
+                <div class="flex gap-3">
+                    <button onclick="baixarPDF()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition">
+                        📄 Exportar PDF
+                    </button>
+            
+                    <button onclick="baixarExcel()"
+                        class="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition">
+                        📊 Exportar Excel
+                    </button>
+                </div>
+            </div>
+            
         </div>
     </div>
             
@@ -266,6 +315,10 @@
                     ${item.provas ? `<a href="${item.provas}" target="_blank" class="text-blue-600 hover:underline">Ver Arquivo</a>` : 'Sem Provas'}
                 </td>
                 <td class="px-4 py-2 text-sm">
+                    <button onclick="abrirModalEdicao(${item.id})" 
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+                        Editar
+                    </button>
                     <button onclick="excluirPreenchimento(${item.id})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
                         Excluir
                     </button>
@@ -301,6 +354,70 @@ function excluirPreenchimento(id) {
 }
 
 document.addEventListener('DOMContentLoaded', carregarHistorico);
+
+let preenchimentoEditando = null;
+
+function abrirModalEdicao(id) {
+    const token = localStorage.getItem('access');
+
+    fetch(`http://127.0.0.1:8000/api/preenchimentos/${id}/`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        preenchimentoEditando = data;
+        document.getElementById('edit-valor').value = data.valor;
+        document.getElementById('edit-mes').value = data.mes;
+        document.getElementById('edit-comentario').value = data.comentario || '';
+        document.getElementById('modal-editar').classList.remove('hidden');
+    });
+}
+
+function fecharModalEdicao() {
+    document.getElementById('modal-editar').classList.add('hidden');
+}
+
+document.getElementById('formEdicao').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const token = localStorage.getItem('access');
+
+    const valor = document.getElementById('edit-valor').value;
+    const mes = document.getElementById('edit-mes').value;
+    const comentario = document.getElementById('edit-comentario').value;
+    const arquivo = document.getElementById('edit-provas').files[0];
+
+    const formData = new FormData();
+    formData.append('valor', valor);
+    formData.append('mes', mes);
+    formData.append('comentario', comentario);
+
+    if (arquivo) {
+        formData.append('provas', arquivo);
+    }
+
+    formData.append('indicador', preenchimentoEditando.indicador); // Obrigatório no PUT
+
+    fetch(`http://127.0.0.1:8000/api/preenchimentos/${preenchimentoEditando.id}/`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        body: formData
+    })
+    .then(res => {
+        if (res.ok) {
+            alert('Preenchimento atualizado com sucesso!');
+            fecharModalEdicao();
+            carregarHistorico();
+        } else {
+            alert('Erro ao atualizar preenchimento');
+        }
+    });
+});
+
 
 </script>
 </body>
