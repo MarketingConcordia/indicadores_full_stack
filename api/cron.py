@@ -16,21 +16,16 @@ class NotificacaoConfiguravelCron(CronJobBase):
         )
 
         for config in configuracoes:
+            perfis = []
             if config.destinatarios in ['gestor', 'todos']:
-                gestores = Usuario.objects.filter(perfil='gestor')
-                for gestor in gestores:
-                    Notificacao.objects.create(
-                        usuario=gestor,
-                        texto=config.mensagem
-                    )
-
+                perfis.append('gestor')
             if config.destinatarios in ['master', 'todos']:
-                masters = Usuario.objects.filter(perfil='master')
-                for master in masters:
-                    Notificacao.objects.create(
-                        usuario=master,
-                        texto=config.mensagem
-                    )
+                perfis.append('master')
+
+            for perfil in perfis:
+                usuarios = Usuario.objects.filter(perfil=perfil)
+                for usuario in usuarios:
+                    Notificacao.objects.create(usuario=usuario, texto=config.mensagem)
 
             if not config.repetir_todo_mes:
                 config.ativo = False

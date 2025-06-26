@@ -11,30 +11,40 @@ class SetorSerializer(serializers.ModelSerializer):
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    setores = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Setor.objects.all()
-    )
-
     class Meta:
-        model = get_user_model()
-        fields = ['id', 'first_name', 'last_name', 'email', 'perfil', 'setores']
+        model = Usuario
+        fields = ['id', 'email', 'first_name', 'password', 'perfil', ...]
+        extra_kwargs = {'password': {'write_only': True}}
 
-
+    def create(self, validated_data):
+        user = Usuario.objects.create_user(
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            password=validated_data['password'],
+            perfil=validated_data.get('perfil', 'gestor')  # <- pega o perfil enviado
+        )
+        return user
 
 class IndicadorSerializer(serializers.ModelSerializer):
+    setor_nome = serializers.CharField(source='setor.nome', read_only=True)
+
     class Meta:
         model = Indicador
         fields = '__all__'
+        read_only_fields = ['setor_nome']
 
 
 class PreenchimentoSerializer(serializers.ModelSerializer):
     indicador_nome = serializers.CharField(source='indicador.nome', read_only=True)
     setor_nome = serializers.CharField(source='indicador.setor.nome', read_only=True)
+    tipo_meta = serializers.CharField(source='indicador.tipo_meta', read_only=True)
+    nome_usuario = serializers.CharField(source='preenchido_por.first_name', read_only=True)
 
     class Meta:
         model = Preenchimento
-        fields = fields = ['__all__', 'indicador_nome', 'setor_nome']
+        fields = '__all__'
+        read_only_fields = ['indicador_nome', 'setor_nome', 'tipo_meta', 'nome_usuario']
+
 
 
 
@@ -63,19 +73,7 @@ class LogDeAcaoSerializer(serializers.ModelSerializer):
         model = LogDeAcao
         fields = '__all__'
 
-class IndicadorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Indicador
-        fields = '__all__'
-
-
 class MetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meta
-        fields = '__all__'
-
-
-class PreenchimentoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Preenchimento
         fields = '__all__'

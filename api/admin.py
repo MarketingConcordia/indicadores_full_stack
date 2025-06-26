@@ -5,7 +5,7 @@ from .models import Usuario, Setor
 @admin.register(Usuario)
 class UsuarioAdmin(UserAdmin):
     model = Usuario
-    list_display = ('email', 'first_name', 'last_name', 'perfil')
+    list_display = ('email', 'username', 'first_name', 'last_name', 'perfil')
     list_filter = ('perfil', 'setores')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
@@ -32,3 +32,4 @@ class UsuarioAdmin(UserAdmin):
 @admin.register(Setor)
 class SetorAdmin(admin.ModelAdmin):
     list_display = ('nome',)
+    ordering = ('nome',)

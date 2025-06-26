@@ -32,15 +32,20 @@ class Usuario(AbstractUser):
 
 # 🔹 Indicadores cadastrados pelo Master
 class Indicador(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.TextField()
-    setor = models.ForeignKey(Setor, on_delete=models.CASCADE)
-    meta = models.DecimalField(max_digits=10, decimal_places=2)
+    TIPO_META_CHOICES = [
+        ('crescente', 'Para cima'),
+        ('decrescente', 'Para baixo'),
+        ('acompanhamento', 'Acompanhamento'),
+    ]
+
+    nome = models.CharField(max_length=255)
+    descricao = models.TextField(blank=True, null=True)
+    setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
+    tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.nome} ({self.setor})"
-
+        return self.nome
 
 # 🔹 Notificações internas do sistema
 class Notificacao(models.Model):
@@ -51,20 +56,6 @@ class Notificacao(models.Model):
 
     def __str__(self):
         return f"Notificação para {self.usuario.email}"
-
-class Indicador(models.Model):
-    TIPO_META_CHOICES = [
-        ('crescente', 'Para cima'),
-        ('decrescente', 'Para baixo'),
-        ('acompanhamento', 'Acompanhamento'),
-    ]
-
-    nome = models.CharField(max_length=255)
-    setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
-    tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
-
-    def __str__(self):
-        return self.nome
 
 class PermissaoIndicador(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -151,6 +142,9 @@ class Preenchimento(models.Model):
     ano = models.IntegerField()
     preenchido_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     data_preenchimento = models.DateTimeField(auto_now_add=True)
+    comentario = models.TextField(blank=True, null=True)
+    arquivo = models.FileField(upload_to='provas/', blank=True, null=True)
+
 
     class Meta:
         unique_together = ('indicador', 'mes', 'ano', 'preenchido_por')

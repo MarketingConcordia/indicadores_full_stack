@@ -1402,3 +1402,28 @@
 [2025-06-25 17:04:01,594] INFO django.server "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 304 0
 [2025-06-25 17:04:36,421] INFO django.server "GET /admin/auth/group/ HTTP/1.1" 200 8757
 [2025-06-25 17:04:36,597] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-06-26 07:53:41,431] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-06-26 07:53:42,287] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 07:54:22,957] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 07:58:52,763] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-06-26 07:58:53,506] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 07:59:15,484] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-06-26 07:59:16,201] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 08:04:05,889] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-06-26 08:04:06,652] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 08:04:29,282] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 08:04:41,135] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 08:04:51,520] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 08:36:49,482] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 08:37:10,291] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 08:37:25,303] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 08:38:54,055] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 08:39:01,486] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-06-26 08:58:54,413] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-06-26 08:58:55,134] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 09:00:59,633] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-06-26 09:01:00,320] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 09:20:20,268] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-06-26 09:20:20,948] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-06-26 11:36:07,633] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\models.py changed, reloading.
+[2025-06-26 11:36:08,547] INFO django.utils.autoreload Watching for file changes with StatReloader

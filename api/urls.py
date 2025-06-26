@@ -19,6 +19,11 @@ from .views import (
     indicadores_pendentes
 )
 from .views import meus_preenchimentos
+from .views import MyTokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 router = routers.DefaultRouter()
 router.register(r'setores', SetorViewSet)
@@ -41,4 +46,8 @@ urlpatterns = [
     path('me/', get_me),
     path('preenchimentos/meus/', meus_preenchimentos, name='meus-preenchimentos'),
     path('indicadores/pendentes/', indicadores_pendentes, name='indicadores-pendentes'),
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

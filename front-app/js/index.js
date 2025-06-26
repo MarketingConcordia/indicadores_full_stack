@@ -1,9 +1,9 @@
-// const token = localStorage.getItem('access');
+        const token = localStorage.getItem('access');
 
-        // if (!token) {
-        //     window.location.href = 'login.html';
-        // }
-        // Dados de exemplo para os indicadores
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        
         let indicadores = [];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -23,6 +23,7 @@
             .then(data => {
                 indicadores = data;
                 renderizarIndicadores(indicadores);
+                carregarPreenchimentos();
             })
             .catch(error => {
                 console.error('Erro:', error);
@@ -194,33 +195,22 @@
                 </div>
                 
                 <div class="bg-white p-4 rounded-lg shadow mb-6">
-                    <h3 class="text-lg font-semibold mb-3">Histórico</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mês</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meta</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                </tr>
+                    <section class="mt-6">
+                        <h2 class="text-lg font-bold mb-2">Histórico</h2>
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-100 text-gray-700">
+                            <tr>
+                                <th class="px-4 py-2">MÊS/ANO</th>
+                                <th class="px-4 py-2">VALOR</th>
+                                <th class="px-4 py-2">META</th>
+                                <th class="px-4 py-2">STATUS</th>
+                            </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                ${indicador.historico.map(item => `
-                                    <tr class="${item.status === 'atingido' ? 'bg-green-50' : 'bg-red-50'}">
-                                        <td class="px-4 py-2 whitespace-nowrap">${item.mes}</td>
-                                        <td class="px-4 py-2 whitespace-nowrap">${formatarValor(item.valor)}</td>
-                                        <td class="px-4 py-2 whitespace-nowrap">${formatarValor(item.meta)}</td>
-                                        <td class="px-4 py-2 whitespace-nowrap">
-                                            <span class="${item.status === 'atingido' ? 'text-green-600' : 'text-red-600'}">
-                                                ${item.status === 'atingido' ? '✅ Atingido' : '❌ Não atingido'}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                `).join('')}
+                            <tbody id="tabela-historico-body">
+                            <!-- Linhas serão inseridas via JS -->
                             </tbody>
                         </table>
-                    </div>
+                    </section>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -252,14 +242,14 @@
                     
                     <div class="bg-white p-4 rounded-lg shadow">
                         <h3 class="text-lg font-semibold mb-3">Comentários</h3>
-                        <div class="bg-gray-50 p-3 rounded border border-gray-200 mb-3">
+                        <div id="comentario-atual" class="bg-gray-50 p-3 rounded border border-gray-200 mb-3">
                             <p class="text-gray-700">${indicador.comentarios || 'Nenhum comentário registrado.'}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Adicionar comentário:</label>
-                            <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" rows="2"></textarea>
+                            <textarea id="textarea-comentario" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" rows="2"></textarea>
                             <div class="flex justify-end mt-2">
-                                <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors">
+                                <button id="botao-salvar-comentario" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors">
                                     Salvar
                                 </button>
                             </div>
@@ -618,122 +608,270 @@
         window.location.href = 'login.html';
     }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('access');
-  
-    fetch('http://127.0.0.1:8000/api/preenchimentos/', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Preenchimentos recebidos:", data);
-  
-      // Exemplo: renderizando cada preenchimento em um card
-      const container = document.getElementById('indicadores-container');
-      container.innerHTML = '';
-  
-      data.forEach(preenchimento => {
-        const card = document.createElement('div');
-        card.className = 'bg-white p-4 rounded shadow';
-  
-        card.innerHTML = `
-          <h3 class="text-lg font-bold text-blue-900">${preenchimento.indicador_nome || 'Indicador'}</h3>
-          <p><strong>Valor preenchido:</strong> ${preenchimento.valor_realizado}</p>
-          <p><strong>Mês/Ano:</strong> ${preenchimento.mes}/${preenchimento.ano}</p>
-          <p><strong>Setor:</strong> ${preenchimento.setor_nome || '---'}</p>
-        `;
-  
-        container.appendChild(card);
-      });
-    })
-    .catch(err => {
-      console.error("Erro ao carregar preenchimentos:", err);
-      alert('Erro ao buscar dados');
-    });
-  });
-  
-  let preenchimentos = [];
+let preenchimentos = [];
 let metas = [];
 
-function carregarPreenchimentos() {
-  const token = localStorage.getItem('access');
-
-  Promise.all([
-    fetch('http://127.0.0.1:8000/api/preenchimentos/', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    }).then(res => res.json()),
-    fetch('http://127.0.0.1:8000/api/metas/', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    }).then(res => res.json())
-  ])
-  .then(([dadosPreench, dadosMetas]) => {
-    preenchimentos = dadosPreench;
-    metas = dadosMetas;
-    renderizarCards();
-  });
-}
-
 function renderizarCards() {
-  const container = document.getElementById('indicadores-container');
-  container.innerHTML = '';
-
-  preenchimentos.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'bg-white p-4 rounded shadow cursor-pointer hover:bg-gray-50';
-    card.innerHTML = `
-      <h3 class="text-lg font-bold">${item.indicador_nome}</h3>
-      <p class="text-sm text-gray-600">${item.setor_nome}</p>
-      <p><strong>${item.mes}/${item.ano}</strong> — Valor: R$ ${item.valor_realizado}</p>
-    `;
-    card.onclick = () => abrirModalDetalhes(item);
-    container.appendChild(card);
-  });
-}
-
-function abrirModalDetalhes(preenchimento) {
-  const meta = metas.find(m =>
-    m.indicador === preenchimento.indicador &&
-    m.mes === preenchimento.mes &&
-    m.ano === preenchimento.ano
-  );
-
-  const valor = parseFloat(preenchimento.valor_realizado);
-  const esperado = meta ? parseFloat(meta.valor_esperado) : null;
-
-  let status = '---';
-  let cor = 'gray';
-
-  if (esperado !== null) {
-    if (preenchimento.indicador_tipo_meta === 'crescente') {
-      status = valor >= esperado ? 'Atingida' : 'Não Atingida';
-      cor = valor >= esperado ? 'green' : 'red';
-    } else if (preenchimento.indicador_tipo_meta === 'decrescente') {
-      status = valor <= esperado ? 'Atingida' : 'Não Atingida';
-      cor = valor <= esperado ? 'green' : 'red';
-    } else {
-      status = 'Acompanhamento';
-      cor = 'blue';
-    }
+    const container = document.getElementById('indicadores-container');
+    container.innerHTML = '';
+  
+    preenchimentos.forEach(item => {
+      const meta = metas.find(m =>
+        m.indicador === item.indicador &&
+        m.mes === item.mes &&
+        m.ano === item.ano
+      );
+  
+      const valor = parseFloat(item.valor_realizado);
+      const esperado = meta ? parseFloat(meta.valor_esperado) : null;
+  
+      let status = '---';
+      let corBorda = 'gray';
+      let statusIcone = '❓';
+      let statusTexto = 'Acompanhamento';
+  
+      if (esperado !== null) {
+        if (item.indicador_tipo_meta === 'crescente') {
+          status = valor >= esperado ? 'Atingida' : 'Não Atingida';
+          corBorda = valor >= esperado ? 'green' : 'red';
+          statusIcone = valor >= esperado ? '✅' : '❌';
+          statusTexto = `Meta ${status.toLowerCase()}`;
+        } else if (item.indicador_tipo_meta === 'decrescente') {
+          status = valor <= esperado ? 'Atingida' : 'Não Atingida';
+          corBorda = valor <= esperado ? 'green' : 'red';
+          statusIcone = valor <= esperado ? '✅' : '❌';
+          statusTexto = `Meta ${status.toLowerCase()}`;
+        } else {
+          statusTexto = 'Acompanhamento';
+          corBorda = 'blue';
+          statusIcone = '📊';
+        }
+      }
+  
+      const card = document.createElement('div');
+      card.className = `relative bg-white p-4 rounded-lg shadow-md border-l-8 border-${corBorda}-500 hover:shadow-lg transition cursor-pointer`;
+  
+      card.innerHTML = `
+        <h3 class="text-lg font-bold text-blue-800 mb-1">${item.indicador_nome}</h3>
+        <div class="text-sm text-gray-600 mb-1">${item.setor_nome}</div>
+        <div class="flex items-center text-sm mb-2">
+          <span class="mr-2">${statusIcone}</span>
+          <span>${statusTexto}</span>
+        </div>
+        <div class="text-sm text-gray-700">
+          Atual: ${valor.toLocaleString('pt-BR')} / Meta: ${esperado !== null ? esperado.toLocaleString('pt-BR') : '---'}
+        </div>
+        <div class="text-right mt-2">
+          <button class="btn-detalhes bg-amber-400 hover:bg-amber-500 text-amber-900 text-xs px-3 py-1 rounded">Ver +</button>
+        </div>
+      `;
+  
+      card.querySelector('.btn-detalhes').addEventListener('click', (e) => {
+        e.stopPropagation();
+        abrirModalDetalhes(item);
+      });
+  
+      container.appendChild(card);
+    });
   }
+  
 
-  const modal = document.getElementById('modal-content');
-  modal.innerHTML = `
-    <h3 class="text-xl font-bold mb-2">${preenchimento.indicador_nome}</h3>
-    <p><strong>Setor:</strong> ${preenchimento.setor_nome}</p>
-    <p><strong>Mês/Ano:</strong> ${preenchimento.mes}/${preenchimento.ano}</p>
-    <p><strong>Valor preenchido:</strong> ${valor}</p>
-    <p><strong>Meta esperada:</strong> ${esperado !== null ? esperado : '---'}</p>
-    <p><strong>Status:</strong> <span class="font-semibold text-${cor}-600">${status}</span></p>
-    <button onclick="fecharModal()" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded">Fechar</button>
-  `;
+  function abrirModalDetalhes(preenchimento) {
+    const modal = document.getElementById("detalhe-modal");
+    modal.classList.remove("hidden");
+  
+    document.getElementById("modal-indicador-nome").innerText = preenchimento.indicador_nome;
+    document.getElementById("modal-setor").innerText = preenchimento.setor_nome;
+    document.getElementById("modal-valor").innerText = `R$ ${preenchimento.valor_realizado}`;
+    document.getElementById("modal-mes-ano").innerText = `${preenchimento.mes}/${preenchimento.ano}`;
+  
+    // 🧠 1. Filtrar históricos do mesmo indicador
+    const historico = preenchimentos
+      .filter(p => p.indicador === preenchimento.indicador)
+      .sort((a, b) => {
+        const dataA = new Date(a.ano, a.mes - 1);
+        const dataB = new Date(b.ano, b.mes - 1);
+        return dataA - dataB;
+      });
+  
+    // 🧠 2. Criar dados para o gráfico
+    const labels = historico.map(p => `${String(p.mes).padStart(2, '0')}/${p.ano}`);
+    const valores = historico.map(p => parseFloat(p.valor_realizado));
+    const metas = historico.map(p => {
+      const metaEncontrada = metas.find(m =>
+        m.indicador === p.indicador &&
+        m.mes === p.mes &&
+        m.ano === p.ano
+      );
+      return metaEncontrada ? parseFloat(metaEncontrada.valor_esperado) : null;
+    });
+  
+    // 🧠 3. Renderizar o gráfico com Chart.js
+    const ctx = document.getElementById("grafico-indicador").getContext("2d");
+  
+    // Destroi gráfico anterior se existir
+    if (window.graficoIndicador) {
+      window.graficoIndicador.destroy();
+    }
+  
+    window.graficoIndicador = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Valor Realizado',
+            data: valores,
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.3
+          },
+          {
+            label: 'Meta Esperada',
+            data: metas,
+            borderColor: 'rgb(34, 197, 94)',
+            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+            borderDash: [5, 5],
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
 
-  document.getElementById('detalhe-modal').classList.remove('hidden');
-}
+     // Limpa histórico antigo
+    const tabelaBody = document.getElementById("tabela-historico-body");
+    tabelaBody.innerHTML = "";
+
+    // Monta o histórico linha por linha
+    historico.forEach(p => {
+    const metaEncontrada = metas.find(m =>
+        m.indicador === p.indicador &&
+        m.mes === p.mes &&
+        m.ano === p.ano
+    );
+
+    const esperado = metaEncontrada ? parseFloat(metaEncontrada.valor_esperado) : null;
+    const realizado = parseFloat(p.valor_realizado);
+
+    // Define status e cor da linha
+    let atingido = false;
+    if (p.indicador_tipo_meta === 'crescente') {
+        atingido = realizado >= esperado;
+    } else if (p.indicador_tipo_meta === 'decrescente') {
+        atingido = realizado <= esperado;
+    }
+
+    const linha = document.createElement("tr");
+    linha.className = atingido ? "bg-green-100" : "bg-red-100";
+
+    linha.innerHTML = `
+        <td class="px-4 py-2 font-medium">${mesPorExtenso(p.mes)}/${p.ano}</td>
+        <td class="px-4 py-2">R$ ${realizado.toLocaleString('pt-BR')}</td>
+        <td class="px-4 py-2">R$ ${esperado?.toLocaleString('pt-BR') || "---"}</td>
+        <td class="px-4 py-2 flex items-center gap-2">
+        ${atingido ? '<span class="text-green-600">✅ Atingido</span>' : '<span class="text-red-600">❌ Não atingido</span>'}
+        </td>
+    `;
+
+    tabelaBody.appendChild(linha);
+    });
+
+    const containerProvas = document.getElementById("container-provas");
+    containerProvas.innerHTML = ""; // Limpa anterior
+
+    if (preenchimento.arquivo) {
+        const extensao = preenchimento.arquivo.split('.').pop().toLowerCase();
+        const url = preenchimento.arquivo.startsWith('http')
+            ? preenchimento.arquivo
+            : `http://127.0.0.1:8000${preenchimento.arquivo}`;
+
+        if (['jpg', 'jpeg', 'png', 'webp'].includes(extensao)) {
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = "Prova anexada";
+            img.className = "h-24 w-auto rounded shadow cursor-pointer hover:scale-105 transition";
+
+            img.onclick = () => {
+                window.open(url, "_blank");
+            };
+
+            containerProvas.appendChild(img);
+        } else {
+            const link = document.createElement("a");
+            link.href = url;
+            link.innerText = "Ver arquivo anexado";
+            link.target = "_blank";
+            link.className = "text-blue-600 underline";
+
+            containerProvas.appendChild(link);
+        }
+    }
+
+    // Seleciona textarea e botão
+    const botaoSalvarComentario = document.querySelector('#botao-salvar-comentario');
+    const textareaComentario = document.querySelector('#textarea-comentario');
+
+    // Preenche o comentário atual no campo
+    textareaComentario.value = preenchimento.comentario || "";
+    document.getElementById('comentario-atual').innerText =
+    preenchimento.comentario
+        ? `${preenchimento.comentario} - ${preenchimento.nome_usuario || 'Usuário'}`
+        : "";
+
+
+    // Ao clicar no botão, salva o comentário via PATCH
+    botaoSalvarComentario.onclick = () => {
+        const novoComentario = textareaComentario.value.trim();
+        if (!novoComentario) {
+            alert("Digite um comentário antes de salvar.");
+            return;
+        }
+
+        const token = localStorage.getItem("access");
+
+        fetch(`http://127.0.0.1:8000/api/preenchimentos/${preenchimento.id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ comentario: novoComentario })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Erro ao salvar comentário");
+            return res.json();
+        })
+        .then(data => {
+            alert("Comentário salvo com sucesso!");
+            document.getElementById('comentario-atual').innerText = `${novoComentario} - ${preenchimento.nome_usuario || 'Usuário'}`;
+
+        })
+        .catch(err => {
+            console.error("Erro ao salvar comentário:", err);
+            alert("Falha ao salvar. Verifique o console.");
+        });
+    };
+  }
 
 function fecharModal() {
   document.getElementById('detalhe-modal').classList.add('hidden');
 }
 
-document.addEventListener('DOMContentLoaded', carregarPreenchimentos);
+// Função auxiliar para nome do mês
+function mesPorExtenso(mes) {
+    const nomes = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    return nomes[mes - 1] || "Mês";
+}

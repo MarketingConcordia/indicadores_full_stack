@@ -12,6 +12,10 @@ def upload_arquivo(file, nome_arquivo, config: object):
     Upload dinâmico baseado na configuração de armazenamento.
     """
 
+    extensoes_permitidas = ['.png', '.jpg', '.jpeg', '.pdf', '.webp']
+    if not any(nome_arquivo.lower().endswith(ext) for ext in extensoes_permitidas):
+        raise ValueError("Extensão de arquivo não permitida.")
+
     if config.tipo == 'aws':
         s3 = boto3.client(
             's3',

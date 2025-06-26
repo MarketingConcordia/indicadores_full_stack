@@ -24,6 +24,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .permissions import IsMasterUser
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import serializers
 
 # 🔹 SETOR
 class SetorViewSet(viewsets.ModelViewSet):
@@ -98,25 +101,39 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        preenchimento = serializer.save(usuario=self.request.user)
+        usuario = self.request.user
+        arquivo = self.request.FILES.get('arquivo')
 
-        LogDeAcao.objects.create(
-            usuario=self.request.user,
-            acao=f"Criou preenchimento no indicador '{preenchimento.indicador.nome}' para o mês {preenchimento.mes}."
-        )
+        # Obter configuração de armazenamento ativa
+        try:
+            config = ConfiguracaoArmazenamento.objects.get(ativo=True)
+        except ConfiguracaoArmazenamento.DoesNotExist:
+            raise serializers.ValidationError("Nenhuma configuração de armazenamento ativa encontrada.")
 
-        if preenchimento.valor < preenchimento.indicador.meta:
-            Notificacao.objects.create(
-                usuario=preenchimento.usuario,
-                texto=f"A meta do indicador '{preenchimento.indicador.nome}' não foi atingida no mês {preenchimento.mes}."
-            )
+        url_arquivo = None
+        if arquivo:
+            url_arquivo = upload_arquivo(arquivo, config)
 
-            masters = Usuario.objects.filter(perfil='master')
-            for master in masters:
-                Notificacao.objects.create(
-                    usuario=master,
-                    texto=f"O gestor '{preenchimento.usuario.first_name}' não atingiu a meta do indicador '{preenchimento.indicador.nome}' no mês {preenchimento.mes}."
-                )
+        preenchimento = serializer.save(preenchido_por=usuario)
+        
+        if url_arquivo:
+            preenchimento.arquivo = url_arquivo
+            preenchimento.save()
+
+        # Notificações se necessário
+        indicador = preenchimento.indicador
+        try:
+            meta = Meta.objects.get(indicador=indicador, mes=preenchimento.mes, ano=preenchimento.ano)
+            if (indicador.tipo_meta == 'crescente' and preenchimento.valor_realizado < meta.valor_esperado) or \
+            (indicador.tipo_meta == 'decrescente' and preenchimento.valor_realizado > meta.valor_esperado):
+                masters = Usuario.objects.filter(perfil='master')
+                for m in masters:
+                    Notificacao.objects.create(
+                        usuario=m,
+                        texto=f"O gestor {usuario.first_name} não atingiu a meta do indicador '{indicador.nome}'."
+                    )
+        except Meta.DoesNotExist:
+            pass
 
     def perform_destroy(self, instance):
         LogDeAcao.objects.create(
@@ -339,3 +356,30 @@ def indicadores_pendentes(request):
 
     serializer = IndicadorSerializer(pendentes, many=True)
     return Response(serializer.data)
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        if email is None or password is None:
+            raise serializers.ValidationError("Email e senha são obrigatórios.")
+
+        try:
+            user = Usuario.objects.get(email=email)
+        except Usuario.DoesNotExist:
+            raise serializers.ValidationError("Email ou senha incorretos.")
+
+        if not user.check_password(password):
+            raise serializers.ValidationError("Email ou senha incorretos.")
+
+        if not user.is_active:
+            raise serializers.ValidationError("Conta inativa.")
+
+        # Esta linha abaixo força a autenticação usando o username interno (necessário para JWT)
+        attrs['username'] = user.username
+
+        return super().validate(attrs)
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
