@@ -11,19 +11,33 @@ class SetorSerializer(serializers.ModelSerializer):
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    setores = serializers.PrimaryKeyRelatedField(
+        queryset=Setor.objects.all(),
+        many=True,
+        required=False
+    )
+
     class Meta:
         model = Usuario
-        fields = ['id', 'email', 'first_name', 'password', 'perfil', ...]
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = '__all__'
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
     def create(self, validated_data):
-        user = Usuario.objects.create_user(
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            password=validated_data['password'],
-            perfil=validated_data.get('perfil', 'gestor')  # <- pega o perfil enviado
-        )
+        setores = validated_data.pop('setores', [])
+        email = validated_data.get('email')
+        username = validated_data.get('username', email)
+        validated_data['username'] = username
+
+        user = Usuario.objects.create_user(**validated_data)
+
+        if setores:
+            user.setores.set(setores)
+
         return user
+
+
 
 class IndicadorSerializer(serializers.ModelSerializer):
     setor_nome = serializers.CharField(source='setor.nome', read_only=True)

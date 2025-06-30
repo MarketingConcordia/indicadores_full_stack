@@ -21,7 +21,7 @@ from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from openpyxl import Workbook
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .permissions import IsMasterUser
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -30,16 +30,20 @@ from rest_framework import serializers
 
 # 🔹 SETOR
 class SetorViewSet(viewsets.ModelViewSet):
-    queryset = Setor.objects.all()
+    queryset = Setor.objects.all().order_by("id")
     serializer_class = SetorSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
 # 🔹 USUARIO
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = get_user_model().objects.all()
+    queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    permission_classes = [permissions.IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [AllowAny()]  # ✅ Libera requisição POST para cadastro
+        return [IsAuthenticated()]
 
 
 # 🔹 INDICADOR
@@ -162,9 +166,9 @@ class ConfiguracaoArmazenamentoViewSet(viewsets.ModelViewSet):
 
 # 🔹 CONFIGURAÇÃO DE NOTIFICAÇÃO
 class ConfiguracaoNotificacaoViewSet(viewsets.ModelViewSet):
-    queryset = ConfiguracaoNotificacao.objects.all()
+    queryset = ConfiguracaoNotificacao.objects.all().order_by("id")
     serializer_class = ConfiguracaoNotificacaoSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user

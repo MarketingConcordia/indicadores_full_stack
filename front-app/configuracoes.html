@@ -12,97 +12,123 @@
   <div class="flex h-screen bg-gray-100">
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar bg-gradient-to-b from-blue-900 to-blue-800 text-white py-4 flex flex-col">
-      <div class="px-4 py-2 flex items-center">
-        <div class="flex items-center space-x-2"></div>
-        <button id="toggle-sidebar" class="text-white focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-            </svg>
-        </button>
+      <div class="px-4 py-2 flex items-center ">
+          <div class="flex items-center space-x-2">
+              <!-- Logo e nome da empresa removidos conforme solicitado -->
+          </div>
+          <button id="toggle-sidebar" class="text-white focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+          </button>
       </div>
+      
       <div class="mt-8 flex-1">
-        <nav>
-          <a href="index.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-              </svg>
-              <span class="sidebar-item">Dashboard Geral</span>
-          </a>
-          <a href="relatorios.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-              </svg>
-              <span class="sidebar-item">Relatórios</span>
-          </a>
-          <a href="equipe.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-              </svg>
-              <span class="sidebar-item">Cadastrar equipe</span>
-          </a>
-          <a href="indicadores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
-              <i class="fas fa-chart-line mr-3"></i>
-              <span class="sidebar-item">Cadastrar indicadores</span>
-          </a>
-          <a href="configuracoes.html" class="flex items-center px-4 py-3 bg-blue-700 text-white hover:bg-blue-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
-              </svg>
-              <span class="sidebar-item">Configurações</span>
-          </a>
-      </nav>
+          <nav>
+              <a href="index.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                  </svg>
+                  <span class="sidebar-item">Dashboard Geral</span>
+              </a>
+              <a href="relatorios.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="sidebar-item">Relatórios</span>
+              </a>
+              <a href="equipe.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="sidebar-item">Cadastrar equipe</span>
+              </a>
+              <a href="indicadores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                  <i class="fas fa-chart-line mr-3"></i>
+                  <span class="sidebar-item">Cadastrar indicadores</span>
+              </a>
+              <a href="configuracoes.html" class="flex items-center px-4 py-3 bg-blue-700 text-white hover:bg-blue-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="sidebar-item">Configurações</span>
+              </a>
+          </nav>
       </div>
+      
       <div class="mt-auto px-4 py-2">
-        <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-            <span class="font-semibold text-sm">CM</span>
+          <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                  <span class="font-semibold text-sm"></span>
+              </div>
+              <div class="sidebar-item">
+                  <span id="campo-nome-usuario" class="text-white font-bold text-sm"></span>
+                  <div class="text-xs text-blue-200">Perfil Master</div>
+              </div>
           </div>
-          <div class="sidebar-item">
-            <div class="text-sm font-medium">CEO Master</div>
-            <div class="text-xs text-blue-200">Perfil Master</div>
-          </div>
-        </div>
       </div>
-    </div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Navbar -->
       <header class="bg-white shadow-sm z-10">
-        <div class="flex items-center justify-between px-6 py-3">
-            <div class="flex items-center">
-                <h1 class="text-xl font-semibold text-gray-800">Configurações</h1>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                        <div class="relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                            <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
-                        </div>
-                    </button>
-                </div>
-                <div class="relative">
-                    <button id="profileButton" class="flex items-center space-x-2 focus:outline-none">
-                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                            <span class="font-semibold text-white text-sm">CM</span>
-                        </div>
-                        <span class="text-sm font-medium text-gray-700">CEO Master</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Meu Perfil</a>
-                        <div class="border-t border-gray-100"></div>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+          <div class="flex items-center justify-between px-6 py-3">
+              <div class="flex items-center">
+                  <h1 class="text-xl font-semibold text-gray-800">Acompanhamento de Indicadores</h1>
+              </div>
+              <div class="flex items-center space-x-4">
+                  <div class="relative">
+                      <button onclick="toggleDropdown()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                          <div class="relative">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                              </svg>
+                              <span id="badge-notificacoes" 
+                                  class="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full hidden">
+                                  0
+                              </span>
+                          </div>
+                      </button>
+                          <!-- 🔥 Dropdown -->
+                      <div id="dropdown-notificacoes" 
+                          class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
+                          <div class="p-4 border-b border-gray-200">
+                              <h2 class="text-lg font-bold text-blue-900">Notificações</h2>
+                          </div>
+                          <ul id="lista-notificacoes" class="max-h-96 overflow-y-auto divide-y divide-gray-200">
+                              <!-- Notificações carregam aqui -->
+                          </ul>
+                          <div class="p-2 border-t border-gray-200 text-right">
+                              <button onclick="fecharDropdown()" 
+                                  class="text-blue-600 hover:underline text-sm">Fechar</button>
+                          </div>
+                      </div>
+                      
+                  </div>
+                  <div class="relative">
+                      <button id="profileButton" class="flex items-center space-x-2 focus:outline-none">
+                          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                              <span class="font-semibold text-white text-sm"></span>
+                          </div>
+                          <span id="campo-nome-usuario" class="text-white font-bold text-sm"></span>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                          </svg>
+                      </button>
+                      <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
+                          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Meu Perfil</a>
+                          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
+                          <div class="border-t border-gray-100"></div>
+                          <button onclick="logout()" 
+                              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
+                              Sair
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </header>
 
       <!-- Configurações -->
       <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
@@ -156,6 +182,31 @@
             </div>
           </form>
         </div>
+
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+          <h2 class="text-xl font-semibold mb-4">Cadastro de Setores</h2>
+        
+          <form id="form-setor" class="flex gap-4 items-center mb-4">
+            <input
+              type="text"
+              id="nomeSetor"
+              placeholder="Nome do setor"
+              class="border border-gray-300 rounded px-3 py-2 w-1/2"
+              required
+            />
+            <button
+              type="submit"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Cadastrar
+            </button>
+          </form>
+        
+          <div id="lista-setores" class="space-y-2">
+            <!-- Setores cadastrados aparecerão aqui -->
+          </div>
+        </div>
+        
 
         <!-- Notificações -->
         <section class="bg-white rounded shadow p-6 mb-6">
@@ -267,190 +318,8 @@
       </main>
     </div>
   </div>
+
+  <script src="js/configuracoes.js"></script>
+  <script src="js/comum.js"></script>
 </body>
-<script>
-    // Configurar evento para o botão de perfil
-    const profileButton = document.getElementById('profileButton');
-            const profileMenu = document.getElementById('profileMenu');
-
-            profileButton.addEventListener('click', () => {
-                profileMenu.classList.toggle('hidden');
-            });
-
-            // Fechar o menu de perfil ao clicar fora dele
-            document.addEventListener('click', (e) => {
-                if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
-                    profileMenu.classList.add('hidden');
-                }
-            });
-
-            // Configurar evento para o botão de alternar sidebar
-            const toggleSidebar = document.getElementById('toggle-sidebar');
-            const sidebar = document.getElementById('sidebar');
-            const sidebarItems = document.querySelectorAll('.sidebar-item');
-
-            toggleSidebar.addEventListener('click', () => {
-                sidebar.classList.toggle('sidebar-collapsed');
-                sidebarItems.forEach(item => {
-                    if (sidebar.classList.contains('sidebar-collapsed')) {
-                        item.style.display = 'none';
-                    } else {
-                        item.style.display = 'inline';
-                    }
-                });
-            });
-
-  document.getElementById('formArmazenamento').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const token = localStorage.getItem('access');
-
-    const tipo = document.getElementById('tipo').value;
-
-    // Dados AWS
-    const aws_access_key = document.getElementById('aws_access_key').value;
-    const aws_secret_key = document.getElementById('aws_secret_key').value;
-    const aws_bucket_name = document.getElementById('aws_bucket_name').value;
-    const aws_region = document.getElementById('aws_region').value;
-
-    // Dados Azure
-    const azure_connection_string = document.getElementById('azure_connection_string').value;
-    const azure_container = document.getElementById('azure_container').value;
-
-    // Dados Google
-    const gcp_credentials_json = document.getElementById('gcp_credentials_json').value;
-    const gcp_bucket_name = document.getElementById('gcp_bucket_name').value;
-
-    const payload = {
-        tipo,
-        aws_access_key,
-        aws_secret_key,
-        aws_bucket_name,
-        aws_region,
-        azure_connection_string,
-        azure_container,
-        gcp_credentials_json,
-        gcp_bucket_name
-    };
-
-    fetch('http://127.0.0.1:8000/api/configuracao_armazenamento/', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao salvar a configuração.');
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert('Configuração salva com sucesso!');
-        window.location.reload();
-    })
-    .catch(error => {
-        alert('Erro: ' + error.message);
-    });
-});
-
-const token = localStorage.getItem('access');
-
-    function carregarNotificacoesConfig() {
-        fetch('http://127.0.0.1:8000/api/configuracao_notificacao/', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-        .then(res => res.json())
-        .then(data => {
-            const lista = document.getElementById('listaNotificacoes');
-            lista.innerHTML = '';
-            data.forEach(n => {
-                const item = document.createElement('li');
-                item.className = 'flex justify-between bg-gray-100 px-3 py-2 rounded';
-                item.innerHTML = `
-                    <div>
-                        <p class="font-semibold">${n.nome} (Dia ${n.dia_do_mes})</p>
-                        <p class="text-sm text-gray-600">${n.mensagem}</p>
-                        <p class="text-xs text-gray-400">${n.destinatarios.toUpperCase()} | ${n.repetir_todo_mes ? 'Repetir' : 'Único'} | ${n.ativo ? 'Ativo' : 'Inativo'}</p>
-                    </div>
-                    <button onclick="excluirNotificacao(${n.id})" class="text-red-600 hover:underline">Excluir</button>
-                `;
-                lista.appendChild(item);
-            });
-        });
-    }
-
-    function excluirNotificacao(id) {
-        fetch(`http://127.0.0.1:8000/api/configuracao_notificacao/${id}/`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-        }).then(() => carregarNotificacoesConfig());
-    }
-
-    document.getElementById('formNotificacao').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const payload = {
-            nome: document.getElementById('nome').value,
-            mensagem: document.getElementById('mensagem').value,
-            dia_do_mes: document.getElementById('dia').value,
-            destinatarios: document.getElementById('destinatarios').value,
-            repetir_todo_mes: document.getElementById('repetir').checked,
-            ativo: true
-        };
-
-        fetch('http://127.0.0.1:8000/api/configuracao_notificacao/', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        }).then(() => {
-            this.reset();
-            carregarNotificacoesConfig();
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', carregarNotificacoesConfig);
-
-    document.getElementById('tipo').addEventListener('change', function() {
-  const tipo = this.value;
-
-  document.getElementById('awsFields').classList.add('hidden');
-  document.getElementById('azureFields').classList.add('hidden');
-  document.getElementById('gcpFields').classList.add('hidden');
-
-  if (tipo === 'aws') {
-    document.getElementById('awsFields').classList.remove('hidden');
-  } else if (tipo === 'azure') {
-    document.getElementById('azureFields').classList.remove('hidden');
-  } else if (tipo === 'gcp') {
-    document.getElementById('gcpFields').classList.remove('hidden');
-  }
-});
-
-function carregarLogs() {
-  fetch('http://127.0.0.1:8000/api/logs/', {
-    headers: { 'Authorization': `Bearer ${localStorage.getItem('access')}` }
-  })
-  .then(res => res.json())
-  .then(data => {
-    const tbody = document.getElementById('listaLogs');
-    tbody.innerHTML = '';
-    data.forEach(log => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td class="px-4 py-2 text-sm">${log.usuario || 'Desconhecido'}</td>
-        <td class="px-4 py-2 text-sm">${log.acao}</td>
-        <td class="px-4 py-2 text-sm">${new Date(log.data).toLocaleString()}</td>
-      `;
-      tbody.appendChild(row);
-    });
-  });
-}
-
-document.addEventListener('DOMContentLoaded', carregarLogs);
-</script>
 </html>

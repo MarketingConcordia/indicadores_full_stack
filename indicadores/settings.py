@@ -142,6 +142,7 @@ STATIC_ROOT = Path(BASE_DIR) / 'static'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost,http://127.0.0.1').split(',')
+CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -157,7 +158,7 @@ from datetime import timedelta
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),  # Duração do token de acesso
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),     # Duração do token de refresh
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),     # Duração do token de refresh
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
     "ALGORITHM": "HS256",

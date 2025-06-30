@@ -1,53 +1,60 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('loginForm');
-    const erroDiv = document.getElementById('erroLogin');
-  
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-  
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-  
-      try {
-        const response = await fetch('http://localhost:8000/api/token/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password: senha })
-        });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          localStorage.setItem('access_token', data.access);
-          localStorage.setItem('refresh_token', data.refresh);
-  
-          // Buscar tipo de usuário
-          const perfilResponse = await fetch('http://localhost:8000/api/me/', {
-            method: 'GET',
-            headers: {
-              'Authorization': 'Bearer ' + data.access,
-              'Content-Type': 'application/json'
-            }
-          });
-  
-          const perfil = await perfilResponse.json();
-  
-          if (perfil.perfil === 'master') {
-            window.location.href = 'index.html';
-          } else if (perfil.perfil === 'gestor') {
-            window.location.href = 'indexgestores.html';
-          } else {
-            erroDiv.textContent = 'Perfil de usuário não reconhecido.';
-            erroDiv.classList.remove('hidden');
-          }
-  
-        } else {
-          erroDiv.classList.remove('hidden');
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("senha").value;
+
+    fetch("http://127.0.0.1:8000/api/token/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Email ou senha incorretos");
         }
-      } catch (error) {
-        console.error('Erro de conexão:', error);
-        erroDiv.classList.remove('hidden');
-      }
+        return response.json();
+    })
+    .then(data => {
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh", data.refresh);
+
+        return fetch("http://127.0.0.1:8000/api/me/", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${data.access}`
+            }
+        });
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("Erro ao buscar dados do usuário");
+        }
+        return res.json();
+    })
+    .then(usuario => {
+        const nome = usuario.first_name || usuario.username || usuario.email.split("@")[0];
+
+        localStorage.setItem("nome_usuario", nome);
+        localStorage.setItem("perfil_usuario", usuario.perfil);
+
+        if (usuario.perfil === "master") {
+            window.location.href = "index.html";
+        } else if (usuario.perfil === "gestor") {
+            window.location.href = "indexgestores.html";
+        } else {
+            alert("Perfil desconhecido.");
+        }
+    })
+    .catch(error => {
+        console.error("Erro durante login:", error.message);
+        alert(error.message); // só será exibido se de fato for erro
     });
-  });
-  
+});
+
+});

@@ -82,4 +82,5 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('DOMContentLoaded', () => {
     carregarIndicadores(); // lista os pendentes
   });
+
   
