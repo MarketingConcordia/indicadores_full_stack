@@ -14,8 +14,6 @@ from .serializers import (
 from .storage_service import upload_arquivo
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from django.db.models import F, Q, Count
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
@@ -27,6 +25,9 @@ from .permissions import IsMasterUser
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from datetime import datetime
+from django.utils.timezone import now
+from rest_framework import status
 
 # 🔹 SETOR
 class SetorViewSet(viewsets.ModelViewSet):
@@ -48,31 +49,22 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
 # 🔹 INDICADOR
 class IndicadorViewSet(viewsets.ModelViewSet):
-    queryset = Indicador.objects.all()
+    queryset = Indicador.objects.all().select_related('setor')
     serializer_class = IndicadorSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-    def perform_update(self, serializer):
-        indicador = serializer.save()
+    def destroy(self, request, *args, **kwargs):
+        indicador = self.get_object()
+        indicador.delete()
+        return Response({"detail": "Indicador excluído com sucesso."}, status=status.HTTP_204_NO_CONTENT)
 
-        LogDeAcao.objects.create(
-            usuario=self.request.user,
-            acao=f"Alterou a meta do indicador '{indicador.nome}' para {indicador.meta}."
-        )
-
-        masters = Usuario.objects.filter(perfil='master')
-        for master in masters:
-            Notificacao.objects.create(
-                usuario=master,
-                texto=f"A meta do indicador '{indicador.nome}' foi alterada para {indicador.meta}."
-            )
-
-        gestores = Usuario.objects.filter(perfil='gestor', setores=indicador.setor)
-        for gestor in gestores:
-            Notificacao.objects.create(
-                usuario=gestor,
-                texto=f"A meta do indicador '{indicador.nome}' foi alterada para {indicador.meta}."
-            )
+    def update(self, request, *args, **kwargs):
+        parcial = kwargs.pop('partial', False)
+        indicador = self.get_object()
+        serializer = self.get_serializer(indicador, data=request.data, partial=parcial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 # 🔹 PREENCHIMENTO
@@ -340,6 +332,14 @@ class PreenchimentoListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(preenchido_por=self.request.user)
 
+class IndicadoresPendentesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        indicadores_pendentes = Indicador.objects.filter(preenchimento__isnull=True)
+        serializer = IndicadorSerializer(indicadores_pendentes, many=True)
+        return Response(serializer.data)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def meus_preenchimentos(request):
@@ -350,15 +350,28 @@ def meus_preenchimentos(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def indicadores_pendentes(request):
-    hoje = datetime.today()
-    mes = hoje.month
-    ano = hoje.year
+    usuario = request.user
+    mes_atual = now().month
+    ano_atual = now().year
 
-    indicadores = Indicador.objects.all()
-    preenchidos = Preenchimento.objects.filter(mes=mes, ano=ano).values_list('indicador_id', flat=True)
-    pendentes = indicadores.exclude(id__in=preenchidos)
+    # Filtra indicadores do setor do gestor
+    if usuario.perfil == 'gestor':
+        indicadores = Indicador.objects.filter(setor__in=usuario.setores.all())
+    else:
+        indicadores = Indicador.objects.all()
 
-    serializer = IndicadorSerializer(pendentes, many=True)
+    indicadores_pendentes = []
+    for indicador in indicadores:
+        preenchido = Preenchimento.objects.filter(
+            indicador=indicador,
+            mes=mes_atual,
+            ano=ano_atual
+        ).exists()
+
+        if not preenchido:
+            indicadores_pendentes.append(indicador)
+
+    serializer = IndicadorSerializer(indicadores_pendentes, many=True)
     return Response(serializer.data)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -387,3 +400,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def meu_usuario(request):
+    usuario = request.user
+    serializer = UsuarioSerializer(usuario)
+    return Response(serializer.data)

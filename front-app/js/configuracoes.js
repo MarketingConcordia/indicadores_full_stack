@@ -180,6 +180,13 @@ function carregarLogs() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+
+  const perfil = localStorage.getItem("perfil_usuario");
+    if (perfil !== "master") {
+      alert("Acesso negado. Esta página é exclusiva para perfil master.");
+      window.location.href = "indexgestores.html"; // redireciona o gestor
+    }
+    
   // === SETORES ===
 
   document.getElementById("form-setor").addEventListener("submit", function (e) {

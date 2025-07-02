@@ -45,7 +45,6 @@ class IndicadorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Indicador
         fields = '__all__'
-        read_only_fields = ['setor_nome']
 
 
 class PreenchimentoSerializer(serializers.ModelSerializer):

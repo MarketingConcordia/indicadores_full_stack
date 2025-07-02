@@ -38,6 +38,12 @@ function baixarExcel() {
 // === INÍCIO DO BLOCO DE HISTÓRICO COM FILTROS ===
 
 document.addEventListener("DOMContentLoaded", () => {
+    const perfil = localStorage.getItem("perfil_usuario");
+    if (perfil !== "master") {
+      alert("Acesso negado. Esta página é exclusiva para perfil master.");
+      window.location.href = "indexgestores.html"; // redireciona o gestor
+    }
+    
     const token = localStorage.getItem("access");
     if (!token) {
         alert("Você precisa estar logado.");
@@ -134,3 +140,5 @@ function configurarEventosDeFiltro() {
     document.getElementById("filtro-setor").addEventListener("change", carregarPreenchimentos);
     document.getElementById("filtro-periodo").addEventListener("change", carregarPreenchimentos);
 }
+
+carregarUsuarioLogado();

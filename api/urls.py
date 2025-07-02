@@ -16,7 +16,8 @@ from .views import (
     gerar_relatorio_pdf,
     gerar_relatorio_excel,
     get_me,
-    indicadores_pendentes
+    indicadores_pendentes,
+    meu_usuario
 )
 from .views import meus_preenchimentos
 from .views import MyTokenObtainPairView
@@ -28,7 +29,7 @@ from django.conf.urls.static import static
 router = routers.DefaultRouter()
 router.register(r'setores', SetorViewSet)
 router.register(r'usuarios', UsuarioViewSet)
-router.register(r'indicadores', IndicadorViewSet)
+router.register(r'indicadores', IndicadorViewSet, basename='indicadores')
 router.register(r'preenchimentos', PreenchimentoViewSet, basename='preenchimentos')
 router.register(r'notificacoes', NotificacaoViewSet)
 router.register(r'configuracao_armazenamento', ConfiguracaoArmazenamentoViewSet)
@@ -45,9 +46,10 @@ urlpatterns = [
     path('preenchimentos/', PreenchimentoListCreateView.as_view(), name='preenchimentos'),
     path('me/', get_me),
     path('preenchimentos/meus/', meus_preenchimentos, name='meus-preenchimentos'),
-    path('indicadores/pendentes/', indicadores_pendentes, name='indicadores-pendentes'),
+    path('api/indicadores/pendentes/', indicadores_pendentes),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("meu-usuario/", meu_usuario, name="meu-usuario"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

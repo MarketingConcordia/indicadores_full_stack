@@ -38,10 +38,16 @@ class Indicador(models.Model):
         ('acompanhamento', 'Acompanhamento'),
     ]
 
+    STATUS_CHOICES = [
+        ('pendente', 'Pendente'),
+        ('concluido', 'Concluído'),
+    ]
+
     nome = models.CharField(max_length=255)
     descricao = models.TextField(blank=True, null=True)
     setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
     tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')  # ✅ ADICIONADO
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

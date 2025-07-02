@@ -1,12 +1,47 @@
-
+document.addEventListener("DOMContentLoaded", () => {
+    carregarUsuarioLogado();
+    configurarToggleSidebar();
+  });
+  
 // 👉 Mostrar nome do usuário no topo
-function exibirNomeUsuario() {
-    const nome = localStorage.getItem("nome_usuario");
-    const campo = document.getElementById("campo-nome-usuario");
-    if (nome && campo) {
-        campo.textContent = nome;
-    }
+function carregarUsuarioLogado() {
+    const token = localStorage.getItem("access");
+    if (!token) return;
+
+    fetch("http://127.0.0.1:8000/api/meu-usuario/", {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(user => {
+        const nome = user.first_name || user.username || user.email;
+        const perfil = user.perfil;
+        const setores = user.setores || [];
+
+        // Nome
+        document.querySelectorAll("#campo-nome-usuario").forEach(el => {
+            el.textContent = nome;
+        });
+
+        // Detalhe do perfil
+        const detalhe = perfil === "master"
+            ? "Perfil Master"
+            : `Setores: ${setores.map(s => s.nome).join(", ")}`;
+        document.querySelectorAll("#campo-detalhe-perfil").forEach(el => {
+            el.textContent = detalhe;
+        });
+
+        // Iniciais
+        const iniciais = nome.split(" ").map(p => p[0]).join("").toUpperCase().slice(0, 2);
+        const avatar = document.getElementById("iniciais-usuario");
+        if (avatar) avatar.textContent = iniciais;
+    })
+    .catch(err => {
+        console.error("Erro ao carregar dados do usuário:", err);
+    });
 }
+
+
+
 
 // 👉 Sidebar toggle
 function configurarToggleSidebar() {
@@ -135,8 +170,4 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// 👉 Executar ao carregar a página
-document.addEventListener("DOMContentLoaded", () => {
-    exibirNomeUsuario();
-    configurarToggleSidebar();
-});
+

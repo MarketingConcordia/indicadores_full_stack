@@ -8,6 +8,14 @@ let indicadores = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('access');
+
+    const perfil = localStorage.getItem("perfil_usuario");
+    if (perfil !== "master") {
+      alert("Acesso negado. Esta página é exclusiva para perfil master.");
+      window.location.href = "indexgestores.html"; // redireciona o gestor
+    }
+    
+    preencherSelectSetores();
     
     fetch('http://127.0.0.1:8000/api/indicadores/', {
         headers: {
@@ -366,6 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     document.addEventListener('DOMContentLoaded', () => {
                                         // Renderizar indicadores
                                         renderizarIndicadores(indicadores);
+                                        carregarUsuarioLogado();
                                         
                                         // Configurar eventos de filtro
                                         const filtroSetor = document.getElementById('filter-setor');
@@ -482,3 +491,78 @@ document.addEventListener('DOMContentLoaded', () => {
                                                     });
                                                     
                                                     
+// Aplica os filtros selecionados
+function aplicarFiltros() {
+    const setorSelecionado = document.getElementById('filter-setor').value;
+    const statusSelecionado = document.getElementById('filter-status').value;
+    const periodoSelecionado = document.getElementById('filter-periodo').value;
+
+    let filtrados = [...indicadores]; // usa os indicadores já carregados
+
+    // Filtro por setor
+    if (setorSelecionado !== 'todos') {
+        filtrados = filtrados.filter(ind => 
+            ind.setor_nome?.toLowerCase().includes(setorSelecionado.replace(/-/g, ''))
+        );
+    }
+
+    // Filtro por status
+    if (statusSelecionado !== 'todos') {
+        filtrados = filtrados.filter(ind => {
+            if (statusSelecionado === 'atingidos') return ind.atingido === true;
+            if (statusSelecionado === 'nao-atingidos') return ind.atingido === false;
+            return true;
+        });
+    }
+
+    // Filtro por período
+    if (periodoSelecionado !== 'mes-atual') {
+        // Aqui você pode ajustar depois a lógica exata conforme o backend
+        // Por enquanto, mantemos o carregamento atual
+    }
+
+    renderizarIndicadores(filtrados);
+}
+
+document.getElementById('filter-setor').addEventListener('change', aplicarFiltros);
+document.getElementById('filter-status').addEventListener('change', aplicarFiltros);
+document.getElementById('filter-periodo').addEventListener('change', aplicarFiltros);
+
+document.getElementById('limpar-filtros').addEventListener('click', () => {
+    document.getElementById('filter-setor').value = 'todos';
+    document.getElementById('filter-status').value = 'todos';
+    document.getElementById('filter-periodo').value = 'mes-atual';
+
+    aplicarFiltros(); // reseta os filtros
+});
+
+function preencherSelectSetores() {
+    const token = localStorage.getItem("access");
+    const select = document.getElementById("filter-setor");
+
+    if (!select) return;
+
+    fetch("http://127.0.0.1:8000/api/setores/", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Erro ao carregar setores.");
+        return res.json();
+    })
+    .then(data => {
+        const setores = data.results || data;
+        select.innerHTML = '<option value="todos">Todos os Setores</option>';
+
+        setores.forEach(setor => {
+            const opt = document.createElement("option");
+            opt.value = setor.nome.toLowerCase().replace(/\s+/g, '-'); // ex: "Produtos Green" → "produtos-green"
+            opt.textContent = setor.nome;
+            select.appendChild(opt);
+        });
+    })
+    .catch(err => {
+        console.error("Erro ao preencher setores:", err);
+    });
+}

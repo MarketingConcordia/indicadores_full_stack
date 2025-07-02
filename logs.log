@@ -3645,3 +3645,2007 @@ TypeError: argument of type 'ellipsis' is not iterable
 [2025-06-30 17:05:45,450] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
 [2025-06-30 17:05:48,800] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
 [2025-06-30 17:08:49,051] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-06-30 17:22:13,921] INFO django.server "OPTIONS /api/indicadores/pendentes/ HTTP/1.1" 200 0
+[2025-06-30 17:22:13,975] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-06-30 17:22:13,976] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-06-30 17:22:13,977] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-06-30 17:22:21,560] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-06-30 17:22:21,560] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-06-30 17:22:21,561] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-06-30 17:24:20,844] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-06-30 17:24:20,844] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-06-30 17:25:43,526] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-06-30 17:25:43,526] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-06-30 17:28:04,177] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-06-30 17:28:04,177] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 07:45:51,493] INFO django.server "OPTIONS /api/setores/ HTTP/1.1" 200 0
+[2025-07-01 07:45:51,497] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 07:45:51,498] INFO django.server "OPTIONS /api/indicadores/pendentes/ HTTP/1.1" 200 0
+[2025-07-01 07:45:51,498] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 07:45:51,500] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 07:45:51,500] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 07:46:08,013] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 07:46:08,014] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 07:46:35,209] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 07:46:35,210] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 07:48:49,882] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 07:48:49,882] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 07:49:23,447] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 07:49:23,449] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 07:49:23,450] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 07:49:23,450] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 07:49:56,009] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 07:49:56,010] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 07:49:56,011] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 07:49:56,011] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 07:51:00,380] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 07:51:00,382] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 07:51:00,382] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 07:51:00,383] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 07:53:33,275] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-07-01 07:53:34,672] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-01 07:53:34,676] INFO django.server "OPTIONS /api/me/ HTTP/1.1" 200 0
+[2025-07-01 07:53:34,718] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-01 07:53:34,858] INFO django.server "OPTIONS /api/indicadores/ HTTP/1.1" 200 0
+[2025-07-01 07:53:34,908] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 07:53:39,515] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 07:53:39,634] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 07:53:39,634] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 07:54:11,372] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 07:54:11,373] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 07:54:11,378] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:11:06,466] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 08:11:06,467] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 08:11:06,469] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:15:05,494] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 08:15:05,496] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 08:15:05,497] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:15:11,329] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:15:11,333] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 08:15:11,334] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 08:15:12,175] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 08:15:12,176] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 08:15:12,178] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:15:12,947] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 08:15:12,947] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 08:15:12,950] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:31:34,267] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 08:31:34,267] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 08:31:34,269] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:41:06,506] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 08:41:06,508] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 08:41:06,509] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 08:57:28,140] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 08:57:28,141] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 08:57:28,142] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 08:57:28,142] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 08:58:31,043] INFO django.server "OPTIONS /api/notificacoes/ HTTP/1.1" 200 0
+[2025-07-01 08:58:31,045] WARNING django.request Unauthorized: /api/notificacoes/
+[2025-07-01 08:58:31,045] WARNING django.server "GET /api/notificacoes/ HTTP/1.1" 401 172
+[2025-07-01 08:58:51,004] WARNING django.request Unauthorized: /api/notificacoes/
+[2025-07-01 08:58:51,004] WARNING django.server "GET /api/notificacoes/ HTTP/1.1" 401 172
+[2025-07-01 08:59:14,716] WARNING django.request Unauthorized: /api/notificacoes/
+[2025-07-01 08:59:14,716] WARNING django.server "GET /api/notificacoes/ HTTP/1.1" 401 172
+[2025-07-01 09:02:42,029] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:02:42,030] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:02:42,032] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:02:42,032] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:03:14,155] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:03:14,157] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:03:14,157] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:03:14,157] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:03:32,833] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:03:32,835] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:03:32,836] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:03:32,836] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:03:36,866] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:03:36,868] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:03:36,869] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:03:36,869] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:09:34,445] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:09:34,445] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:09:34,447] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:09:34,447] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:10:15,451] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:10:15,452] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:10:15,452] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:10:15,453] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:10:30,892] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:10:30,893] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:10:30,894] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:10:30,894] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:10:48,778] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:10:48,780] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:10:48,781] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:10:48,781] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:06,077] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:06,079] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:06,079] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:06,080] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:06,433] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:06,434] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:06,434] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:06,434] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:06,837] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:06,839] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:06,839] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:06,840] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:07,242] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:07,243] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:07,244] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:07,244] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:07,635] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:07,636] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:07,636] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:07,637] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:08,045] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:08,047] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:08,047] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:08,047] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:08,442] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:08,444] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:08,444] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:08,444] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:08,843] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:08,844] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:08,845] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:08,845] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:09,261] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:09,262] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:09,263] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:09,263] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:09,680] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:09,681] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:09,682] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:09,682] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:10,068] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:10,069] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:10,070] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:10,070] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:10,473] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:10,474] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:10,475] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:10,475] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:10,878] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:10,879] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:10,879] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:10,879] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:11,283] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:11,284] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:11,284] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:11,285] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:11,734] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:11,735] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:11,735] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:11,736] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:12,127] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:12,129] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:12,129] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:12,129] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:12,521] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:12,522] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:12,523] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:12,523] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:12,932] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:12,933] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:12,934] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:12,934] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:13,327] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:13,328] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:13,329] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:13,329] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:13,727] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:13,728] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:13,729] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:13,729] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:14,124] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:14,125] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:14,126] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:14,126] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:14,528] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:14,529] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:14,530] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:14,530] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:14,926] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:14,927] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:14,927] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:14,927] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:15,343] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:15,344] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:15,344] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:15,345] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:15,753] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:15,754] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:15,755] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:15,755] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:16,143] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:16,144] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:16,145] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:16,145] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:16,546] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:16,547] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:16,548] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:16,548] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:16,954] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:16,956] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:16,956] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:16,956] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:17,338] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:17,339] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:17,339] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:17,339] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:17,743] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:17,744] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:17,744] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:17,745] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:18,148] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:18,149] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:18,150] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:18,150] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:18,562] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:18,563] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:18,563] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:18,564] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:18,959] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:18,961] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:18,961] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:18,961] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:19,372] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:19,373] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:19,374] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:19,374] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:19,774] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:19,775] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:19,776] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:19,776] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:20,176] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:20,177] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:20,177] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:20,177] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:20,591] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:20,592] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:20,593] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:20,593] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:20,993] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:20,994] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:20,995] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:20,995] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:21,385] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:21,386] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:21,387] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:21,387] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:21,773] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:21,775] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:21,776] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:21,776] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:22,187] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:22,188] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:22,188] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:22,189] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:22,591] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:22,591] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:22,594] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:22,594] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:22,998] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:22,999] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:22,999] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:22,999] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:23,388] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:23,389] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:23,390] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:23,390] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:23,796] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:23,796] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:23,799] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:23,800] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:24,196] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:24,197] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:24,197] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:24,198] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:24,589] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:24,590] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:24,591] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:24,591] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:25,000] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:25,000] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:25,002] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:25,003] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:25,395] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:25,397] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:25,397] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:25,397] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:25,798] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:25,799] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:25,799] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:25,799] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:26,199] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:26,200] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:26,200] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:26,200] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:26,635] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:26,636] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:26,636] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:26,636] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:27,052] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:27,053] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:27,053] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:27,054] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:27,456] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:27,457] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:27,458] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:27,458] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:27,875] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:27,876] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:27,877] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:27,878] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:28,271] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:28,273] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:28,273] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:28,274] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:28,665] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:28,666] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:28,667] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:28,667] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:29,080] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:29,080] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:29,081] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:29,081] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:29,488] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:29,489] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:29,490] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:29,490] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:29,888] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:29,889] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:29,890] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:29,890] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:30,278] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:30,279] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:30,279] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:30,279] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:30,683] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:30,684] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:30,685] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:30,685] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:31,086] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:31,088] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:31,088] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:31,088] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:31,503] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:31,504] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:31,506] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:31,507] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:31,885] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:31,886] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:31,886] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:31,886] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:32,285] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:32,286] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:32,287] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:32,287] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:32,682] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:32,683] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:32,684] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:32,685] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:33,222] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:33,223] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:33,223] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:11:33,224] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:33,771] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:11:33,771] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:11:33,774] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:11:33,775] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:13:04,314] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 09:13:04,316] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 09:13:04,316] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 09:13:04,317] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 09:13:42,498] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-01 09:13:42,549] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-01 09:13:42,843] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 09:13:47,502] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:13:47,503] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:13:47,504] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:14:07,829] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:14:07,834] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:14:07,834] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:14:28,198] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:14:28,199] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:14:28,200] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:14:32,891] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:14:32,891] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:14:32,998] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:15:47,595] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:15:47,595] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:15:47,597] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:16:21,511] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:16:21,629] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:16:21,630] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:16:43,098] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:16:43,098] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:16:43,210] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:17:46,618] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:17:46,619] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:17:46,724] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:18:03,977] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:18:03,979] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:18:03,979] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:18:06,881] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:18:06,982] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:18:06,982] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:18:34,077] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:18:34,078] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:18:34,079] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:18:47,707] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:18:47,708] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:18:47,709] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:19:12,979] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:19:12,979] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:19:12,980] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:31:34,125] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:31:34,125] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:31:34,221] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 09:41:07,426] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 09:41:07,427] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 09:41:07,435] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:03:19,587] INFO django.server "OPTIONS /api/setores/ HTTP/1.1" 200 0
+[2025-07-01 10:03:19,591] INFO django.server "OPTIONS /api/indicadores/pendentes/ HTTP/1.1" 200 0
+[2025-07-01 10:03:19,749] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:03:19,749] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:03:19,753] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:03:52,867] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 10:03:58,812] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 10:04:09,557] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:04:09,672] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:04:09,672] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:04:54,172] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:04:54,173] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:04:54,177] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:04:54,328] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 10:04:55,198] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 10:04:56,712] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:04:56,819] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:04:56,819] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:05:16,919] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:05:16,920] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:05:16,920] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:26:07,251] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 10:26:07,252] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 10:26:07,257] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 10:26:07,257] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 10:31:34,487] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 10:31:34,489] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 10:31:34,489] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 10:31:34,490] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 10:32:37,078] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 10:32:37,079] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 10:32:37,079] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 10:32:37,079] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 10:36:26,725] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-07-01 10:36:28,390] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-01 10:36:28,394] INFO django.server "OPTIONS /api/me/ HTTP/1.1" 200 0
+[2025-07-01 10:36:28,546] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-01 10:36:28,675] INFO django.server "OPTIONS /api/indicadores/ HTTP/1.1" 200 0
+[2025-07-01 10:36:28,742] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 10:36:38,005] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:36:38,006] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:36:38,011] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:37:52,923] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:37:52,925] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:37:52,926] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:38:33,930] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:38:33,931] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:42:49,914] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:42:49,914] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:42:56,845] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:42:56,846] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:24,847] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 10:44:25,585] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 10:44:26,963] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:26,964] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:27,260] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:27,260] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:27,646] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:27,646] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:28,065] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:28,065] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:28,444] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:28,444] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:28,840] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:28,840] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:29,297] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:29,298] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:29,741] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:29,742] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:30,127] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:30,127] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:30,495] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:30,495] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:30,893] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:30,894] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:31,349] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:31,349] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:31,681] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:31,682] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:32,091] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:32,092] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:44:32,646] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:44:32,647] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:45:03,569] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:45:03,570] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:46:43,139] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:46:43,140] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:52:58,713] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:52:58,713] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:53:08,453] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:53:08,454] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:53:12,345] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:53:12,345] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:54:25,379] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:54:25,380] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:54:25,384] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:54:30,633] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 10:54:30,633] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 10:54:30,636] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:59:49,142] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 10:59:49,262] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 11:00:25,788] ERROR django.request Internal Server Error: /api/indicadores/
+Traceback (most recent call last):
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\psycopg\cursor.py", line 97, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedColumn: column "descricao" of relation "api_indicador" does not exist
+LINE 1: INSERT INTO "api_indicador" ("nome", "descricao", "setor_id"...
+                                             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 663, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\psycopg\cursor.py", line 97, in execute
+    raise ex.with_traceback(None)
+django.db.utils.ProgrammingError: column "descricao" of relation "api_indicador" does not exist
+LINE 1: INSERT INTO "api_indicador" ("nome", "descricao", "setor_id"...
+                                             ^
+[2025-07-01 11:00:25,795] ERROR django.server "POST /api/indicadores/ HTTP/1.1" 500 212581
+[2025-07-01 11:04:40,160] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:04:40,162] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 11:21:16,765] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:21:16,766] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:21:16,859] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:23:06,303] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:23:06,400] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:23:06,401] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:23:11,030] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:23:11,031] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:23:11,034] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:26:07,302] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:26:07,304] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:26:07,304] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:29:47,399] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:29:47,401] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:29:47,404] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:29:47,461] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 11:29:48,323] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 11:29:49,890] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:29:49,890] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:29:49,894] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:29:56,345] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:29:56,346] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:29:56,453] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:31:35,337] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:31:35,337] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:31:35,341] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:31:58,681] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:31:58,682] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:31:58,685] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:32:02,249] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:32:02,251] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:32:02,251] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:42:19,504] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 11:42:19,508] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 11:42:19,508] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 11:42:19,509] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 11:42:26,347] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 11:42:26,349] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 11:42:26,350] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 11:42:26,350] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 11:42:49,144] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-01 11:42:49,194] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-01 11:42:50,048] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 11:42:57,668] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:42:57,669] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:42:57,669] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:44:13,151] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:44:13,151] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:44:13,152] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:44:18,488] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:44:18,489] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:44:18,490] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:44:19,788] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:44:19,790] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:44:19,790] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:45:46,584] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:45:46,584] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:45:46,613] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:49:44,518] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 11:49:45,351] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 11:49:46,823] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:49:46,825] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:49:46,827] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:50:20,854] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 11:50:21,590] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 11:50:23,165] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:50:23,166] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:50:23,168] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:50:50,191] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:50:50,192] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 11:50:50,193] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:51:19,917] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-01 11:51:20,678] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 11:51:22,092] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 11:51:22,092] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 11:51:22,096] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 13:45:55,195] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 13:45:56,054] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 13:46:41,235] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-01 13:46:41,980] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 13:48:15,633] INFO django.server "OPTIONS /api/setores/ HTTP/1.1" 200 0
+[2025-07-01 13:48:15,633] INFO django.server "OPTIONS /api/meu-usuario/ HTTP/1.1" 200 0
+[2025-07-01 13:48:15,634] INFO django.server "OPTIONS /api/indicadores/pendentes/ HTTP/1.1" 200 0
+[2025-07-01 13:48:15,649] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:48:15,649] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:48:15,663] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 13:48:15,664] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 13:48:15,666] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 13:48:15,666] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 13:54:39,112] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:54:39,115] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 13:54:39,115] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:54:39,116] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 13:54:39,117] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-01 13:54:39,118] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-01 13:54:45,552] INFO django.server "OPTIONS /api/indicadores/ HTTP/1.1" 200 0
+[2025-07-01 13:54:45,556] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 13:54:45,563] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:54:45,564] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 13:54:45,564] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:56:34,150] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 13:56:34,151] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 13:56:34,162] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:56:34,163] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:57:19,447] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 13:57:19,448] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 13:57:19,456] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:57:19,456] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:58:06,513] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 13:58:06,514] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 13:58:06,519] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:58:06,520] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:58:22,070] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 13:58:22,072] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 13:58:22,081] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:58:22,081] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:58:37,731] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 13:58:37,731] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 13:58:37,737] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:58:37,737] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:58:52,920] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 13:58:52,920] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 13:58:52,926] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:58:52,927] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:59:38,061] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-07-01 13:59:39,616] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-01 13:59:39,620] INFO django.server "OPTIONS /api/me/ HTTP/1.1" 200 0
+[2025-07-01 13:59:39,773] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-01 13:59:39,926] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 13:59:39,927] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 13:59:40,030] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:02:29,914] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 14:02:29,915] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 14:02:29,949] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:03:36,527] INFO django.server "OPTIONS /api/get_me/ HTTP/1.1" 200 0
+[2025-07-01 14:03:36,533] WARNING django.request Not Found: /api/get_me/
+[2025-07-01 14:03:36,534] WARNING django.server "GET /api/get_me/ HTTP/1.1" 404 19797
+[2025-07-01 14:04:44,372] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 14:04:44,372] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 14:04:44,511] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:05:21,072] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 14:05:21,072] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 14:05:21,209] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:06:10,297] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 14:06:10,297] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 14:06:10,330] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:06:48,799] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 14:06:48,800] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 14:06:48,837] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:07:08,436] WARNING django.request Not Found: /api/get_me/
+[2025-07-01 14:07:08,449] WARNING django.server "GET /api/get_me/ HTTP/1.1" 404 19797
+[2025-07-01 14:07:08,450] WARNING django.request Not Found: /api/meu-usuario/
+[2025-07-01 14:07:08,451] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 404 19812
+[2025-07-01 14:07:08,479] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:11:43,962] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-01 14:11:44,798] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 14:11:45,921] INFO django.server - Broken pipe from ('127.0.0.1', 53192)
+[2025-07-01 14:12:15,198] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-01 14:12:16,027] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 14:12:43,300] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-01 14:12:44,022] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 14:13:52,359] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-01 14:14:05,868] WARNING django.request Not Found: /api/get_me/
+[2025-07-01 14:14:05,868] WARNING django.server "GET /api/get_me/ HTTP/1.1" 404 19793
+[2025-07-01 14:14:05,932] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:14:05,963] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:16:58,008] WARNING django.request Not Found: /api/get_me/
+[2025-07-01 14:16:58,010] WARNING django.server "GET /api/get_me/ HTTP/1.1" 404 19793
+[2025-07-01 14:16:58,054] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:16:58,083] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:21:46,449] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:21:46,481] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:21:56,074] WARNING django.request Not Found: /api/get_me/
+[2025-07-01 14:21:56,075] WARNING django.server "GET /api/get_me/ HTTP/1.1" 404 19793
+[2025-07-01 14:21:56,116] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:22:07,507] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:22:07,524] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:22:38,756] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:22:38,770] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:22:38,823] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:23:02,670] WARNING django.request Not Found: /api/get_me/
+[2025-07-01 14:23:02,670] WARNING django.server "GET /api/get_me/ HTTP/1.1" 404 19793
+[2025-07-01 14:23:02,678] WARNING django.request Not Found: /api/get_me/
+[2025-07-01 14:23:02,679] WARNING django.server "GET /api/get_me/ HTTP/1.1" 404 19793
+[2025-07-01 14:23:02,706] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:23:18,205] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:23:18,221] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:23:18,279] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:23:41,562] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:23:41,573] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:23:41,630] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:27:03,293] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:27:03,352] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:27:03,390] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:27:14,813] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:27:14,827] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:27:14,884] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:28:45,394] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:28:45,407] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:28:45,463] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:31:52,869] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:32:18,399] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:33:00,740] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:33:00,758] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:33:00,815] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:33:34,124] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:33:34,139] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:33:34,194] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:33:44,193] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:33:44,205] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:33:44,258] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:34:01,441] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:34:01,456] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:34:01,506] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:34:55,538] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:34:55,552] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:34:55,603] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:35:08,106] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:35:08,120] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:35:08,275] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:35:22,835] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:35:22,848] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:35:22,900] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:35:31,077] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:35:31,091] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:35:31,141] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:39:45,481] INFO django.server "OPTIONS /api/preenchimentos/ HTTP/1.1" 200 0
+[2025-07-01 14:39:45,528] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 14:39:45,542] INFO django.server "GET /api/preenchimentos/ HTTP/1.1" 200 52
+[2025-07-01 14:39:45,552] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:40:00,721] INFO django.server "OPTIONS /api/usuarios/ HTTP/1.1" 200 0
+[2025-07-01 14:40:00,783] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 14:40:00,793] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:40:00,802] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 684
+[2025-07-01 14:40:14,934] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 14:40:14,934] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 14:40:14,942] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 14:40:14,947] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:40:14,996] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:40:32,424] INFO django.server "OPTIONS /api/logs/ HTTP/1.1" 200 0
+[2025-07-01 14:40:32,425] INFO django.server "OPTIONS /api/configuracao_notificacao/ HTTP/1.1" 200 0
+[2025-07-01 14:40:32,490] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 14:40:32,504] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-01 14:40:32,505] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-01 14:40:32,516] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:40:41,283] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 14:40:41,284] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 14:40:41,286] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 14:40:41,292] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:40:41,346] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:40:46,408] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-01 14:40:46,409] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-01 14:40:46,416] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 14:40:46,430] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:55:47,435] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:55:47,446] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:55:47,505] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:06,860] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:06,871] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:06,934] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:07,193] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:07,208] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:07,272] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:07,571] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:07,583] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:07,644] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:07,989] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:08,004] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:08,072] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:08,397] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:08,412] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:08,603] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:08,779] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:08,797] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:08,862] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:09,244] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:09,267] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:09,320] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:09,605] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:09,615] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:09,661] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:09,980] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:10,000] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:10,056] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:10,383] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:10,395] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:10,451] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:10,806] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:10,816] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:10,867] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:11,177] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:11,188] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:11,375] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:11,583] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:11,600] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:11,669] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:12,006] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:12,021] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:12,087] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:13,888] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 14:56:13,896] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:14,039] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 14:56:16,302] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-01 14:56:16,317] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 14:56:16,319] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-01 14:56:16,329] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 15:02:30,318] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:02:30,319] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:02:30,321] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:02:30,322] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:02:30,324] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:02:30,324] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:02:30,326] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:02:30,326] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:26:07,518] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:26:07,520] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:26:07,521] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:26:07,521] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:26:07,522] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:26:07,523] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:26:07,527] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:26:07,528] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:40:52,242] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:40:52,244] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:40:52,245] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:40:52,246] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:40:52,247] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:40:52,248] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:40:52,248] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:40:52,249] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:41:25,095] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:41:25,096] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:41:25,097] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:41:25,099] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:41:25,100] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:41:25,100] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:41:25,100] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:41:25,101] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:41:51,544] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:41:51,545] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:41:51,545] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:41:51,546] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:41:51,547] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:41:51,547] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:41:51,547] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:41:51,547] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:42:13,923] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:42:13,924] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:42:13,925] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:42:13,926] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:42:13,927] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:42:13,927] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:42:13,927] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:42:13,927] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:42:42,977] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:42:42,978] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:42:42,979] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:42:42,980] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:42:42,981] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:42:42,981] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:42:42,981] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:42:42,981] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:43:11,608] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:43:11,609] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:43:11,610] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:43:11,611] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:43:11,611] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:43:11,611] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:43:11,612] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:43:11,612] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:51:47,837] INFO django.server "OPTIONS /api/setores/ HTTP/1.1" 200 0
+[2025-07-01 15:51:47,837] INFO django.server "OPTIONS /api/meu-usuario/ HTTP/1.1" 200 0
+[2025-07-01 15:51:47,839] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:51:47,840] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:51:47,841] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:51:47,842] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:51:47,844] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:51:47,844] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 15:51:47,845] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:51:47,845] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:51:59,224] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 15:51:59,225] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 15:51:59,226] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 15:51:59,228] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 15:51:59,229] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 15:51:59,229] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 15:51:59,229] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 15:51:59,229] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 16:02:30,860] WARNING django.request Unauthorized: /api/configuracao_notificacao/
+[2025-07-01 16:02:30,862] WARNING django.request Unauthorized: /api/logs/
+[2025-07-01 16:02:30,862] WARNING django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 401 172
+[2025-07-01 16:02:30,864] WARNING django.request Unauthorized: /api/setores/
+[2025-07-01 16:02:30,864] WARNING django.server "GET /api/logs/ HTTP/1.1" 401 172
+[2025-07-01 16:02:30,866] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 16:02:30,866] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-01 16:02:30,867] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 16:06:17,839] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 16:06:17,840] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 16:06:17,840] INFO django.server "OPTIONS /api/indicadores/ HTTP/1.1" 200 0
+[2025-07-01 16:06:17,843] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 16:06:17,845] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 16:06:17,845] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 16:06:17,846] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 16:06:23,533] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 16:06:23,535] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 16:06:23,536] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 16:06:23,537] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 16:06:23,539] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 16:06:23,540] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 16:06:43,831] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-07-01 16:06:46,330] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-01 16:06:46,335] INFO django.server "OPTIONS /api/me/ HTTP/1.1" 200 0
+[2025-07-01 16:06:46,396] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-01 16:06:49,096] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 16:06:49,139] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:06:49,233] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:06:55,562] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 16:06:55,576] INFO django.server "GET /api/preenchimentos/ HTTP/1.1" 200 52
+[2025-07-01 16:06:55,595] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:06:59,075] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 16:06:59,086] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 684
+[2025-07-01 16:06:59,087] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:07:00,433] INFO django.server "OPTIONS /api/indicadores/pendentes/ HTTP/1.1" 200 0
+[2025-07-01 16:07:00,501] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-01 16:07:00,503] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-01 16:07:00,509] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 16:07:00,514] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:07:00,683] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:07:01,566] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-01 16:07:01,571] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-01 16:07:01,584] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-01 16:07:01,598] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:07:03,340] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 16:07:03,359] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:07:03,442] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:11:07,909] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 16:11:07,941] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:11:08,024] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:31:47,716] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 16:31:47,733] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:31:47,810] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:41:08,010] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 16:41:08,025] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:41:08,089] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:48:59,288] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 16:48:59,312] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 16:48:59,386] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 17:02:31,443] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 17:02:31,457] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 17:02:31,658] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 17:05:40,861] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-01 17:05:40,872] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 17:05:40,925] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-01 17:11:07,561] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:11:07,562] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:11:07,563] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:11:07,564] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:11:07,565] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:11:07,566] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:23:25,582] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:23:25,584] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:23:25,585] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:23:25,585] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:23:25,587] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:23:25,587] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:23:38,037] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:23:38,039] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:23:38,039] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:23:38,040] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:23:38,042] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:23:38,043] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:23:42,762] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:23:42,763] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:23:42,764] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:23:42,764] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:23:42,766] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:23:42,766] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:24:13,564] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:24:13,565] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:24:13,566] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:24:13,566] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:24:13,568] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:24:13,569] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:31:40,375] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:31:40,379] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:31:40,379] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:31:40,379] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:31:40,381] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:31:40,382] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:31:41,359] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:31:41,360] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:31:41,362] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:31:41,362] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:31:41,364] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:31:41,365] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:32:09,479] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:32:09,481] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:32:09,482] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:32:09,482] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:32:09,484] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:32:09,484] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:32:35,784] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:32:35,786] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:32:35,786] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:32:35,787] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:32:35,789] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:32:35,790] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:32:36,847] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:32:36,848] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:32:36,849] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:32:36,849] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:32:36,851] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:32:36,851] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:33:37,426] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:33:37,427] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:33:37,427] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:33:37,427] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:33:37,429] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:33:37,430] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:33:38,110] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-01 17:33:38,112] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:33:38,112] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-01 17:33:38,113] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-01 17:33:38,115] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-01 17:33:38,115] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 07:54:15,666] INFO django.server "OPTIONS /api/meu-usuario/ HTTP/1.1" 200 0
+[2025-07-02 07:54:15,668] INFO django.server "OPTIONS /api/setores/ HTTP/1.1" 200 0
+[2025-07-02 07:54:15,670] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 07:54:15,670] INFO django.server "OPTIONS /api/meu-usuario/ HTTP/1.1" 200 0
+[2025-07-02 07:54:15,671] INFO django.server "OPTIONS /api/indicadores/pendentes/ HTTP/1.1" 200 0
+[2025-07-02 07:54:15,672] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 07:54:15,673] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 07:54:15,675] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-02 07:54:15,676] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 07:54:15,676] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 07:54:15,677] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 07:54:15,677] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-02 08:07:09,597] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-07-02 08:07:10,711] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 08:07:10,715] INFO django.server "OPTIONS /api/me/ HTTP/1.1" 200 0
+[2025-07-02 08:07:10,758] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-02 08:07:10,903] INFO django.server "OPTIONS /api/indicadores/ HTTP/1.1" 200 0
+[2025-07-02 08:07:10,958] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 08:07:10,971] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 08:07:11,026] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 08:12:52,335] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 08:12:52,347] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 08:12:52,397] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 08:33:33,739] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 08:33:33,751] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 08:33:33,804] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 08:42:51,628] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 08:42:51,636] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 08:42:51,697] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 09:12:51,892] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-02 09:12:51,893] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-02 09:12:51,895] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 09:12:51,896] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 09:12:51,898] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 09:12:51,898] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 09:16:33,148] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-02 09:16:33,150] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 09:16:33,151] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-02 09:16:33,152] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 09:16:33,154] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 09:16:33,154] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 09:27:09,462] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 09:27:09,506] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-02 09:27:09,849] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 09:27:09,857] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-02 09:27:15,750] INFO django.server "OPTIONS /api/preenchimentos/meus/ HTTP/1.1" 200 0
+[2025-07-02 09:27:15,783] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 09:27:15,795] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-02 09:27:15,796] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-02 09:27:34,756] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-02 09:27:34,850] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 09:27:37,312] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 09:27:37,314] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-02 09:27:37,315] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-02 09:27:40,490] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-02 09:27:40,491] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-02 09:27:40,491] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 09:27:41,278] INFO django.server "OPTIONS /api/preenchimentos/ HTTP/1.1" 200 0
+[2025-07-02 09:27:41,324] INFO django.server "GET /api/preenchimentos/ HTTP/1.1" 200 52
+[2025-07-02 09:27:43,617] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 09:27:43,635] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-02 09:27:47,756] INFO django.server "OPTIONS /api/notificacoes/ HTTP/1.1" 200 0
+[2025-07-02 09:27:47,799] INFO django.server "GET /api/notificacoes/ HTTP/1.1" 200 52
+[2025-07-02 10:13:58,634] INFO django.server "OPTIONS /api/indicadores/ HTTP/1.1" 200 0
+[2025-07-02 10:13:58,640] INFO django.server "OPTIONS /api/meu-usuario/ HTTP/1.1" 200 0
+[2025-07-02 10:13:58,646] INFO django.server "OPTIONS /api/meu-usuario/ HTTP/1.1" 200 0
+[2025-07-02 10:13:58,695] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:13:58,709] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-02 10:13:58,761] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-02 10:14:00,910] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:14:00,933] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-02 10:14:30,877] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-07-02 10:14:32,172] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 10:14:32,175] INFO django.server "OPTIONS /api/me/ HTTP/1.1" 200 0
+[2025-07-02 10:14:32,212] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-02 10:14:32,388] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:14:32,405] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:14:32,570] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:14:59,288] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:14:59,342] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:14:59,385] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:20:56,139] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:20:56,149] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:20:56,215] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:22:06,335] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:22:06,346] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:22:06,398] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:22:22,113] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:22:22,170] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:22:22,206] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:23:41,857] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:23:41,870] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:23:41,925] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:33:34,577] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:33:34,591] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:33:34,650] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:33:50,873] INFO django.server "OPTIONS /api/setores/ HTTP/1.1" 200 0
+[2025-07-02 10:33:50,921] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:33:50,925] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 10:33:50,938] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:33:50,991] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:42:52,221] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:42:52,235] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:42:52,307] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:42:52,323] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 10:48:07,504] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:48:07,504] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 10:48:07,520] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:48:07,572] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:50:46,325] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 10:50:46,328] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 10:50:46,338] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 10:50:46,507] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:12:51,856] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:12:51,858] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 11:12:51,874] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:12:52,048] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:13:52,587] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:13:52,600] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 11:13:52,611] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:13:52,660] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:13:59,370] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:13:59,371] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 11:13:59,400] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:13:59,463] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:13:59,978] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:13:59,984] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 11:13:59,996] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:14:00,057] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:25:40,867] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 11:25:40,868] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-02 11:25:40,869] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 11:25:40,870] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:25:40,871] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-02 11:25:40,871] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:25:40,873] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:25:40,873] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:25:49,716] INFO django.server "OPTIONS /api/indicadores/pendentes/ HTTP/1.1" 200 0
+[2025-07-02 11:25:49,718] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:25:49,719] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 11:25:49,721] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-02 11:25:49,721] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:25:49,722] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 11:25:49,722] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-02 11:25:49,726] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:25:49,726] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:33:35,130] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:33:35,131] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:33:35,132] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 11:33:35,133] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:33:35,134] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-02 11:33:35,135] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-02 11:33:35,135] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 11:33:35,135] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:39:00,369] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:39:00,371] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 11:39:00,372] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-02 11:39:00,373] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:39:00,373] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 11:39:00,373] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-02 11:39:00,375] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:39:00,375] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:39:54,126] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:39:54,127] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 11:39:54,128] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-02 11:39:54,129] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:39:54,129] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-02 11:39:54,130] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 11:39:54,131] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:39:54,131] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:40:48,000] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:40:48,001] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 11:40:48,002] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-02 11:40:48,002] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 11:40:48,003] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:40:48,003] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 172
+[2025-07-02 11:40:48,006] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 11:40:48,006] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 11:41:54,280] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 11:41:54,326] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-02 11:41:54,523] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:41:54,531] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 11:41:54,539] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:41:54,599] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:41:58,664] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-02 11:41:58,665] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-02 11:41:58,669] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:41:58,673] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:41:58,732] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:42:51,739] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-02 11:42:51,740] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:42:51,740] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-02 11:42:51,749] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:42:51,802] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:43:21,024] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-02 11:43:21,025] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 11:43:21,026] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-02 11:43:21,034] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:43:21,202] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:44:43,439] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:44:51,240] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:45:22,777] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:46:01,538] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:52:37,263] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:54:43,130] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:57:01,377] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:57:04,388] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:57:20,412] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:57:28,451] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:59:33,026] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 11:59:34,541] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:59:48,423] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 11:59:53,347] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:00:14,388] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 12:00:14,431] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-02 12:00:14,642] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 12:00:14,645] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 12:00:14,655] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:00:14,784] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:00:19,111] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:04:23,846] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:04:24,088] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-02 12:04:25,051] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:04:26,241] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:04:26,699] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:04:27,148] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:05:03,399] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:05:03,730] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:05:04,506] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:05:05,998] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:06:27,120] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:06:27,958] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:06:29,845] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:06:35,778] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-02 12:06:36,563] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:06:37,604] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:06:38,086] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:06:38,888] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:06:44,019] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:06:44,199] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-02 12:06:45,059] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:06:46,133] INFO django.server - Broken pipe from ('127.0.0.1', 54607)
+[2025-07-02 12:06:46,632] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:06:47,466] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:09:43,651] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:09:43,774] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:09:44,626] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:09:46,187] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:10:07,776] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:10:08,665] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:10:09,948] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:10:44,426] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:10:45,228] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:10:46,465] INFO django.server - Broken pipe from ('127.0.0.1', 54882)
+[2025-07-02 12:10:46,952] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:10:47,671] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:12:00,072] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:12:00,176] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\urls.py changed, reloading.
+[2025-07-02 12:12:01,045] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:12:02,399] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:12:02,720] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:12:03,164] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:12:03,613] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:12:03,956] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:12:04,462] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:13:11,099] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\urls.py changed, reloading.
+[2025-07-02 12:13:12,020] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:13:13,247] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:13:13,559] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:13:13,985] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:13:14,540] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:13:41,244] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:13:42,922] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:13:57,625] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 12:16:38,524] INFO django.server "GET /indicadores/ HTTP/1.1" 200 12907
+[2025-07-02 12:16:38,575] WARNING django.request Not Found: /indicadores/js/comum.js
+[2025-07-02 12:16:38,579] WARNING django.request Not Found: /indicadores/style.css
+[2025-07-02 12:16:38,580] WARNING django.server "GET /indicadores/js/comum.js HTTP/1.1" 404 3404
+[2025-07-02 12:16:38,580] WARNING django.server "GET /indicadores/style.css HTTP/1.1" 404 3398
+[2025-07-02 12:16:38,584] WARNING django.request Not Found: /indicadores/js/indicadores.js
+[2025-07-02 12:16:38,585] WARNING django.server "GET /indicadores/js/indicadores.js HTTP/1.1" 404 3422
+[2025-07-02 12:16:38,622] WARNING django.request Not Found: /indicadores/style.css
+[2025-07-02 12:16:38,622] WARNING django.server "GET /indicadores/style.css HTTP/1.1" 404 3398
+[2025-07-02 12:16:49,612] WARNING django.request Not Found: /indicadores/style.css
+[2025-07-02 12:16:49,612] WARNING django.server "GET /indicadores/style.css HTTP/1.1" 404 3398
+[2025-07-02 12:16:49,628] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 12:16:49,628] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3479
+[2025-07-02 12:19:08,837] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:19:09,643] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:20:13,107] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:20:13,810] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 12:21:00,782] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 12:21:01,422] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 13:40:51,359] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 13:42:49,482] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\urls.py changed, reloading.
+[2025-07-02 13:42:50,319] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 13:43:41,469] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 13:43:42,154] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 13:54:12,311] WARNING django.request Method Not Allowed: /api/token/
+[2025-07-02 13:54:12,312] WARNING django.server "GET /api/token/ HTTP/1.1" 405 7645
+[2025-07-02 13:54:12,348] INFO django.server "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+[2025-07-02 13:54:12,362] INFO django.server "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+[2025-07-02 13:54:12,364] INFO django.server "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+[2025-07-02 13:54:12,365] INFO django.server "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+[2025-07-02 13:54:12,367] INFO django.server "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+[2025-07-02 13:54:12,368] INFO django.server "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+[2025-07-02 13:54:12,369] INFO django.server "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+[2025-07-02 13:54:12,369] INFO django.server "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+[2025-07-02 13:54:12,370] INFO django.server "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+[2025-07-02 13:54:12,370] INFO django.server "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+[2025-07-02 13:54:12,371] INFO django.server "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+[2025-07-02 13:54:12,382] INFO django.server "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+[2025-07-02 13:54:48,638] WARNING django.server "GET /static/login.html HTTP/1.1" 404 1844
+[2025-07-02 13:57:02,121] WARNING django.request Not Found: /login/
+[2025-07-02 13:57:02,122] WARNING django.server "GET /login/ HTTP/1.1" 404 3028
+[2025-07-02 14:03:04,903] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:17:12,633] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-07-02 14:17:13,352] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:17:38,512] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-07-02 14:17:39,241] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:18:35,377] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-02 14:18:36,106] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:22:08,991] WARNING django.request Not Found: /front-app/indicadores.html
+[2025-07-02 14:22:08,991] WARNING django.server "GET /front-app/indicadores.html HTTP/1.1" 404 3237
+[2025-07-02 14:22:28,170] INFO django.server "OPTIONS /api/meu-usuario/ HTTP/1.1" 200 0
+[2025-07-02 14:22:28,178] INFO django.server "OPTIONS /api/setores/ HTTP/1.1" 200 0
+[2025-07-02 14:22:28,179] INFO django.server "OPTIONS /api/indicadores/ HTTP/1.1" 200 0
+[2025-07-02 14:22:28,192] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 14:22:28,193] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-02 14:22:28,194] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 14:22:28,195] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 14:22:28,195] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-02 14:22:28,195] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 14:22:51,810] INFO django.server "OPTIONS /api/token/ HTTP/1.1" 200 0
+[2025-07-02 14:22:53,503] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 14:22:53,507] INFO django.server "OPTIONS /api/me/ HTTP/1.1" 200 0
+[2025-07-02 14:22:53,563] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-02 14:22:53,786] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:22:53,786] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:22:53,810] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:22:53,868] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:22:59,193] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:22:59,193] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:22:59,203] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:24:24,301] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-02 14:24:25,058] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:24:26,401] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:24:26,404] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:24:26,415] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:25:08,773] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\urls.py changed, reloading.
+[2025-07-02 14:25:09,517] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:25:10,897] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:25:10,899] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:25:10,914] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:26:00,546] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\urls.py changed, reloading.
+[2025-07-02 14:26:01,228] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:27:15,021] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\urls.py changed, reloading.
+[2025-07-02 14:27:15,797] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:27:17,145] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:27:17,156] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:27:17,255] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:27:35,305] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 13102
+[2025-07-02 14:27:35,329] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 200 5630
+[2025-07-02 14:27:35,329] INFO django.server "GET /front-app/style.css HTTP/1.1" 200 2575
+[2025-07-02 14:27:35,330] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 5448
+[2025-07-02 14:27:35,487] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 14:27:35,488] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-02 14:27:35,488] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 14:27:35,488] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-02 14:27:45,926] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 14:27:45,926] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 14:30:52,502] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-02 14:30:53,271] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:31:25,556] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-07-02 14:31:26,216] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:36:25,611] INFO django.server "GET /front-app/index.html HTTP/1.1" 200 16518
+[2025-07-02 14:36:25,645] INFO django.server "GET /front-app/js/index.js HTTP/1.1" 200 31565
+[2025-07-02 14:36:25,834] INFO django.server "GET /front-app/login.html HTTP/1.1" 200 1506
+[2025-07-02 14:36:25,865] INFO django.server "GET /front-app/js/login.js HTTP/1.1" 200 1883
+[2025-07-02 14:36:33,969] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 14:36:34,122] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-02 14:36:34,323] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:36:34,332] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:36:34,349] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:36:34,410] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:36:50,072] INFO django.server "GET /front-app/relatorios.html HTTP/1.1" 200 18065
+[2025-07-02 14:36:50,101] INFO django.server "GET /front-app/js/relatorio.js HTTP/1.1" 200 5253
+[2025-07-02 14:36:50,297] INFO django.server "GET /api/preenchimentos/ HTTP/1.1" 200 52
+[2025-07-02 14:36:50,297] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:36:50,308] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:36:57,967] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:36:57,972] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:36:57,980] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:36:58,031] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:37:07,072] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-02 14:37:07,778] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 14:37:09,107] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 5867
+[2025-07-02 14:37:09,329] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:37:09,330] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:37:09,449] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:37:12,857] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:37:12,857] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:37:12,872] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:37:12,924] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:37:44,583] INFO django.server "GET /front-app/index.html HTTP/1.1" 200 15159
+[2025-07-02 14:37:44,760] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:37:44,762] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:37:44,775] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:37:44,944] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:38:09,541] INFO django.server "GET /api/notificacoes/ HTTP/1.1" 200 52
+[2025-07-02 14:38:56,631] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 14:38:56,887] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:38:56,893] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:38:56,893] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:39:36,774] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 12039
+[2025-07-02 14:39:36,791] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 14:39:36,936] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:39:36,937] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:39:36,941] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:39:38,539] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:39:38,701] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:39:38,703] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:39:38,705] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:39:41,859] INFO django.server "GET /front-app/index.html HTTP/1.1" 304 0
+[2025-07-02 14:39:41,993] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:39:41,993] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:39:42,002] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:39:42,056] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:39:45,344] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:39:45,517] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:39:45,517] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:39:45,529] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:39:51,458] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 12251
+[2025-07-02 14:39:51,599] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:39:51,603] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:39:51,608] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:39:56,122] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:39:56,241] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:39:56,247] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:39:56,369] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:40:09,262] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 13102
+[2025-07-02 14:40:09,277] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 14:40:09,399] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:40:09,404] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:40:09,407] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:41:17,505] INFO django.server "GET /api/notificacoes/ HTTP/1.1" 200 52
+[2025-07-02 14:42:11,291] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 13103
+[2025-07-02 14:42:11,314] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 14:42:11,453] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:42:11,460] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:42:11,598] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:42:13,999] INFO django.server "GET /front-app/index.html HTTP/1.1" 304 0
+[2025-07-02 14:42:14,246] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:42:14,251] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:42:14,263] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:42:14,316] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:42:18,384] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:42:18,606] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:42:18,608] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:42:18,619] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:43:22,366] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 13233
+[2025-07-02 14:43:22,383] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 14:43:22,554] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:43:22,559] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:43:22,562] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:43:24,100] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:43:24,231] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:43:24,235] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:43:24,241] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:43:25,163] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:43:25,291] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:43:25,295] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:43:25,299] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:00,449] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 13257
+[2025-07-02 14:44:00,591] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:44:00,592] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:44:00,599] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:13,703] INFO django.server "GET /front-app/index.html HTTP/1.1" 304 0
+[2025-07-02 14:44:13,904] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:44:13,907] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:44:13,916] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:13,966] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:17,079] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:44:17,097] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 14:44:17,263] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:44:17,264] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:44:17,274] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:18,704] INFO django.server "GET /front-app/equipe.html HTTP/1.1" 200 15199
+[2025-07-02 14:44:18,725] INFO django.server "GET /front-app/js/equipe.js HTTP/1.1" 200 7585
+[2025-07-02 14:44:18,849] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:44:18,862] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:18,985] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 684
+[2025-07-02 14:44:20,568] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:44:20,706] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:44:20,706] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:44:20,713] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:21,890] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:44:21,898] INFO django.server "GET /api/preenchimentos/ HTTP/1.1" 200 52
+[2025-07-02 14:44:21,904] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:44:25,206] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:44:25,368] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:44:25,370] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:44:25,374] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:49:56,725] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:49:56,774] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 5914
+[2025-07-02 14:49:56,946] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:49:56,954] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:50:13,157] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 14:50:13,158] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 14:51:21,404] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:51:21,427] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 5867
+[2025-07-02 14:51:21,454] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 14:51:21,454] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 14:51:21,690] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:51:21,691] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:51:21,695] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:53:11,373] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:53:11,417] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 5988
+[2025-07-02 14:53:11,430] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 14:53:11,430] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 14:53:11,606] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:53:11,618] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:53:11,640] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:57:13,142] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 14:57:13,187] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 14:57:13,188] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 14:57:13,192] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 6051
+[2025-07-02 14:57:13,400] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 14:57:13,401] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 14:57:13,410] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 14:58:08,385] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 14:58:08,385] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 15:02:03,918] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 15:02:03,970] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 15:02:03,970] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 15:02:03,974] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 6014
+[2025-07-02 15:02:04,182] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 15:02:04,184] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 15:02:04,189] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 15:04:51,628] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 15:04:51,667] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 6063
+[2025-07-02 15:04:51,826] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 15:04:51,829] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 15:04:51,837] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 15:05:43,844] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 15:05:43,890] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 6064
+[2025-07-02 15:05:44,000] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 15:05:44,003] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 15:05:44,004] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 15:06:11,748] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 15:06:11,782] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 6069
+[2025-07-02 15:06:11,881] INFO django.server "GET /api/setores/ HTTP/1.1" 200 109
+[2025-07-02 15:06:11,883] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 15:06:11,891] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 16:59:44,222] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 16:59:47,653] INFO django.server "GET /front-app/index.html HTTP/1.1" 200 15159
+[2025-07-02 16:59:47,678] INFO django.server "GET /front-app/js/index.js HTTP/1.1" 304 0
+[2025-07-02 16:59:47,678] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 304 0
+[2025-07-02 16:59:47,963] WARNING django.request Unauthorized: /api/setores/
+[2025-07-02 16:59:47,964] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-02 16:59:47,964] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 16:59:47,965] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-02 16:59:47,965] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-02 16:59:47,965] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 16:59:47,968] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-02 16:59:47,969] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-02 17:00:05,868] WARNING django.request Bad Request: /api/token/
+[2025-07-02 17:00:05,868] WARNING django.server "POST /api/token/ HTTP/1.1" 400 51
+[2025-07-02 17:00:12,944] WARNING django.request Bad Request: /api/token/
+[2025-07-02 17:00:12,945] WARNING django.server "POST /api/token/ HTTP/1.1" 400 51
+[2025-07-02 17:00:39,558] INFO django.server "GET /front-app/cadastro-master.html HTTP/1.1" 200 6162
+[2025-07-02 17:00:39,601] INFO django.server "GET /front-app/js/cadastro-master.js HTTP/1.1" 200 4395
+[2025-07-02 17:00:55,111] INFO django.server "POST /api/usuarios/ HTTP/1.1" 201 313
+[2025-07-02 17:01:05,985] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-02 17:01:06,024] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-02 17:01:06,035] INFO django.server "GET /front-app/index.html HTTP/1.1" 304 0
+[2025-07-02 17:01:06,208] INFO django.server "GET /api/setores/ HTTP/1.1" 200 52
+[2025-07-02 17:01:06,232] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 17:01:06,233] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:01:06,309] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:01:11,392] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 17:01:11,414] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 17:01:11,552] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 17:01:11,552] INFO django.server "GET /api/setores/ HTTP/1.1" 200 52
+[2025-07-02 17:01:11,558] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:01:15,690] INFO django.server "GET /api/setores/ HTTP/1.1" 200 52
+[2025-07-02 17:01:15,698] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 365
+[2025-07-02 17:01:15,703] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:01:25,066] INFO django.server "GET /front-app/configuracoes.html HTTP/1.1" 200 17460
+[2025-07-02 17:01:25,107] INFO django.server "GET /front-app/js/configuracoes.js HTTP/1.1" 200 11125
+[2025-07-02 17:01:25,262] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-02 17:01:25,266] INFO django.server "GET /api/setores/ HTTP/1.1" 200 52
+[2025-07-02 17:01:25,267] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-02 17:01:25,278] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:02:16,226] INFO django.server "POST /api/setores/ HTTP/1.1" 201 29
+[2025-07-02 17:02:16,268] INFO django.server "GET /api/setores/ HTTP/1.1" 200 81
+[2025-07-02 17:02:23,186] INFO django.server "POST /api/setores/ HTTP/1.1" 201 25
+[2025-07-02 17:02:23,226] INFO django.server "GET /api/setores/ HTTP/1.1" 200 107
+[2025-07-02 17:02:32,979] INFO django.server "POST /api/setores/ HTTP/1.1" 201 28
+[2025-07-02 17:02:33,022] INFO django.server "GET /api/setores/ HTTP/1.1" 200 136
+[2025-07-02 17:02:44,602] INFO django.server "POST /api/setores/ HTTP/1.1" 201 27
+[2025-07-02 17:02:44,643] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:02:47,846] INFO django.server "GET /front-app/js/equipe.js HTTP/1.1" 304 0
+[2025-07-02 17:02:48,059] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:02:48,063] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:02:48,066] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 365
+[2025-07-02 17:03:48,314] INFO django.server "POST /api/usuarios/ HTTP/1.1" 201 318
+[2025-07-02 17:03:50,216] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 684
+[2025-07-02 17:03:53,694] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 52
+[2025-07-02 17:03:53,695] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:03:53,703] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:04:16,309] INFO django.server "POST /api/indicadores/ HTTP/1.1" 201 178
+[2025-07-02 17:04:16,356] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 230
+[2025-07-02 17:04:22,797] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 17:04:22,922] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:04:22,928] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 230
+[2025-07-02 17:04:22,934] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:04:27,226] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 17:04:27,226] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 17:07:36,482] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 17:07:36,541] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 17:07:36,542] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 17:07:36,747] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:07:36,748] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:07:36,755] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 230
+[2025-07-02 17:08:16,021] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 17:08:16,253] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:08:16,256] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 230
+[2025-07-02 17:08:16,256] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:08:21,694] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:08:21,711] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 230
+[2025-07-02 17:08:21,721] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:08:21,769] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:08:24,196] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:08:24,202] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 230
+[2025-07-02 17:08:24,206] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:08:27,054] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 17:08:27,054] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 17:15:38,357] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\models.py changed, reloading.
+[2025-07-02 17:15:39,134] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 17:15:51,919] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 17:15:51,983] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 17:15:51,985] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 17:15:51,985] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 6119
+[2025-07-02 17:15:52,232] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:15:52,249] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:15:52,456] ERROR django.request Internal Server Error: /api/indicadores/
+Traceback (most recent call last):
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\psycopg\cursor.py", line 97, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedColumn: column api_indicador.status does not exist
+LINE 1: ...dicador"."setor_id", "api_indicador"."tipo_meta", "api_indic...
+                                                             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\mixins.py", line 40, in list
+    page = self.paginate_queryset(queryset)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\generics.py", line 175, in paginate_queryset
+    return self.paginator.paginate_queryset(queryset, self.request, view=self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\pagination.py", line 222, in paginate_queryset
+    return list(self.page)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\paginator.py", line 191, in __len__
+    return len(self.object_list)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\psycopg\cursor.py", line 97, in execute
+    raise ex.with_traceback(None)
+django.db.utils.ProgrammingError: column api_indicador.status does not exist
+LINE 1: ...dicador"."setor_id", "api_indicador"."tipo_meta", "api_indic...
+                                                             ^
+[2025-07-02 17:15:52,462] ERROR django.server "GET /api/indicadores/ HTTP/1.1" 500 179768
+[2025-07-02 17:16:20,183] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 17:16:20,224] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 17:16:20,224] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 17:16:20,231] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 6069
+[2025-07-02 17:16:20,444] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-02 17:16:20,447] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:16:20,492] ERROR django.request Internal Server Error: /api/indicadores/
+Traceback (most recent call last):
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\psycopg\cursor.py", line 97, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.UndefinedColumn: column api_indicador.status does not exist
+LINE 1: ...dicador"."setor_id", "api_indicador"."tipo_meta", "api_indic...
+                                                             ^
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\mixins.py", line 40, in list
+    page = self.paginate_queryset(queryset)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\generics.py", line 175, in paginate_queryset
+    return self.paginator.paginate_queryset(queryset, self.request, view=self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\rest_framework\pagination.py", line 222, in paginate_queryset
+    return list(self.page)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\core\paginator.py", line 191, in __len__
+    return len(self.object_list)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\enzo\Documents\App Indicadores\venv\Lib\site-packages\psycopg\cursor.py", line 97, in execute
+    raise ex.with_traceback(None)
+django.db.utils.ProgrammingError: column api_indicador.status does not exist
+LINE 1: ...dicador"."setor_id", "api_indicador"."tipo_meta", "api_indic...
+                                                             ^
+[2025-07-02 17:16:20,497] ERROR django.server "GET /api/indicadores/ HTTP/1.1" 500 179768
+[2025-07-02 17:17:40,683] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 17:20:03,472] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-02 17:20:07,614] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-02 17:20:07,640] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-02 17:20:07,657] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-02 17:20:07,657] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-02 17:20:07,936] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-02 17:20:08,027] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 250
+[2025-07-02 17:20:08,033] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
