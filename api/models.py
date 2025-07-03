@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
-
+from django.contrib.auth.models import UserManager
 
 # 🔹 Modelo de Setor
 class Setor(models.Model):
@@ -20,11 +20,12 @@ class Usuario(AbstractUser):
 
     email = models.EmailField(unique=True)
     perfil = models.CharField(max_length=10, choices=PERFIS)
-    
-    setores = models.ManyToManyField(Setor, blank=True)  # Agora pode ter acesso a vários setores
+    setores = models.ManyToManyField('Setor', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    objects = UserManager()  # ✅ ESSENCIAL para funcionar com admin e superuser
 
     def __str__(self):
         return f"{self.first_name} ({self.get_perfil_display()})"
@@ -48,6 +49,7 @@ class Indicador(models.Model):
     setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
     tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')  # ✅ ADICIONADO
+    valor_meta = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

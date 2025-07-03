@@ -19,15 +19,19 @@ async function carregarSetores() {
 
     const selectSetor = document.getElementById('setorMetrica');
     const filtroSetor = document.getElementById('filtro-setor');
+    const editSelectSetor = document.getElementById('edit-setor');
 
     selectSetor.innerHTML = '<option value="">Selecione</option>';
     filtroSetor.innerHTML = '<option value="todos">Todos</option>';
+    editSelectSetor.innerHTML = '<option value="">Selecione</option>';
 
     setores.forEach(setor => {
       const opt1 = new Option(setor.nome, setor.id);
       selectSetor.appendChild(opt1);
       const opt2 = new Option(setor.nome, setor.id);
       filtroSetor.appendChild(opt2);
+      const opt3 = new Option(setor.nome, setor.id);
+      editSelectSetor.appendChild(opt3);
     });
 
   } catch (error) {
@@ -75,12 +79,12 @@ function renderizarIndicadores() {
     li.innerHTML = `
       <div>
         <p class="font-semibold">${ind.nome}</p>
-        <p class="text-sm text-gray-500">Setor: ${ind.setor_nome} | Meta: ${ind.meta} (${ind.tipo_meta})</p>
+        <p class="text-sm text-gray-500">Setor: ${ind.setor_nome} | Meta: ${ind.valor_meta} (${ind.tipo_meta})</p>
         <p class="text-sm text-gray-400">${ind.descricao}</p>
         <p class="text-sm ${ind.status === 'pendente' ? 'text-red-500' : 'text-green-600'} font-bold">${ind.status.toUpperCase()}</p>
       </div>
       <div class="space-x-2">
-        <button onclick="prepararEdicao(${ind.id})" class="text-blue-600 hover:underline">Editar</button>
+        <button onclick='abrirModal(${JSON.stringify(ind)})' class="text-blue-600 hover:underline">Editar</button>
         <button onclick="excluirIndicador(${ind.id})" class="text-red-600 hover:underline">Excluir</button>
       </div>
     `;
@@ -110,19 +114,6 @@ async function excluirIndicador(id) {
   }
 }
 
-function prepararEdicao(id) {
-  const indicador = todosIndicadores.find(i => i.id === id);
-  if (!indicador) return;
-
-  document.getElementById('nomeMetrica').value = indicador.nome;
-  document.getElementById('setorMetrica').value = indicador.setor;
-  document.getElementById('metaMetrica').value = indicador.meta;
-  document.getElementById('tipo_meta').value = indicador.tipo_meta;
-  document.getElementById('descricaoMetrica').value = indicador.descricao;
-
-  indicadorEditandoId = id;
-}
-
 async function salvarIndicador(event) {
   event.preventDefault();
 
@@ -131,14 +122,14 @@ async function salvarIndicador(event) {
   const payload = {
     nome: document.getElementById('nomeMetrica').value,
     setor: document.getElementById('setorMetrica').value,
-    meta: document.getElementById('metaMetrica').value,
+    valor_meta: document.getElementById('metaMetrica').value,
     tipo_meta: document.getElementById('tipo_meta').value,
     descricao: document.getElementById('descricaoMetrica').value,
     status: 'pendente'
   };
 
   // Validação opcional (recomendada)
-  if (!payload.nome || !payload.setor || !payload.meta || !payload.tipo_meta) {
+  if (!payload.nome || !payload.setor || !payload.valor_meta || !payload.tipo_meta) {
     alert("Preencha todos os campos obrigatórios.");
     return;
   }
@@ -176,6 +167,20 @@ async function salvarIndicador(event) {
   }
 }
 
+function abrirModal(indicador) {
+  document.getElementById('edit-id').value = indicador.id;
+  document.getElementById('edit-nome').value = indicador.nome;
+  document.getElementById('edit-setor').value = indicador.setor;
+  document.getElementById('edit-meta').value = indicador.valor_meta;
+  document.getElementById('edit-tipo').value = indicador.tipo_meta;
+  document.getElementById('edit-descricao').value = indicador.descricao || '';
+  document.getElementById('modal-edicao').classList.remove('hidden');
+}
+
+function fecharModal() {
+  document.getElementById('modal-edicao').classList.add('hidden');
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   carregarSetores();
@@ -183,4 +188,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('filtro-setor').addEventListener('change', renderizarIndicadores);
   document.getElementById('form-metrica').addEventListener('submit', salvarIndicador);
+});
+
+document.getElementById('form-edicao-indicador').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const token = localStorage.getItem('access');
+  const id = document.getElementById('edit-id').value;
+
+  const payload = {
+    nome: document.getElementById('edit-nome').value,
+    setor: document.getElementById('edit-setor').value,
+    valor_meta: document.getElementById('edit-meta').value,
+    tipo_meta: document.getElementById('edit-tipo').value,
+    descricao: document.getElementById('edit-descricao').value,
+    status: 'pendente'
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/indicadores/${id}/`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) throw new Error("Erro ao atualizar indicador");
+
+    await carregarIndicadores();
+    fecharModal();
+
+  } catch (error) {
+    console.error("Erro ao editar indicador:", error);
+    alert("Erro ao editar indicador.");
+  }
 });

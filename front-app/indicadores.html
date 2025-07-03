@@ -190,6 +190,44 @@
     </div>
   </div>
 
+  <!-- Modal de Edição -->
+    <div id="modal-edicao" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow p-6 w-full max-w-md">
+        <h2 class="text-xl font-bold mb-4">Editar Indicador</h2>
+        <form id="form-edicao-indicador" class="space-y-4">
+        <input type="hidden" id="edit-id">
+        <div>
+            <label class="block text-sm font-medium">Nome:</label>
+            <input type="text" id="edit-nome" class="w-full border rounded px-3 py-2" required>
+        </div>
+        <div>
+            <label class="block text-sm font-medium">Setor:</label>
+            <select id="edit-setor" class="w-full border rounded px-3 py-2" required></select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium">Meta Esperada:</label>
+            <input type="number" id="edit-meta" class="w-full border rounded px-3 py-2" required>
+        </div>
+        <div>
+            <label class="block text-sm font-medium">Tipo de Meta:</label>
+            <select id="edit-tipo" class="w-full border rounded px-3 py-2" required>
+            <option value="crescente">Para cima</option>
+            <option value="decrescente">Para baixo</option>
+            <option value="acompanhamento">Acompanhamento</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium">Descrição:</label>
+            <textarea id="edit-descricao" class="w-full border rounded px-3 py-2"></textarea>
+        </div>
+        <div class="flex justify-end gap-2">
+            <button type="button" onclick="fecharModal()" class="px-4 py-2 bg-gray-400 text-white rounded">Cancelar</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Salvar</button>
+        </div>
+        </form>
+    </div>
+    </div>
+
   <script src="js/comum.js"></script>
   <script src="js/indicadores.js"></script>
 

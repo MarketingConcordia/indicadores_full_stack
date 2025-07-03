@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Usuario, Setor
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .forms import CustomUserCreationForm
 
 @admin.register(Usuario)
 class UsuarioAdmin(UserAdmin):
     model = Usuario
+    add_form = CustomUserCreationForm  # ✅ novo
     list_display = ('email', 'username', 'first_name', 'last_name', 'perfil')
     list_filter = ('perfil', 'setores')
     search_fields = ('email', 'first_name', 'last_name')
@@ -22,7 +25,7 @@ class UsuarioAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name', 'perfil', 'setores', 'password1', 'password2'),
+            'fields': ('email', 'username', 'first_name', 'last_name', 'perfil', 'setores', 'password1', 'password2'),
         }),
     )
 
