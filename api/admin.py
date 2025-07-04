@@ -1,37 +1,48 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Usuario, Setor
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
+from .models import Usuario, Setor
 from .forms import CustomUserCreationForm
 
+# === CONFIGURAÇÃO PARA USUÁRIOS CUSTOMIZADOS ===
 @admin.register(Usuario)
 class UsuarioAdmin(UserAdmin):
     model = Usuario
-    add_form = CustomUserCreationForm  # ✅ novo
+    add_form = CustomUserCreationForm
+
     list_display = ('email', 'username', 'first_name', 'last_name', 'perfil')
     list_filter = ('perfil', 'setores')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
     filter_horizontal = ('setores',)
 
+    # Campos exibidos ao visualizar/editar usuário
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Informações Pessoais', {'fields': ('first_name', 'last_name')}),
-        ('Permissões', {'fields': ('perfil', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Permissões', {
+            'fields': (
+                'perfil', 'is_active', 'is_staff', 'is_superuser',
+                'groups', 'user_permissions'
+            )
+        }),
         ('Relacionamentos', {'fields': ('setores',)}),
         ('Datas Importantes', {'fields': ('last_login', 'date_joined')}),
     )
 
+    # Campos exibidos ao adicionar novo usuário
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'first_name', 'last_name', 'perfil', 'setores', 'password1', 'password2'),
+            'fields': (
+                'email', 'username', 'first_name', 'last_name',
+                'perfil', 'setores', 'password1', 'password2'
+            ),
         }),
     )
 
-    add_form_template = None
-
-# Registrar o modelo Setor também, se ainda não estiver registrado
+# === REGISTRO DO MODELO SETOR ===
 @admin.register(Setor)
 class SetorAdmin(admin.ModelAdmin):
     list_display = ('nome',)

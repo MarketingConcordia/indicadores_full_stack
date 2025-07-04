@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('formCadastro');
     const passwordInput = document.getElementById('senha');
     const confirmPasswordInput = document.getElementById('confirmarSenha');
@@ -14,8 +14,18 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     const strengthText = document.getElementById('password-strength-text');
 
-    // 👉 Função de força da senha
-    passwordInput.addEventListener('input', function() {
+    // 👉 Função para calcular a força da senha
+    function calcularForcaSenha(senha) {
+        let forca = 0;
+        if (senha.length >= 6) forca++;
+        if (/[A-Z]/.test(senha)) forca++;
+        if (/[0-9]/.test(senha)) forca++;
+        if (/[^A-Za-z0-9]/.test(senha)) forca++;
+        return forca;
+    }
+
+    // 👉 Atualiza os indicadores de força da senha
+    passwordInput.addEventListener('input', function () {
         const senha = passwordInput.value;
         const forca = calcularForcaSenha(senha);
 
@@ -44,24 +54,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function calcularForcaSenha(senha) {
-        let forca = 0;
-        if (senha.length >= 6) forca++;
-        if (/[A-Z]/.test(senha)) forca++;
-        if (/[0-9]/.test(senha)) forca++;
-        if (/[^A-Za-z0-9]/.test(senha)) forca++;
-        return forca;
-    }
-
-    // 👉 Mostrar/Ocultar Senha
-    togglePasswordBtn.addEventListener('click', function() {
+    // 👉 Mostrar ou ocultar senha
+    togglePasswordBtn.addEventListener('click', function () {
         const tipo = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', tipo);
         togglePasswordBtn.classList.toggle('text-blue-600');
     });
 
-    // 👉 Enviar Formulário
-    form.addEventListener('submit', function(e) {
+    // 👉 Submissão do formulário
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
 
         if (passwordInput.value !== confirmPasswordInput.value) {
@@ -71,12 +72,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const nome = document.getElementById('nome').value;
         const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
+        const senha = passwordInput.value;
 
         const payload = {
             first_name: nome,
             email: email,
-            username: email, // ✅ Adicionado aqui
+            username: email,
             password: senha,
             perfil: 'master'
         };
@@ -86,21 +87,21 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         })
-        .then(response => {
-            if (response.ok) {
-                successModal.classList.remove('hidden');
-            } else {
-                alert('Erro ao criar conta. Verifique se o e-mail já está cadastrado ou se há outro problema.');
-            }
-        })
-        .catch(error => {
-            alert('Erro de conexão com o servidor.');
-            console.error(error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    successModal.classList.remove('hidden');
+                } else {
+                    alert('Erro ao criar conta. Verifique se o e-mail já está cadastrado ou se há outro problema.');
+                }
+            })
+            .catch(error => {
+                alert('Erro de conexão com o servidor.');
+                console.error(error);
+            });
     });
 
-    // 👉 Fechar Modal
-    closeModalBtn.addEventListener('click', function() {
+    // 👉 Fechar modal de sucesso
+    closeModalBtn.addEventListener('click', function () {
         successModal.classList.add('hidden');
         form.reset();
 

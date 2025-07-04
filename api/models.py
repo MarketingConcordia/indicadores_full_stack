@@ -1,9 +1,11 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.conf import settings
-from django.contrib.auth.models import UserManager
 
-# 🔹 Modelo de Setor
+
+# ======================
+# 🔹 MODELO DE SETOR
+# ======================
 class Setor(models.Model):
     nome = models.CharField(max_length=100, unique=True)
 
@@ -11,7 +13,9 @@ class Setor(models.Model):
         return self.nome
 
 
-# 🔹 Modelo de Usuário Customizado
+# ======================
+# 🔹 MODELO DE USUÁRIO
+# ======================
 class Usuario(AbstractUser):
     PERFIS = (
         ('master', 'Master'),
@@ -20,18 +24,19 @@ class Usuario(AbstractUser):
 
     email = models.EmailField(unique=True)
     perfil = models.CharField(max_length=10, choices=PERFIS)
-    setores = models.ManyToManyField('Setor', blank=True)
+    setores = models.ManyToManyField(Setor, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
-
-    objects = UserManager()  # ✅ ESSENCIAL para funcionar com admin e superuser
+    objects = UserManager()
 
     def __str__(self):
         return f"{self.first_name} ({self.get_perfil_display()})"
 
 
-# 🔹 Indicadores cadastrados pelo Master
+# ======================
+# 🔹 INDICADORES (Master)
+# ======================
 class Indicador(models.Model):
     TIPO_META_CHOICES = [
         ('crescente', 'Para cima'),
@@ -48,14 +53,65 @@ class Indicador(models.Model):
     descricao = models.TextField(blank=True, null=True)
     setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
     tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')  # ✅ ADICIONADO
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
     valor_meta = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nome
 
-# 🔹 Notificações internas do sistema
+
+# ======================
+# 🔹 METAS MENSAIS
+# ======================
+class Meta(models.Model):
+    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
+    valor_esperado = models.DecimalField(max_digits=10, decimal_places=2)
+    mes = models.IntegerField()
+    ano = models.IntegerField()
+    definida_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        unique_together = ('indicador', 'mes', 'ano')
+
+    def __str__(self):
+        return f"Meta de {self.indicador.nome} para {self.mes}/{self.ano}"
+
+
+# ======================
+# 🔹 PREENCHIMENTOS
+# ======================
+class Preenchimento(models.Model):
+    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
+    valor_realizado = models.DecimalField(max_digits=10, decimal_places=2)
+    mes = models.IntegerField()
+    ano = models.IntegerField()
+    preenchido_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    data_preenchimento = models.DateTimeField(auto_now_add=True)
+    comentario = models.TextField(blank=True, null=True)
+    arquivo = models.FileField(upload_to='provas/', blank=True, null=True)
+
+    class Meta:
+        unique_together = ('indicador', 'mes', 'ano', 'preenchido_por')
+
+    def __str__(self):
+        return f"{self.indicador.nome} - {self.valor_realizado} ({self.mes}/{self.ano})"
+
+
+# ======================
+# 🔹 PERMISSÃO POR INDICADOR
+# ======================
+class PermissaoIndicador(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.usuario} - {self.indicador}"
+
+
+# ======================
+# 🔹 NOTIFICAÇÕES INTERNAS
+# ======================
 class Notificacao(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     texto = models.CharField(max_length=255)
@@ -65,13 +121,10 @@ class Notificacao(models.Model):
     def __str__(self):
         return f"Notificação para {self.usuario.email}"
 
-class PermissaoIndicador(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.usuario} - {self.indicador}"
-
+# ======================
+# 🔹 CONFIGURAÇÃO DE ARMAZENAMENTO
+# ======================
 class ConfiguracaoArmazenamento(models.Model):
     TIPOS_ARMAZENAMENTO = [
         ('local', 'Local'),
@@ -101,6 +154,10 @@ class ConfiguracaoArmazenamento(models.Model):
     def __str__(self):
         return f"Armazenamento: {self.tipo}"
 
+
+# ======================
+# 🔹 CONFIGURAÇÃO DE NOTIFICAÇÕES
+# ======================
 class ConfiguracaoNotificacao(models.Model):
     DESTINATARIOS = [
         ('master', 'Master (CEO)'),
@@ -108,54 +165,25 @@ class ConfiguracaoNotificacao(models.Model):
         ('todos', 'Master e Gestores'),
     ]
 
-    nome = models.CharField(max_length=100)  # Ex.: "Aviso de Início"
-    mensagem = models.TextField()  # Texto que aparecerá na notificação
-    dia_do_mes = models.IntegerField()  # Ex.: 1, 6, 15 (dia do mês)
-    repetir_todo_mes = models.BooleanField(default=True)  # Se repete mensalmente
+    nome = models.CharField(max_length=100)
+    mensagem = models.TextField()
+    dia_do_mes = models.IntegerField()
+    repetir_todo_mes = models.BooleanField(default=True)
     destinatarios = models.CharField(max_length=10, choices=DESTINATARIOS)
-    ativo = models.BooleanField(default=True)  # Se está ativa ou não
-
+    ativo = models.BooleanField(default=True)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.nome} - Dia {self.dia_do_mes}"
 
+
+# ======================
+# 🔹 LOG DE AÇÕES
+# ======================
 class LogDeAcao(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True)
-    acao = models.CharField(max_length=255)  # Descrição da ação
-    data = models.DateTimeField(auto_now_add=True)  # Quando ocorreu
+    acao = models.CharField(max_length=255)
+    data = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.usuario} - {self.acao} - {self.data.strftime('%d/%m/%Y %H:%M')}"
-
-
-class Meta(models.Model):
-    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
-    valor_esperado = models.DecimalField(max_digits=10, decimal_places=2)
-    mes = models.IntegerField()
-    ano = models.IntegerField()
-    definida_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
-
-    class Meta:
-        unique_together = ('indicador', 'mes', 'ano')
-
-    def __str__(self):
-        return f"Meta de {self.indicador.nome} para {self.mes}/{self.ano}"
-
-
-class Preenchimento(models.Model):
-    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE)
-    valor_realizado = models.DecimalField(max_digits=10, decimal_places=2)
-    mes = models.IntegerField()
-    ano = models.IntegerField()
-    preenchido_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    data_preenchimento = models.DateTimeField(auto_now_add=True)
-    comentario = models.TextField(blank=True, null=True)
-    arquivo = models.FileField(upload_to='provas/', blank=True, null=True)
-
-
-    class Meta:
-        unique_together = ('indicador', 'mes', 'ano', 'preenchido_por')
-
-    def __str__(self):
-        return f"{self.indicador.nome} - {self.valor_realizado} ({self.mes}/{self.ano})"

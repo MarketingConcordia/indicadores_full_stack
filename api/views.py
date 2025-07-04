@@ -332,14 +332,6 @@ class PreenchimentoListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(preenchido_por=self.request.user)
 
-class IndicadoresPendentesView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        indicadores_pendentes = Indicador.objects.filter(preenchimento__isnull=True)
-        serializer = IndicadorSerializer(indicadores_pendentes, many=True)
-        return Response(serializer.data)
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def meus_preenchimentos(request):

@@ -1,5 +1,27 @@
-// === GERAÇÃO DE RELATÓRIOS PDF/EXCEL ===
+// === ESTADO GERAL E SEGURANÇA DE ACESSO ===
+document.addEventListener("DOMContentLoaded", () => {
+    const perfil = localStorage.getItem("perfil_usuario");
+    const token = localStorage.getItem("access");
 
+    if (perfil !== "master") {
+        alert("Acesso negado. Esta página é exclusiva para perfil master.");
+        window.location.href = "indexgestores.html";
+        return;
+    }
+
+    if (!token) {
+        alert("Você precisa estar logado.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    carregarSetores();
+    carregarPreenchimentos();
+    configurarEventosDeFiltro();
+    carregarUsuarioLogado();
+});
+
+// === GERAÇÃO DE RELATÓRIOS PDF / EXCEL ===
 function baixarPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -35,29 +57,16 @@ function baixarExcel() {
     XLSX.writeFile(wb, "relatorio.xlsx");
 }
 
-// === INÍCIO DO BLOCO DE HISTÓRICO COM FILTROS ===
+// === FUNÇÕES DE FILTRO E HISTÓRICO ===
 
-document.addEventListener("DOMContentLoaded", () => {
-    const perfil = localStorage.getItem("perfil_usuario");
-    if (perfil !== "master") {
-      alert("Acesso negado. Esta página é exclusiva para perfil master.");
-      window.location.href = "indexgestores.html"; // redireciona o gestor
-    }
-    
-    const token = localStorage.getItem("access");
-    if (!token) {
-        alert("Você precisa estar logado.");
-        window.location.href = "login.html";
-        return;
-    }
-
-    carregarSetores();
-    carregarPreenchimentos();
-    configurarEventosDeFiltro();
-});
+function configurarEventosDeFiltro() {
+    document.getElementById("filtro-setor").addEventListener("change", carregarPreenchimentos);
+    document.getElementById("filtro-periodo").addEventListener("change", carregarPreenchimentos);
+}
 
 function carregarSetores() {
     const token = localStorage.getItem("access");
+
     fetch("http://127.0.0.1:8000/api/setores/", {
         headers: { "Authorization": `Bearer ${token}` }
     })
@@ -73,6 +82,7 @@ function carregarSetores() {
 
 function carregarPreenchimentos() {
     const token = localStorage.getItem("access");
+
     fetch("http://127.0.0.1:8000/api/preenchimentos/", {
         headers: { "Authorization": `Bearer ${token}` }
     })
@@ -116,7 +126,7 @@ function renderizarHistorico(preenchimentos) {
         const status = calcularStatus(p.valor_realizado, p.meta, p.tipo_meta);
         const corStatus = status === "Atingida" ? "text-green-600" : "text-red-600";
 
-        const linha = `
+        tbody.innerHTML += `
             <tr>
                 <td class="px-4 py-2">${p.indicador_nome}</td>
                 <td class="px-4 py-2">${mesAno}</td>
@@ -126,7 +136,6 @@ function renderizarHistorico(preenchimentos) {
                 <td class="px-4 py-2 font-semibold ${corStatus}">${status}</td>
             </tr>
         `;
-        tbody.innerHTML += linha;
     });
 }
 
@@ -135,10 +144,3 @@ function calcularStatus(valor, meta, tipo_meta) {
     if (tipo_meta === "para_baixo") return valor <= meta ? "Atingida" : "Não atingida";
     return "Acompanhamento";
 }
-
-function configurarEventosDeFiltro() {
-    document.getElementById("filtro-setor").addEventListener("change", carregarPreenchimentos);
-    document.getElementById("filtro-periodo").addEventListener("change", carregarPreenchimentos);
-}
-
-carregarUsuarioLogado();

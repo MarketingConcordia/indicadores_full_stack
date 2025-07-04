@@ -361,6 +361,3 @@ document.addEventListener('DOMContentLoaded', () => {
                                             alert(`Solicitação de revisão enviada para ${indicador.responsavel}`);
                                         });
                                     }
-
-                                                    
-                                                    

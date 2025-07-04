@@ -2,19 +2,17 @@ const BASE_URL = "http://127.0.0.1:8000/api";
 let todosIndicadores = [];
 let indicadorEditandoId = null;
 
+// 🔹 Carregar setores e preencher selects
 async function carregarSetores() {
   try {
     const token = localStorage.getItem('access');
     const response = await fetch(`${BASE_URL}/setores/`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     });
-
     if (!response.ok) throw new Error("Erro ao buscar setores");
 
     const data = await response.json();
-    const setores = data.results;  // ✅ Correção aqui
+    const setores = data.results;
     console.log("Setores recebidos:", setores);
 
     const selectSetor = document.getElementById('setorMetrica');
@@ -26,39 +24,35 @@ async function carregarSetores() {
     editSelectSetor.innerHTML = '<option value="">Selecione</option>';
 
     setores.forEach(setor => {
-      const opt1 = new Option(setor.nome, setor.id);
-      selectSetor.appendChild(opt1);
-      const opt2 = new Option(setor.nome, setor.id);
-      filtroSetor.appendChild(opt2);
-      const opt3 = new Option(setor.nome, setor.id);
-      editSelectSetor.appendChild(opt3);
+      selectSetor.appendChild(new Option(setor.nome, setor.id));
+      filtroSetor.appendChild(new Option(setor.nome, setor.id));
+      editSelectSetor.appendChild(new Option(setor.nome, setor.id));
     });
-
   } catch (error) {
     console.error("Erro ao carregar setores:", error);
   }
 }
 
+// 🔹 Carregar indicadores
 async function carregarIndicadores() {
   try {
     const token = localStorage.getItem('access');
     const response = await fetch(`${BASE_URL}/indicadores/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-
     if (!response.ok) throw new Error("Erro ao carregar indicadores");
 
     const data = await response.json();
-    todosIndicadores = data.results; // ✅ Correção aqui
+    todosIndicadores = data.results;
     console.log("Indicadores recebidos:", todosIndicadores);
 
     renderizarIndicadores();
-
   } catch (error) {
     console.error("Erro ao buscar indicadores:", error);
   }
 }
 
+// 🔹 Renderizar lista de indicadores
 function renderizarIndicadores() {
   const lista = document.getElementById('indicadores-lista');
   const filtro = document.getElementById('filtro-setor').value;
@@ -92,31 +86,26 @@ function renderizarIndicadores() {
   });
 }
 
+// 🔹 Excluir indicador
 async function excluirIndicador(id) {
   if (!confirm("Deseja realmente excluir?")) return;
-
   try {
     const token = localStorage.getItem('access');
     const response = await fetch(`${BASE_URL}/indicadores/${id}/`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });
-
-    if (response.ok) {
-      todosIndicadores = todosIndicadores.filter(i => i.id !== id);
-      renderizarIndicadores();
-    } else {
-      throw new Error("Erro ao excluir");
-    }
-
+    if (!response.ok) throw new Error("Erro ao excluir");
+    todosIndicadores = todosIndicadores.filter(i => i.id !== id);
+    renderizarIndicadores();
   } catch (error) {
     console.error("Erro ao excluir indicador:", error);
   }
 }
 
+// 🔹 Salvar novo indicador
 async function salvarIndicador(event) {
   event.preventDefault();
-
   const token = localStorage.getItem('access');
 
   const payload = {
@@ -128,14 +117,13 @@ async function salvarIndicador(event) {
     status: 'pendente'
   };
 
-  // Validação opcional (recomendada)
   if (!payload.nome || !payload.setor || !payload.valor_meta || !payload.tipo_meta) {
     alert("Preencha todos os campos obrigatórios.");
     return;
   }
 
   const botao = event.submitter;
-  botao.disabled = true; // Desativa botão temporariamente
+  botao.disabled = true;
 
   try {
     const url = indicadorEditandoId
@@ -163,10 +151,11 @@ async function salvarIndicador(event) {
     console.error("Erro ao salvar:", error);
     alert("Erro ao salvar indicador.");
   } finally {
-    botao.disabled = false; // Reativa botão mesmo se der erro
+    botao.disabled = false;
   }
 }
 
+// 🔹 Abrir modal de edição
 function abrirModal(indicador) {
   document.getElementById('edit-id').value = indicador.id;
   document.getElementById('edit-nome').value = indicador.nome;
@@ -177,19 +166,12 @@ function abrirModal(indicador) {
   document.getElementById('modal-edicao').classList.remove('hidden');
 }
 
+// 🔹 Fechar modal
 function fecharModal() {
   document.getElementById('modal-edicao').classList.add('hidden');
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  carregarSetores();
-  carregarIndicadores();
-
-  document.getElementById('filtro-setor').addEventListener('change', renderizarIndicadores);
-  document.getElementById('form-metrica').addEventListener('submit', salvarIndicador);
-});
-
+// 🔹 Submeter edição do indicador
 document.getElementById('form-edicao-indicador').addEventListener('submit', async (event) => {
   event.preventDefault();
   const token = localStorage.getItem('access');
@@ -223,4 +205,13 @@ document.getElementById('form-edicao-indicador').addEventListener('submit', asyn
     console.error("Erro ao editar indicador:", error);
     alert("Erro ao editar indicador.");
   }
+});
+
+// 🔹 Inicialização ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  carregarSetores();
+  carregarIndicadores();
+
+  document.getElementById('filtro-setor').addEventListener('change', renderizarIndicadores);
+  document.getElementById('form-metrica').addEventListener('submit', salvarIndicador);
 });

@@ -6120,3 +6120,515 @@ LINE 1: ...dicador"."setor_id", "api_indicador"."tipo_meta", "api_indic...
 [2025-07-03 16:58:01,014] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
 [2025-07-03 17:01:12,841] INFO django.server "PUT /api/indicadores/3/ HTTP/1.1" 200 234
 [2025-07-03 17:01:12,895] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-03 17:21:24,730] INFO django.server "GET /front-app/configuracoes.html HTTP/1.1" 304 0
+[2025-07-03 17:21:24,756] INFO django.server "GET /front-app/js/configuracoes.js HTTP/1.1" 304 0
+[2025-07-03 17:21:25,019] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-03 17:21:25,027] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-03 17:21:25,032] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-03 17:21:25,054] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-03 17:21:41,392] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-03 17:21:41,416] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-03 17:21:41,598] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-03 17:21:41,600] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-03 17:21:41,601] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-03 17:21:43,204] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-03 17:21:43,209] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-03 17:21:43,216] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 684
+[2025-07-03 17:21:44,640] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-03 17:21:44,645] INFO django.server "GET /api/preenchimentos/ HTTP/1.1" 200 52
+[2025-07-03 17:21:44,659] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-03 17:21:47,641] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-03 17:21:47,646] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-03 17:21:47,654] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-03 17:21:47,710] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-03 17:21:50,505] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-03 17:21:50,513] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-03 17:21:50,516] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 08:34:00,572] INFO django.server "GET /front-app/login.html HTTP/1.1" 304 0
+[2025-07-04 08:34:00,616] INFO django.server "GET /front-app/js/login.js HTTP/1.1" 304 0
+[2025-07-04 08:52:28,555] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-04 08:52:33,751] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 08:52:48,760] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 08:53:21,658] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 08:53:21,701] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-04 08:53:21,714] INFO django.server "GET /front-app/indexgestores.html HTTP/1.1" 304 0
+[2025-07-04 08:53:21,747] INFO django.server "GET /front-app/js/index-gestores.js HTTP/1.1" 304 0
+[2025-07-04 08:53:21,747] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 304 0
+[2025-07-04 08:53:22,085] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 08:53:22,099] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-04 08:53:24,716] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 08:53:24,736] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 304 0
+[2025-07-04 08:53:24,889] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 08:53:24,889] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 08:53:24,929] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 08:53:24,929] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 08:53:35,182] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 08:53:35,183] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 08:54:27,956] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 08:54:28,009] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 08:54:28,020] INFO django.server "GET /front-app/index.html HTTP/1.1" 304 0
+[2025-07-04 08:54:28,045] INFO django.server "GET /front-app/js/index.js HTTP/1.1" 304 0
+[2025-07-04 08:54:28,210] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 08:54:28,223] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 08:54:28,230] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 08:54:28,275] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 08:54:30,269] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-04 08:54:30,293] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-04 08:54:30,426] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 08:54:30,430] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 08:54:30,431] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 08:55:11,023] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 08:55:11,067] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-04 08:55:11,256] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 08:55:11,268] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-04 08:55:30,953] INFO django.server "GET /front-app/indexgestores.html HTTP/1.1" 304 0
+[2025-07-04 08:55:31,077] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 08:55:31,088] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 318
+[2025-07-04 08:55:34,672] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 08:55:34,672] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 08:55:34,839] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 08:55:34,839] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 09:01:00,945] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-04 09:01:00,945] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 5500
+[2025-07-04 09:44:47,892] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-04 09:44:48,635] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 09:44:54,431] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-04 09:44:54,431] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 5500
+[2025-07-04 09:44:57,402] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 09:44:57,593] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 09:44:57,594] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 09:44:57,640] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 09:44:57,641] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 09:45:10,272] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 09:45:10,318] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 09:45:10,516] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 09:45:10,524] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 09:45:10,532] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 09:45:10,589] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 09:45:13,023] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 09:45:13,023] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 09:45:13,035] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 09:48:27,138] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-04 09:48:27,904] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 09:48:30,773] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-04 09:48:30,994] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 09:48:31,003] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 09:48:31,011] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 09:49:22,483] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\views.py changed, reloading.
+[2025-07-04 09:49:23,353] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 09:53:50,805] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 200 15177
+[2025-07-04 09:53:50,841] INFO django.server "GET /front-app/style.css HTTP/1.1" 200 2575
+[2025-07-04 09:53:50,852] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 7553
+[2025-07-04 09:53:50,861] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 200 5630
+[2025-07-04 09:53:51,349] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 09:53:51,355] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 09:53:51,366] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 09:53:51,631] WARNING django.request Not Found: /favicon.ico
+[2025-07-04 09:53:51,631] WARNING django.server "GET /favicon.ico HTTP/1.1" 404 3534
+[2025-07-04 10:04:19,137] INFO django.server "GET /front-app/equipe.html HTTP/1.1" 304 0
+[2025-07-04 10:04:19,167] INFO django.server "GET /front-app/js/equipe.js HTTP/1.1" 304 0
+[2025-07-04 10:04:19,366] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 10:04:19,376] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 10:04:19,384] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 684
+[2025-07-04 10:04:22,532] INFO django.server "GET /api/usuarios/2/ HTTP/1.1" 200 318
+[2025-07-04 10:04:28,460] INFO django.server "DELETE /api/usuarios/2/ HTTP/1.1" 204 0
+[2025-07-04 10:04:29,828] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 365
+[2025-07-04 10:04:45,765] INFO django.server "POST /api/usuarios/ HTTP/1.1" 201 318
+[2025-07-04 10:04:48,369] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 684
+[2025-07-04 10:31:15,388] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 10:31:16,347] INFO django.server "GET /admin/ HTTP/1.1" 302 0
+[2025-07-04 10:31:16,517] INFO django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4206
+[2025-07-04 10:31:16,546] INFO django.server "GET /static/admin/css/base.css HTTP/1.1" 304 0
+[2025-07-04 10:31:16,546] INFO django.server "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+[2025-07-04 10:31:16,548] INFO django.server "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+[2025-07-04 10:31:16,548] INFO django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+[2025-07-04 10:31:16,550] INFO django.server "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+[2025-07-04 10:31:16,551] INFO django.server "GET /static/admin/css/login.css HTTP/1.1" 304 0
+[2025-07-04 10:31:16,555] INFO django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+[2025-07-04 10:31:29,971] INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4411
+[2025-07-04 10:31:35,695] INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[2025-07-04 10:31:35,774] INFO django.server "GET /admin/ HTTP/1.1" 200 7254
+[2025-07-04 10:31:35,788] INFO django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+[2025-07-04 10:31:35,792] INFO django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+[2025-07-04 10:31:35,792] INFO django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+[2025-07-04 10:31:41,708] INFO django.server "GET /admin/api/usuario/ HTTP/1.1" 200 13158
+[2025-07-04 10:31:41,733] INFO django.server "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,733] INFO django.server "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,733] INFO django.server "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,734] INFO django.server "GET /static/admin/js/core.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,734] INFO django.server "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+[2025-07-04 10:31:41,737] INFO django.server "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,737] INFO django.server "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,737] INFO django.server "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,737] INFO django.server "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,740] INFO django.server "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+[2025-07-04 10:31:41,746] INFO django.server "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+[2025-07-04 10:31:41,803] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:31:41,826] INFO django.server "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+[2025-07-04 10:31:41,826] INFO django.server "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+[2025-07-04 10:31:41,827] INFO django.server "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+[2025-07-04 10:31:57,933] INFO django.server "GET /admin/api/setor/ HTTP/1.1" 200 10728
+[2025-07-04 10:31:57,992] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:32:02,993] INFO django.server "GET /admin/api/usuario/ HTTP/1.1" 200 13158
+[2025-07-04 10:32:03,053] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:32:09,135] INFO django.server "GET /admin/api/usuario/?setores__id__exact=4 HTTP/1.1" 200 12864
+[2025-07-04 10:32:09,194] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:32:16,721] INFO django.server "GET /admin/api/usuario/?setores__id__exact=2 HTTP/1.1" 200 10853
+[2025-07-04 10:32:16,788] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:32:18,136] INFO django.server "GET /admin/api/usuario/?setores__id__exact=4 HTTP/1.1" 200 12864
+[2025-07-04 10:32:18,198] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:32:18,940] INFO django.server "GET /admin/api/usuario/?setores__id__exact=3 HTTP/1.1" 200 10853
+[2025-07-04 10:32:19,001] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:32:20,488] INFO django.server "GET /admin/api/usuario/?setores__id__exact=1 HTTP/1.1" 200 10853
+[2025-07-04 10:32:20,549] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:32:21,519] INFO django.server "GET /admin/api/usuario/?setores__id__exact=4 HTTP/1.1" 200 12864
+[2025-07-04 10:32:21,593] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:33:01,268] INFO django.server "GET /admin/auth/group/ HTTP/1.1" 200 8751
+[2025-07-04 10:33:01,333] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 10:33:02,711] INFO django.server "GET /admin/api/usuario/ HTTP/1.1" 200 13158
+[2025-07-04 10:33:02,775] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 11:15:02,569] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-04 11:15:02,570] WARNING django.request Unauthorized: /api/setores/
+[2025-07-04 11:15:02,571] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-04 11:15:02,571] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-04 11:15:02,572] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-04 11:15:02,572] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-04 11:15:20,713] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 11:15:20,759] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 11:15:20,953] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:15:20,961] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 11:15:20,969] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:21,030] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:26,215] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:15:26,222] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 11:15:26,223] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:27,116] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:15:27,124] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 11:15:27,126] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:27,972] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:15:27,985] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:27,985] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 981
+[2025-07-04 11:15:29,675] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:15:29,679] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 11:15:29,689] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:29,744] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:32,582] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:15:32,595] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 11:15:32,600] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:40,056] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:15:40,060] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:15:40,075] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 981
+[2025-07-04 11:22:38,356] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-07-04 11:22:39,225] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 11:22:45,191] INFO django.server "GET /front-app/equipe.html HTTP/1.1" 304 0
+[2025-07-04 11:22:45,417] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 11:22:45,433] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 11:22:45,438] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 1007
+[2025-07-04 11:24:18,928] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 11:24:18,973] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-04 11:24:19,161] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 11:24:19,171] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 11:24:21,138] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 304 0
+[2025-07-04 11:24:21,235] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 11:24:21,235] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 11:24:21,275] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 11:24:21,275] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 11:29:05,559] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 11:29:05,560] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 11:29:16,846] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 11:29:16,879] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 11:29:16,880] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 11:29:17,187] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 11:29:17,188] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 11:29:17,239] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 11:29:17,239] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 11:41:29,994] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-04 11:41:29,994] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 5500
+[2025-07-04 11:46:49,137] INFO django.server "GET /api/auth/login/?next=/api/indicadores/pendentes/ HTTP/1.1" 200 2721
+[2025-07-04 11:46:58,388] WARNING django.request Unauthorized: /api/indicadores/pendentes/
+[2025-07-04 11:46:58,389] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 401 5500
+[2025-07-04 11:47:33,573] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 11:47:33,573] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 11:47:33,608] INFO django.server "GET /static/rest_framework/css/bootstrap.min.css.map HTTP/1.1" 200 540434
+[2025-07-04 11:51:20,148] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 11:51:20,149] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 13:50:34,907] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 13:50:48,705] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 13:50:48,745] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-04 13:50:48,799] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 13:50:48,799] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 13:50:49,094] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 13:50:49,107] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 13:50:54,710] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 13:50:54,750] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 13:50:54,751] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 13:50:54,751] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 304 0
+[2025-07-04 13:50:54,889] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 13:50:54,890] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 13:50:54,933] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 13:50:54,933] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 13:52:38,276] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 13:52:38,277] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 13:52:38,433] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 13:52:38,441] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 13:52:48,133] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 13:52:48,134] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 13:52:48,273] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 13:52:48,274] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 13:52:48,324] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 13:52:48,324] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 13:56:13,490] INFO django.server "GET /admin/api/setor/ HTTP/1.1" 200 10728
+[2025-07-04 13:56:13,605] INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 8158
+[2025-07-04 14:06:58,933] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-07-04 14:06:59,619] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 14:08:05,908] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 14:08:05,943] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:08:05,944] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:08:06,220] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 14:08:06,220] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 14:08:06,263] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 14:08:06,263] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 14:08:13,117] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:08:13,118] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:08:13,307] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 14:08:13,319] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 14:08:25,049] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:08:25,050] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:08:45,143] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 14:08:45,189] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 14:08:45,202] INFO django.server "GET /front-app/index.html HTTP/1.1" 304 0
+[2025-07-04 14:08:45,238] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:08:45,239] INFO django.server "GET /front-app/js/index.js HTTP/1.1" 304 0
+[2025-07-04 14:08:45,239] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:08:45,412] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 14:08:45,421] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 14:08:45,430] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 14:08:45,480] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 14:08:49,376] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:08:49,376] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:08:49,521] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 14:08:49,533] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 14:08:49,539] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 1007
+[2025-07-04 14:08:55,669] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-04 14:08:55,712] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:08:55,713] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 304 0
+[2025-07-04 14:08:55,713] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:08:55,891] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 14:08:55,894] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 14:08:55,901] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 14:12:25,306] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:12:25,306] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:12:33,706] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 14:12:33,755] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-04 14:12:33,805] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:12:33,806] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:12:33,994] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 14:12:34,004] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 14:12:37,256] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:12:37,257] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:12:37,409] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 14:12:37,409] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 14:12:37,459] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 14:12:37,459] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 14:13:08,100] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 200 9003
+[2025-07-04 14:13:08,126] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:13:08,128] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:13:08,141] INFO django.server "GET /front-app/style.css HTTP/1.1" 200 2575
+[2025-07-04 14:13:08,151] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 200 4587
+[2025-07-04 14:13:08,903] WARNING django.request Not Found: /preenchimentos/meus/
+[2025-07-04 14:13:08,904] WARNING django.server "GET /preenchimentos/meus/ HTTP/1.1" 404 3561
+[2025-07-04 14:13:08,911] WARNING django.request Not Found: /favicon.ico
+[2025-07-04 14:13:08,914] WARNING django.request Not Found: /indicadores/pendentes/
+[2025-07-04 14:13:08,915] WARNING django.server "GET /favicon.ico HTTP/1.1" 404 3534
+[2025-07-04 14:13:08,915] WARNING django.server "GET /indicadores/pendentes/ HTTP/1.1" 404 3567
+[2025-07-04 14:18:37,438] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 14:18:37,484] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:18:37,485] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:18:37,485] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 200 4599
+[2025-07-04 14:18:37,688] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 14:18:37,689] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 14:18:37,758] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 14:18:37,758] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 14:20:12,404] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 14:20:12,435] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:20:12,436] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:20:12,461] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 200 4738
+[2025-07-04 14:20:12,616] WARNING django.request Not Found: /api/preenchimentos/meus/
+[2025-07-04 14:20:12,616] WARNING django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 404 29
+[2025-07-04 14:20:12,659] WARNING django.request Not Found: /api/indicadores/pendentes/
+[2025-07-04 14:20:12,659] WARNING django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 404 29
+[2025-07-04 14:31:40,383] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\urls.py changed, reloading.
+[2025-07-04 14:31:41,172] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 14:31:43,539] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 14:31:43,568] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:31:43,570] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:31:43,570] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 304 0
+[2025-07-04 14:31:43,763] INFO django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 200 2
+[2025-07-04 14:31:43,814] INFO django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 200 236
+[2025-07-04 14:37:46,807] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 14:37:46,836] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 14:37:46,836] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 14:37:46,866] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 200 4750
+[2025-07-04 14:37:47,038] INFO django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 200 2
+[2025-07-04 14:37:47,101] INFO django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 200 236
+[2025-07-04 14:57:28,947] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 14:57:28,972] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 304 0
+[2025-07-04 14:57:29,156] INFO django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 200 2
+[2025-07-04 14:57:29,198] INFO django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 200 236
+[2025-07-04 14:58:06,490] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 14:58:06,534] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 14:58:06,743] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 14:58:06,752] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 14:58:06,765] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 14:58:06,815] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 14:58:14,047] INFO django.server "GET /api/notificacoes/ HTTP/1.1" 200 52
+[2025-07-04 15:09:46,782] INFO django.server "GET /front-app/configuracoes.html HTTP/1.1" 304 0
+[2025-07-04 15:09:46,826] INFO django.server "GET /front-app/js/configuracoes.js HTTP/1.1" 200 10206
+[2025-07-04 15:09:47,062] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-04 15:09:47,067] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-04 15:09:47,068] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 15:09:47,086] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 15:10:01,968] INFO django.server "PUT /api/setores/1/ HTTP/1.1" 200 30
+[2025-07-04 15:10:02,012] INFO django.server "GET /api/setores/ HTTP/1.1" 200 165
+[2025-07-04 15:10:06,740] INFO django.server "PUT /api/setores/1/ HTTP/1.1" 200 29
+[2025-07-04 15:10:06,786] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 15:18:49,290] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 15:18:49,299] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 15:18:49,312] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 1007
+[2025-07-04 15:19:18,175] WARNING django.request Bad Request: /api/usuarios/
+[2025-07-04 15:19:18,175] WARNING django.server "POST /api/usuarios/ HTTP/1.1" 400 47
+[2025-07-04 15:19:38,748] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 15:19:38,748] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 15:19:49,233] WARNING django.request Bad Request: /api/usuarios/
+[2025-07-04 15:19:49,233] WARNING django.server "POST /api/usuarios/ HTTP/1.1" 400 47
+[2025-07-04 15:20:04,055] WARNING django.request Bad Request: /api/usuarios/
+[2025-07-04 15:20:04,055] WARNING django.server "POST /api/usuarios/ HTTP/1.1" 400 47
+[2025-07-04 15:24:03,199] WARNING django.request Bad Request: /api/usuarios/
+[2025-07-04 15:24:03,199] WARNING django.server "POST /api/usuarios/ HTTP/1.1" 400 47
+[2025-07-04 15:45:57,188] INFO django.server "GET /front-app/equipe.html HTTP/1.1" 304 0
+[2025-07-04 15:45:57,229] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 15:45:57,230] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 15:45:57,425] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 15:45:57,444] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 1007
+[2025-07-04 15:45:57,445] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 15:46:14,673] WARNING django.request Bad Request: /api/usuarios/
+[2025-07-04 15:46:14,674] WARNING django.server "POST /api/usuarios/ HTTP/1.1" 400 47
+[2025-07-04 15:52:19,010] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-07-04 15:52:19,851] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 15:52:24,247] WARNING django.request Bad Request: /api/usuarios/
+[2025-07-04 15:52:24,248] WARNING django.server "POST /api/usuarios/ HTTP/1.1" 400 47
+[2025-07-04 15:52:28,144] INFO django.server "GET /front-app/equipe.html HTTP/1.1" 200 15199
+[2025-07-04 15:52:28,173] INFO django.server "GET /front-app/style.css HTTP/1.1" 200 2575
+[2025-07-04 15:52:28,183] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 15:52:28,183] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 15:52:28,204] INFO django.server "GET /front-app/js/equipe.js HTTP/1.1" 200 7046
+[2025-07-04 15:52:28,208] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 200 5674
+[2025-07-04 15:52:28,707] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 15:52:28,725] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 15:52:28,733] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 1007
+[2025-07-04 15:52:28,862] WARNING django.request Not Found: /favicon.ico
+[2025-07-04 15:52:28,863] WARNING django.server "GET /favicon.ico HTTP/1.1" 404 3534
+[2025-07-04 15:52:49,713] INFO django.server "POST /api/usuarios/ HTTP/1.1" 201 324
+[2025-07-04 15:52:52,786] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 1332
+[2025-07-04 16:17:51,916] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 304 0
+[2025-07-04 16:17:52,112] WARNING django.request Unauthorized: /api/meu-usuario/
+[2025-07-04 16:17:52,114] WARNING django.request Unauthorized: /api/setores/
+[2025-07-04 16:17:52,115] WARNING django.request Unauthorized: /api/indicadores/
+[2025-07-04 16:17:52,115] WARNING django.server "GET /api/meu-usuario/ HTTP/1.1" 401 172
+[2025-07-04 16:17:52,115] WARNING django.server "GET /api/setores/ HTTP/1.1" 401 172
+[2025-07-04 16:17:52,116] WARNING django.server "GET /api/indicadores/ HTTP/1.1" 401 172
+[2025-07-04 16:18:09,270] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 16:18:09,418] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 16:18:09,595] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 16:18:09,610] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 16:18:09,668] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 16:18:09,686] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 16:18:11,859] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 16:18:11,863] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 16:18:11,867] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 16:18:42,278] INFO django.server "POST /api/indicadores/ HTTP/1.1" 201 227
+[2025-07-04 16:18:42,429] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 514
+[2025-07-04 16:19:04,504] INFO django.server "PUT /api/indicadores/5/ HTTP/1.1" 200 232
+[2025-07-04 16:19:04,547] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 519
+[2025-07-04 16:19:10,133] INFO django.server "DELETE /api/indicadores/5/ HTTP/1.1" 204 45
+[2025-07-04 16:22:13,368] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 16:22:13,411] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 16:22:13,616] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 16:22:13,623] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 16:22:13,636] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 16:22:13,691] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 16:22:16,576] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 16:22:16,579] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 16:22:16,581] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 16:27:02,474] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 16:27:02,517] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-04 16:27:02,555] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 304 0
+[2025-07-04 16:27:02,719] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 16:27:02,729] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 16:27:05,264] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 200 4434
+[2025-07-04 16:27:05,349] INFO django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 200 2
+[2025-07-04 16:27:05,405] INFO django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 200 236
+[2025-07-04 16:37:46,507] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\admin.py changed, reloading.
+[2025-07-04 16:37:47,363] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 16:46:11,340] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\models.py changed, reloading.
+[2025-07-04 16:46:12,085] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 16:50:45,090] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\serializers.py changed, reloading.
+[2025-07-04 16:50:45,794] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 16:55:25,582] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\api\storage_service.py changed, reloading.
+[2025-07-04 16:55:26,351] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 17:07:45,705] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-04 17:07:46,513] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 17:14:03,320] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\settings.py changed, reloading.
+[2025-07-04 17:14:04,108] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 17:14:34,626] WARNING django.request Bad Request: /api/preenchimentos/
+[2025-07-04 17:14:34,626] WARNING django.server "POST /api/preenchimentos/ HTTP/1.1" 400 50
+[2025-07-04 17:14:39,463] WARNING django.request Bad Request: /api/preenchimentos/
+[2025-07-04 17:14:39,464] WARNING django.server "POST /api/preenchimentos/ HTTP/1.1" 400 50
+[2025-07-04 17:14:46,867] WARNING django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[2025-07-04 17:14:46,867] WARNING django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3645
+[2025-07-04 17:18:54,404] INFO django.utils.autoreload C:\Users\enzo\Documents\App Indicadores\indicadores\urls.py changed, reloading.
+[2025-07-04 17:18:55,084] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2025-07-04 17:19:17,844] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 17:19:17,889] INFO django.server "GET /api/me/ HTTP/1.1" 200 62
+[2025-07-04 17:19:17,929] INFO django.server "GET /front-app/js/comum.js HTTP/1.1" 304 0
+[2025-07-04 17:19:18,078] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 17:19:18,088] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 17:19:18,100] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 17:19:18,282] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 17:19:23,198] INFO django.server "GET /front-app/relatorios.html HTTP/1.1" 304 0
+[2025-07-04 17:19:23,216] INFO django.server "GET /front-app/js/relatorio.js HTTP/1.1" 200 5264
+[2025-07-04 17:19:23,385] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 17:19:23,396] INFO django.server "GET /api/preenchimentos/ HTTP/1.1" 200 52
+[2025-07-04 17:19:23,404] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 17:19:26,496] INFO django.server "GET /front-app/js/equipe.js HTTP/1.1" 304 0
+[2025-07-04 17:19:26,614] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 17:19:26,625] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 17:19:26,641] INFO django.server "GET /api/usuarios/ HTTP/1.1" 200 1332
+[2025-07-04 17:19:29,176] INFO django.server "GET /front-app/indicadores.html HTTP/1.1" 304 0
+[2025-07-04 17:19:29,218] INFO django.server "GET /front-app/js/indicadores.js HTTP/1.1" 200 7566
+[2025-07-04 17:19:29,358] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 17:19:29,364] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 17:19:29,366] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 17:19:32,007] INFO django.server "GET /front-app/js/configuracoes.js HTTP/1.1" 304 0
+[2025-07-04 17:19:32,185] INFO django.server "GET /api/configuracao_notificacao/ HTTP/1.1" 200 52
+[2025-07-04 17:19:32,195] INFO django.server "GET /api/logs/ HTTP/1.1" 200 52
+[2025-07-04 17:19:32,199] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 17:19:32,215] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 17:19:47,590] INFO django.server "GET /api/setores/ HTTP/1.1" 200 164
+[2025-07-04 17:19:47,597] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 17:19:47,597] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 313
+[2025-07-04 17:24:34,863] INFO django.server "POST /api/token/ HTTP/1.1" 200 483
+[2025-07-04 17:24:35,030] INFO django.server "GET /api/me/ HTTP/1.1" 200 64
+[2025-07-04 17:24:35,191] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 17:24:35,199] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 17:24:37,239] INFO django.server "GET /front-app/preencher-indicadores.html HTTP/1.1" 304 0
+[2025-07-04 17:24:37,261] INFO django.server "GET /front-app/js/preencher-indicadores-gestores.js HTTP/1.1" 304 0
+[2025-07-04 17:24:37,354] INFO django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 200 2
+[2025-07-04 17:24:37,403] INFO django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 200 236
+[2025-07-04 17:25:17,598] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 17:25:17,689] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 17:25:21,549] INFO django.server "GET /api/preenchimentos/meus/ HTTP/1.1" 200 2
+[2025-07-04 17:25:21,598] INFO django.server "GET /api/indicadores/pendentes/ HTTP/1.1" 200 236
+[2025-07-04 17:25:22,255] INFO django.server "GET /api/indicadores/ HTTP/1.1" 200 286
+[2025-07-04 17:25:22,266] INFO django.server "GET /api/meu-usuario/ HTTP/1.1" 200 344
+[2025-07-04 17:25:33,522] INFO django.server "GET /api/notificacoes/ HTTP/1.1" 200 52
