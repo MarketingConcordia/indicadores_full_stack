@@ -12,32 +12,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const perfil = localStorage.getItem("perfil_usuario");
     if (perfil !== "master") {
       alert("Acesso negado. Esta página é exclusiva para perfil master.");
-      window.location.href = "indexgestores.html"; // redireciona o gestor
+      window.location.href = "indexgestores.html";
     }
-    
+
     preencherSelectSetores();
-    
-    fetch('http://127.0.0.1:8000/api/indicadores/', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao carregar indicadores');
-            }
-            return response.json();
-            })
-            .then(data => {
-                indicadores = data;
-                renderizarIndicadores(indicadores);
-                carregarPreenchimentos();
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Erro ao carregar indicadores. Verifique sua conexão ou faça login novamente.');
-                });
-            });
+
+    Promise.all([
+        fetch('http://127.0.0.1:8000/api/indicadores/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        }).then(res => res.json()),
+        fetch('http://127.0.0.1:8000/api/preenchimentos/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        }).then(res => res.json())
+    ])
+    .then(([indicadoresData, preenchimentosData]) => {
+        const indicadores = indicadoresData.results || indicadoresData;
+        const preenchimentos = preenchimentosData.results || preenchimentosData;
+
+        console.log('📦 Indicadores recebidos:', indicadores);
+        console.log('📝 Preenchimentos recebidos:', preenchimentos);
+
+        const indicadoresComValores = indicadores.map(indicador => {
+            const preenchimento = preenchimentos.find(p => p.indicador === indicador.id);
+            return {
+                ...indicador,
+                valor_atual: preenchimento?.valor || 0,
+                atingido: preenchimento?.valor >= parseFloat(indicador.valor_meta),
+                responsavel: preenchimento?.nome_usuario || 'Desconhecido',
+                ultimaAtualizacao: preenchimento?.data_preenchimento || null,
+                provas: [],
+                comentarios: preenchimento?.comentarios || '',
+                historico: []
+            };
+        });
+
+        renderizarIndicadores(indicadoresComValores);
+    })
+    .catch(error => {
+        console.error('Erro ao carregar indicadores ou preenchimentos:', error);
+        alert('Erro ao carregar dados. Verifique sua conexão ou faça login novamente.');
+    });
+});
+
             
             
             // Função para renderizar os cards de indicadores
@@ -77,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const statusBar = `<div class="trend-bar ${statusClass}"></div>`;
                         
                         // Cor de fundo para o badge do setor
-                        const corSetor = coresSetores[indicador.setor] || "#64748b"; // cor padrão se não encontrar
+                        const corSetor = coresSetores[indicador.setor_nome] || "#64748b"; // cor padrão se não encontrar
                         
                         // Formatação do valor e meta
                         const formatarValor = (valor) => {
@@ -102,14 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h3 class="text-lg font-bold text-blue-800">${indicador.nome}</h3>
                     ${variacaoText}
                     </div>
-                    <div class="inline-block text-white text-xs px-2 py-1 rounded mb-3" style="background-color: ${corSetor}">${indicador.setor}</div>
+                    <div class="inline-block text-white text-xs px-2 py-1 rounded mb-3" style="background-color: ${corSetor}">${indicador.setor_nome}</div>
                     <div class="flex items-center mb-2">
                     <span class="mr-2">${statusIcon}</span>
                     <span class="text-sm">${indicador.status === 'atingido' ? 'Meta atingida' : 'Meta não atingida'}</span>
                     </div>
                     <div class="text-sm text-gray-600 mb-3">
-                Atual: ${formatarValor(indicador.valorAtual)} / Meta: ${formatarValor(indicador.meta)}
-                </div>
+                        Atual: ${formatarValor(indicador.valor_atual)} / Meta: ${formatarValor(indicador.valor_meta)}
+                    </div>
                 <div class="flex justify-end">
                 <button class="btn-detalhes bg-amber-400 hover:bg-amber-500 text-amber-900 text-xs px-3 py-1 rounded transition-colors">
                 Ver +
@@ -163,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="space-y-2">
                 <div class="flex justify-between">
                 <span class="text-gray-600">Setor:</span>
-                <span class="font-medium">${indicador.setor}</span>
+                <span class="font-medium">${indicador.setor_nome}</span>
                 </div>
                 <div class="flex justify-between">
                 <span class="text-gray-600">Status:</span>
@@ -173,11 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="flex justify-between">
             <span class="text-gray-600">Valor Atual:</span>
-            <span class="font-medium">${formatarValor(indicador.valorAtual)}</span>
+            <span class="font-medium">${formatarValor(indicador.valor_atual)}</span>
+
             </div>
             <div class="flex justify-between">
             <span class="text-gray-600">Meta:</span>
-            <span class="font-medium">${formatarValor(indicador.meta)}</span>
+            <span class="font-medium">${formatarValor(indicador.valor_atual)}</span>
+
             </div>
             <div class="flex justify-between">
             <span class="text-gray-600">Variação:</span>
@@ -225,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="bg-white p-4 rounded-lg shadow">
             <h3 class="text-lg font-semibold mb-3">Provas Enviadas</h3>
             <div class="flex flex-wrap gap-2">
-            ${indicador.provas.map(prova => `
+            ${(indicador.provas || []).map(prova => `
             <div class="relative group">
             <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -284,43 +302,44 @@ document.addEventListener('DOMContentLoaded', () => {
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: indicador.historico.map(item => item.mes),
+                    labels: (indicador.historico || []).map(item => item.mes),
                     datasets: [
-                    {
-                        label: 'Valor',
-                        data: indicador.historico.map(item => item.valor),
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        tension: 0.3,
-                        fill: true
+                        {
+                            label: 'Valor',
+                            data: (indicador.historico || []).map(item => item.valor),
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.3,
+                            fill: true
                         },
                         {
                             label: 'Meta',
-                            data: indicador.historico.map(item => item.meta),
+                            data: (indicador.historico || []).map(item => item.meta),
                             borderColor: '#ef4444',
                             borderDash: [5, 5],
                             borderWidth: 2,
                             pointRadius: 0,
                             fill: false
                         }
-                        ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                }
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: false
-                                    }
-                                }
-                            }
-                        });
-                        }, 100);
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }, 100);
+
                         
                         function salvarMeta(indicadorId) {
                             const novaMeta = document.getElementById('input-nova-meta').value;
@@ -440,7 +459,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                                     // Configurar eventos do modal de edição de meta
                                                     const editarMetaModal = document.getElementById('editar-meta-modal');
                                                     const cancelarMeta = document.getElementById('cancelar-meta');
-                                                    const salvarMeta = document.getElementById('salvar-meta');
+                                                    const salvarMeta = document.getElementById('btn-salvar-meta');
+                                                    if (salvarMeta) {
+                                                        salvarMeta.addEventListener('click', () => {
+                                                            const novaMeta = parseFloat(document.getElementById('editar-meta-nova').value);
+                                                            const nomeIndicador = document.getElementById('editar-meta-nome').value;
+                                                            // restante da lógica de salvamento
+                                                        });
+                                                    }
                                                     
                                                     cancelarMeta.addEventListener('click', () => {
                                                         editarMetaModal.classList.add('hidden');
@@ -566,3 +592,4 @@ function preencherSelectSetores() {
         console.error("Erro ao preencher setores:", err);
     });
 }
+

@@ -90,6 +90,7 @@ class Preenchimento(models.Model):
     data_preenchimento = models.DateTimeField(auto_now_add=True)
     comentario = models.TextField(blank=True, null=True)
     arquivo = models.FileField(upload_to='provas/', blank=True, null=True)
+    origem = models.CharField(max_length=255, blank=True, null=True) 
 
     class Meta:
         unique_together = ('indicador', 'mes', 'ano', 'preenchido_por')

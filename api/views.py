@@ -99,8 +99,9 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         usuario = self.request.user
         arquivo = self.request.FILES.get('arquivo')
+        origem = self.request.data.get('origem')
 
-        # Obter configuração de armazenamento ativa
+        # Configuração de armazenamento (se existir)
         try:
             config = ConfiguracaoArmazenamento.objects.get(ativo=True)
         except ConfiguracaoArmazenamento.DoesNotExist:
@@ -108,13 +109,16 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
 
         url_arquivo = None
         if arquivo:
-            url_arquivo = upload_arquivo(arquivo, config)
+            url_arquivo = upload_arquivo(arquivo, arquivo.name, config)
 
         preenchimento = serializer.save(preenchido_por=usuario)
-        
+
         if url_arquivo:
             preenchimento.arquivo = url_arquivo
-            preenchimento.save()
+        if origem:
+            preenchimento.origem = origem
+
+        preenchimento.save()
 
         # Notificações se necessário
         indicador = preenchimento.indicador

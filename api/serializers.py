@@ -80,11 +80,13 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
     setor_nome = serializers.CharField(source='indicador.setor.nome', read_only=True)
     tipo_meta = serializers.CharField(source='indicador.tipo_meta', read_only=True)
     nome_usuario = serializers.CharField(source='preenchido_por.first_name', read_only=True)
+    origem = serializers.CharField(required=False, allow_blank=True)
+    preenchido_por = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Preenchimento
         fields = '__all__'
-        read_only_fields = ['indicador_nome', 'setor_nome', 'tipo_meta', 'nome_usuario']
+        read_only_fields = ['indicador_nome', 'setor_nome', 'tipo_meta', 'nome_usuario', 'preenchido_por']
 
 
 # =============================

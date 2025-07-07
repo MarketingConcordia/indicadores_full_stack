@@ -115,7 +115,7 @@
 
 
 <!-- Modal de Preenchimento -->
-<div id="modal-preencher" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+<div id="modal-preencher" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
   <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6">
       <h2 id="titulo-indicador" class="text-xl font-bold mb-4">Preencher Indicador</h2>
 
@@ -126,7 +126,7 @@
           </div>
           <div>
               <label>Mês (MM/AAAA):</label>
-              <input type="text" id="mes" placeholder="06/2025" required class="w-full border rounded px-2 py-1">
+              <input type="datetime" id="mes" placeholder="06/2025" required class="w-full border rounded px-2 py-1">
           </div>
           <div>
               <label>Comentário:</label>
@@ -135,6 +135,10 @@
           <div>
               <label>Provas (arquivo):</label>
               <input type="file" id="provas" class="w-full border rounded px-2 py-1">
+          </div>
+          <div>
+              <label>Origem da Prova (link ou caminho):</label>
+              <input type="text" id="origem" class="w-full border rounded px-2 py-1">
           </div>
 
           <div class="mt-4 flex justify-end gap-2">
@@ -145,6 +149,7 @@
   </div>
 </div>
 
+<script src="js/comum.js"></script>
 <script src="js/preencher-indicadores-gestores.js"></script>
 </body>
 </html>

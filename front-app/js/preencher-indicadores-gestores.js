@@ -82,10 +82,20 @@ function carregarIndicadores() {
 
 // 🔸 Abrir modal de preenchimento
 function abrirModal(indicador) {
-  indicadorSelecionado = indicador;
-  document.getElementById('titulo-indicador').innerText = `Preencher - ${indicador.nome}`;
-  document.getElementById('modal-preencher').classList.remove('hidden');
+    indicadorSelecionado = indicador;
+    document.getElementById('titulo-indicador').innerText = `Preencher - ${indicador.nome}`;
+    document.getElementById('modal-preencher').classList.remove('hidden');
+
+    // 🆕 Limpar campos ao abrir
+    document.getElementById('valor').value = '';
+
+    // 🆕 Pré-preencher mês atual
+    const hoje = new Date();
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const ano = hoje.getFullYear();
+    document.getElementById('mes').value = `${mes}/${ano}`;
 }
+
 
 // 🔸 Fechar modal
 function fecharModal() {
@@ -93,42 +103,61 @@ function fecharModal() {
 }
 
 // 🔸 Submissão do preenchimento
-document.getElementById('formPreenchimento').addEventListener('submit', function (e) {
-  e.preventDefault();
+document.getElementById('formPreenchimento').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-  const token = localStorage.getItem('access');
-  const valor = document.getElementById('valor').value;
-  const mesAno = document.getElementById('mes').value;
-  const [mes, ano] = mesAno.split('/');
+    const token = localStorage.getItem('access');
+    const valor = document.getElementById('valor').value;
+    const mesAno = document.getElementById('mes').value;
+    const comentario = document.getElementById('comentario').value;
+    const arquivo = document.getElementById('provas').files[0];
+    const origem = document.getElementById('origem').value;
 
-  const payload = {
-    indicador: indicadorSelecionado.id,
-    valor_realizado: valor,
-    mes: parseInt(mes),
-    ano: parseInt(ano)
-  };
+    if (!indicadorSelecionado || !valor || !mesAno) {
+        alert("Preencha os campos obrigatórios.");
+        return;
+    }
 
-  fetch('http://127.0.0.1:8000/api/preenchimentos/', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  })
-    .then(response => {
-      if (!response.ok) throw new Error('Erro ao salvar o preenchimento');
-      return response.json();
-    })
-    .then(() => {
-      alert('Preenchimento salvo com sucesso!');
-      fecharModal();
-      carregarIndicadores();
-    })
-    .catch(error => {
-      alert('Erro: ' + error.message);
-    });
+    const [mes, ano] = mesAno.split('/');
+
+    const formData = new FormData();
+    formData.append('indicador', indicadorSelecionado.id);
+    formData.append('valor_realizado', valor);
+    formData.append('mes', parseInt(mes));
+    formData.append('ano', parseInt(ano));
+
+    if (comentario) formData.append('comentario', comentario);        
+    if (origem) formData.append('origem', origem);                     
+    if (arquivo) formData.append('arquivo', arquivo);                 
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/preenchimentos/', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            const erro = await response.json();
+            console.error("⚠️ Erro da API:", erro); // Mostra o erro detalhado no console
+            const mensagem = Object.values(erro).flat().join('\n');
+            throw new Error(mensagem || "Erro ao salvar o preenchimento.");
+        }
+
+        alert('Preenchimento salvo com sucesso!');
+        fecharModal();
+        await carregarPreenchimentos();
+        carregarIndicadores();
+
+    } catch (error) {
+        const errorText = await error.response?.text?.() || error.message;
+        console.error("Erro detalhado:", errorText);
+        alert("Erro ao salvar o preenchimento:\n" + errorText);
+    }
 });
+
 
 // 🔸 Iniciar carregamento ao abrir a página
 window.onload = async () => {
