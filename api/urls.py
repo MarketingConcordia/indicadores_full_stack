@@ -9,9 +9,7 @@ from .views import (
     UsuarioViewSet,
     IndicadorViewSet,
     PreenchimentoViewSet,
-    NotificacaoViewSet,
     ConfiguracaoArmazenamentoViewSet,
-    ConfiguracaoNotificacaoViewSet,
     LogDeAcaoViewSet,
 
     # Views customizadas
@@ -34,9 +32,7 @@ router.register(r'setores', SetorViewSet)
 router.register(r'usuarios', UsuarioViewSet)
 router.register(r'indicadores', IndicadorViewSet, basename='indicadores')
 router.register(r'preenchimentos', PreenchimentoViewSet, basename='preenchimentos')
-router.register(r'notificacoes', NotificacaoViewSet)
 router.register(r'configuracao_armazenamento', ConfiguracaoArmazenamentoViewSet)
-router.register(r'configuracao_notificacao', ConfiguracaoNotificacaoViewSet)
 router.register(r'logs', LogDeAcaoViewSet)
 
 # 🔹 ROTAS CUSTOMIZADAS

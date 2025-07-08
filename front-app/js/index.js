@@ -36,13 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const preenchimento = preenchimentos.find(p => p.indicador === indicador.id);
             return {
                 ...indicador,
-                valor_atual: preenchimento?.valor || 0,
-                atingido: preenchimento?.valor >= parseFloat(indicador.valor_meta),
+                valor_atual: preenchimento?.valor_realizado || 0,
+                atingido: preenchimento?.valor_realizado >= parseFloat(indicador.valor_meta),
                 responsavel: preenchimento?.nome_usuario || 'Desconhecido',
                 ultimaAtualizacao: preenchimento?.data_preenchimento || null,
-                provas: [],
-                comentarios: preenchimento?.comentarios || '',
-                historico: []
+                comentarios: preenchimento?.comentario || '',
+                origem: preenchimento?.origem || '',
+                provas: preenchimento?.arquivo ? [preenchimento.arquivo] : [],
+                historico: [] // Pode ser atualizado depois
             };
         });
 
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.innerHTML = '';
                 
                 // Cores para os diferentes setores
-                const coresSetores = {
+                const coresSetores = {   // FAZER COM QUE ISSO SEJA DE FORMA RANDOMICA!!!
                     "Financeiro": "#4f46e5", // indigo
                     "Marketing": "#ec4899", // pink
                     "Logística": "#f59e0b", // amber
@@ -262,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="mt-4">
         <label class="block text-sm font-medium text-gray-700 mb-1">Origem das Provas:</label>
-        <input type="text" id="origem-provas-input" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Informe o link ou caminho da origem das provas" />
+        <input type="text" id="origem-provas-input" value="${indicador.origem}" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Informe o link ou caminho da origem das provas" />
         </div>
         </div>
         

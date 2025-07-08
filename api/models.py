@@ -108,20 +108,7 @@ class PermissaoIndicador(models.Model):
 
     def __str__(self):
         return f"{self.usuario} - {self.indicador}"
-
-
-# ======================
-# 🔹 NOTIFICAÇÕES INTERNAS
-# ======================
-class Notificacao(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    texto = models.CharField(max_length=255)
-    lida = models.BooleanField(default=False)
-    data = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Notificação para {self.usuario.email}"
-
+    
 
 # ======================
 # 🔹 CONFIGURAÇÃO DE ARMAZENAMENTO

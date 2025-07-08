@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import (
-    Setor, Usuario, Indicador, Preenchimento,
-    Notificacao, ConfiguracaoNotificacao, LogDeAcao,
+    Setor, Usuario, Indicador, Preenchimento, LogDeAcao,
     Meta, ConfiguracaoArmazenamento
 )
 
@@ -86,8 +85,15 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Preenchimento
         fields = '__all__'
-        read_only_fields = ['indicador_nome', 'setor_nome', 'tipo_meta', 'nome_usuario', 'preenchido_por']
-
+        read_only_fields = [
+            'id',
+            'preenchido_por',
+            'nome_usuario',
+            'data_preenchimento',
+            'indicador_nome',
+            'setor_nome',
+            'tipo_meta',
+        ]
 
 # =============================
 # 🔹 METAS MENSAIS
@@ -95,21 +101,6 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
 class MetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meta
-        fields = '__all__'
-
-
-# =============================
-# 🔹 NOTIFICAÇÕES
-# =============================
-class NotificacaoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Notificacao
-        fields = '__all__'
-
-
-class ConfiguracaoNotificacaoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConfiguracaoNotificacao
         fields = '__all__'
 
 

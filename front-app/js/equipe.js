@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       email: email,
       username: email,
       password: senha,
-      perfil: "gestor",
+      perfil: document.getElementById("perfil").value,
       setores_ids: [setorSelecionado]
     };
 
@@ -82,48 +82,85 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function listarGestores() {
   const token = localStorage.getItem("access");
+  const tabela = document.getElementById("tabela-usuarios");
+  if (!tabela) return;
 
   fetch("http://127.0.0.1:8000/api/usuarios/", {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.json())
     .then(data => {
-      const lista = document.getElementById("lista-gestores");
-      lista.innerHTML = "";
+      const usuarios = data.results || data;
+      tabela.innerHTML = "";
 
-      const gestores = (data.results || []).filter(u => u.perfil === "gestor");
-
-      if (gestores.length === 0) {
-        lista.innerHTML = `<p class="text-gray-500">Nenhum gestor cadastrado.</p>`;
+      if (usuarios.length === 0) {
+        tabela.innerHTML = `
+          <tr>
+            <td colspan="6" class="text-center py-4 text-gray-500">Nenhum usuário encontrado.</td>
+          </tr>`;
         return;
       }
 
-      gestores.forEach(gestor => {
-        const card = document.createElement("div");
-        card.className = "bg-white p-4 rounded shadow flex justify-between items-center";
+      usuarios.forEach(usuario => {
+        const tr = document.createElement("tr");
 
-        card.innerHTML = `
-          <div>
-            <p class="font-medium">${gestor.first_name}</p>
-            <p class="text-sm text-gray-600">${gestor.email}</p>
-            <p class="text-sm text-gray-500">Setores: ${gestor.setores?.map(s => s.nome).join(", ") || '-'}</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="editarGestor(${gestor.id})" class="text-blue-600 hover:underline text-sm">Editar</button>
-            <button onclick="excluirGestor(${gestor.id})" class="text-red-600 hover:underline text-sm">Excluir</button>
-          </div>
+        const setores = (usuario.setores || [])
+          .map(s => s.nome)
+          .join(", ") || "-";
+
+        const statusLabel = usuario.is_active
+          ? `<span class="text-green-600 font-medium">Ativo</span>`
+          : `<span class="text-red-600 font-medium">Inativo</span>`;
+
+        const btnStatus = usuario.is_active
+          ? `<button onclick="alterarStatusUsuario(${usuario.id}, false)" class="text-red-600 hover:underline">Inativar</button>`
+          : `<button onclick="alterarStatusUsuario(${usuario.id}, true)" class="text-green-600 hover:underline">Ativar</button>`;
+
+        tr.innerHTML = `
+          <td class="px-4 py-2">${usuario.first_name}</td>
+          <td class="px-4 py-2">${usuario.email}</td>
+          <td class="px-4 py-2">${usuario.perfil === "master" ? "Master" : "Gestor"}</td>
+          <td class="px-4 py-2">${setores}</td>
+          <td class="px-4 py-2 text-center">${statusLabel}</td>
+          <td class="px-4 py-2 text-center space-x-2">
+            <button onclick="editarUsuario(${usuario.id})" class="text-blue-600 hover:underline">Editar</button>
+            ${btnStatus}
+          </td>
         `;
 
-        lista.appendChild(card);
+        tabela.appendChild(tr);
       });
     })
     .catch(error => {
       console.error("Erro ao listar gestores:", error);
-      alert("Erro ao buscar gestores.");
+      tabela.innerHTML = `
+        <tr>
+          <td colspan="6" class="text-center py-4 text-red-500">Erro ao carregar usuários.</td>
+        </tr>`;
     });
 }
+
+function alterarStatusUsuario(id, novoStatus) {
+  const token = localStorage.getItem("access");
+
+  fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ is_active: novoStatus })
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Falha ao alterar status");
+      listarGestores();
+    })
+    .catch(err => {
+      console.error("Erro:", err);
+      alert("Erro ao alterar status do usuário.");
+    });
+}
+
 
 function excluirGestor(id) {
   const confirmar = confirm("Tem certeza que deseja excluir este gestor?");

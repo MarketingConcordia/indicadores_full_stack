@@ -3,12 +3,12 @@ from datetime import datetime
 from django.db import models
 from rest_framework import viewsets, permissions, generics
 from .models import (
-    Setor, Usuario, Indicador, Preenchimento, Notificacao, LogDeAcao,
-    PermissaoIndicador, ConfiguracaoArmazenamento, ConfiguracaoNotificacao, Meta
+    Setor, Usuario, Indicador, Preenchimento, LogDeAcao,
+    PermissaoIndicador, ConfiguracaoArmazenamento, Meta
 )
 from .serializers import (
     SetorSerializer, UsuarioSerializer, IndicadorSerializer, PreenchimentoSerializer, MetaSerializer,
-    NotificacaoSerializer, ConfiguracaoArmazenamentoSerializer, ConfiguracaoNotificacaoSerializer,
+      ConfiguracaoArmazenamentoSerializer,
     LogDeAcaoSerializer
 )
 from .storage_service import upload_arquivo
@@ -120,20 +120,20 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
 
         preenchimento.save()
 
-        # Notificações se necessário
-        indicador = preenchimento.indicador
-        try:
-            meta = Meta.objects.get(indicador=indicador, mes=preenchimento.mes, ano=preenchimento.ano)
-            if (indicador.tipo_meta == 'crescente' and preenchimento.valor_realizado < meta.valor_esperado) or \
-            (indicador.tipo_meta == 'decrescente' and preenchimento.valor_realizado > meta.valor_esperado):
-                masters = Usuario.objects.filter(perfil='master')
-                for m in masters:
-                    Notificacao.objects.create(
-                        usuario=m,
-                        texto=f"O gestor {usuario.first_name} não atingiu a meta do indicador '{indicador.nome}'."
-                    )
-        except Meta.DoesNotExist:
-            pass
+        # # Notificações se necessário
+        # indicador = preenchimento.indicador
+        # try:
+        #     meta = Meta.objects.get(indicador=indicador, mes=preenchimento.mes, ano=preenchimento.ano)
+        #     if (indicador.tipo_meta == 'crescente' and preenchimento.valor_realizado < meta.valor_esperado) or \
+        #     (indicador.tipo_meta == 'decrescente' and preenchimento.valor_realizado > meta.valor_esperado):
+        #         masters = Usuario.objects.filter(perfil='master')
+        #         for m in masters:
+        #             Notificacao.objects.create(
+        #                 usuario=m,
+        #                 texto=f"O gestor {usuario.first_name} não atingiu a meta do indicador '{indicador.nome}'."
+        #             )
+        # except Meta.DoesNotExist:
+        #     pass
 
     def perform_destroy(self, instance):
         LogDeAcao.objects.create(
@@ -143,49 +143,11 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
         instance.delete()
 
 
-# 🔹 NOTIFICAÇÃO
-class NotificacaoViewSet(viewsets.ModelViewSet):
-    queryset = Notificacao.objects.all()
-    serializer_class = NotificacaoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        return Notificacao.objects.filter(usuario=self.request.user).order_by('-data')
-
-
 # 🔹 CONFIGURAÇÃO DE ARMAZENAMENTO
 class ConfiguracaoArmazenamentoViewSet(viewsets.ModelViewSet):
     queryset = ConfiguracaoArmazenamento.objects.all()
     serializer_class = ConfiguracaoArmazenamentoSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-# 🔹 CONFIGURAÇÃO DE NOTIFICAÇÃO
-class ConfiguracaoNotificacaoViewSet(viewsets.ModelViewSet):
-    queryset = ConfiguracaoNotificacao.objects.all().order_by("id")
-    serializer_class = ConfiguracaoNotificacaoSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.perfil == 'master':
-            return ConfiguracaoNotificacao.objects.all()
-        return ConfiguracaoNotificacao.objects.none()
-
-    def perform_create(self, serializer):
-        notificacao = serializer.save()
-
-        LogDeAcao.objects.create(
-            usuario=self.request.user,
-            acao=f"Criou configuração de notificação chamada '{notificacao.nome}'."
-        )
-
-    def perform_destroy(self, instance):
-        LogDeAcao.objects.create(
-            usuario=self.request.user,
-            acao=f"Excluiu configuração de notificação chamada '{instance.nome}'."
-        )
-        instance.delete()
 
 
 # 🔹 LOGS DE AÇÃO

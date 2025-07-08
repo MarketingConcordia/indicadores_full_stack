@@ -36,7 +36,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
                         </svg>
-                        <span class="sidebar-item">Relatórios</span>
+                        <span class="sidebar-item">Painel de Indicadores</span>
+                    </a>
+                    <a href="setores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M4 2a2 2 0 00-2 2v14h16V4a2 2 0 00-2-2H4zm2 4h2v2H6V6zm0 3h2v2H6V9zm3-3h2v2H9V6zm0 3h2v2H9V9zm3-3h2v2h-2V6zm0 3h2v2h-2V9z" />
+                        </svg>
+                        <span class="sidebar-item">Cadastrar Setores</span>
                     </a>
                     <a href="equipe.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
@@ -79,34 +85,6 @@
                         <h1 class="text-xl font-semibold text-gray-800">Gestão de equipes</h1>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <div class="relative">
-                            <button onclick="toggleDropdown()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                                <div class="relative">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                    </svg>
-                                    <span id="badge-notificacoes" 
-                                        class="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full hidden">
-                                        0
-                                    </span>
-                                </div>
-                            </button>
-                                <!-- 🔥 Dropdown -->
-                            <div id="dropdown-notificacoes" 
-                                class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
-                                <div class="p-4 border-b border-gray-200">
-                                    <h2 class="text-lg font-bold text-blue-900">Notificações</h2>
-                                </div>
-                                <ul id="lista-notificacoes" class="max-h-96 overflow-y-auto divide-y divide-gray-200">
-                                    <!-- Notificações carregam aqui -->
-                                </ul>
-                                <div class="p-2 border-t border-gray-200 text-right">
-                                    <button onclick="fecharDropdown()" 
-                                        class="text-blue-600 hover:underline text-sm">Fechar</button>
-                                </div>
-                            </div>
-                            
-                        </div>
                         <div class="relative">
                             <button id="profileButton" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">

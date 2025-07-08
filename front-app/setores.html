@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Indicadores - Perfil Master</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indicadores - Cadastro de Métricas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="flex h-screen bg-gray-100">
-        <!-- Sidebar -->
+  <div class="flex h-screen bg-gray-100">
+            <!-- Sidebar -->
         <div id="sidebar" class="sidebar bg-gradient-to-b from-blue-900 to-blue-800 text-white py-4 flex flex-col">
             <div class="px-4 py-2 flex items-center ">
                 <div class="flex items-center space-x-2">
@@ -26,7 +26,7 @@
             
             <div class="mt-8 flex-1">
                 <nav>
-                    <a href="index.html" class="flex items-center px-4 py-3 bg-blue-700 text-white hover:bg-blue-700 transition-colors">
+                    <a href="index.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
                         </svg>
@@ -38,7 +38,7 @@
                         </svg>
                         <span class="sidebar-item">Painel de Indicadores</span>
                     </a>
-                    <a href="setores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                    <a href="setores.html" class="flex items-center px-4 py-3 bg-blue-700 text-white hover:bg-blue-700 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M4 2a2 2 0 00-2 2v14h16V4a2 2 0 00-2-2H4zm2 4h2v2H6V6zm0 3h2v2H6V9zm3-3h2v2H9V6zm0 3h2v2H9V9zm3-3h2v2h-2V6zm0 3h2v2h-2V9z" />
                         </svg>
@@ -69,8 +69,8 @@
                         <span class="font-semibold text-sm"></span>
                     </div>
                     <div class="sidebar-item">
-                        <span id="campo-nome-usuario" class="text-white font-bold text-sm">Carregando...</span>
-                        <div id="campo-detalhe-perfil" class="text-xs text-blue-200">...</div>
+                        <span id="campo-nome-usuario" class="text-white font-bold text-sm"></span>
+                        <div class="text-xs text-blue-200">Perfil Master</div>
                     </div>
                 </div>
             </div>
@@ -82,10 +82,9 @@
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-semibold text-gray-800">Dashboard Geral</h1>
+                        <h1 class="text-xl font-semibold text-gray-800">Gestão de setores</h1>
                     </div>
                     <div class="flex items-center space-x-4">
-                        
                         <div class="relative">
                             <button id="profileButton" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
@@ -112,90 +111,38 @@
                 </div>
             </header>
 
-            <!-- Filtros -->
-            <div class="bg-white shadow-sm p-4 border-b">
-                <div class="flex flex-wrap items-center gap-4">
-                    <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Área/Setor</label>
-                        <select id="filter-setor" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="todos">Todos os Setores</option>
-                        </select>
-                    </div>
-                    <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Período</label>
-                        <select id="filter-periodo" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="mes-atual">Mês Atual</option>
-                            <option value="mes-anterior">Mês Anterior</option>
-                            <option value="trimestre-atual">Trimestre Atual</option>
-                            <option value="trimestre-anterior">Trimestre Anterior</option>
-                            <option value="personalizado">Período Personalizado</option>
-                        </select>
-                    </div>
-                    <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select id="filter-status" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="todos">Todos</option>
-                            <option value="atingidos">Atingidos</option>
-                            <option value="nao-atingidos">Não Atingidos</option>
-                        </select>
-                    </div>
-                    <div class="flex items-end">
-                        <button id="limpar-filtros" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                            Limpar Filtros
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Conteúdo Principal -->
-            <main class="flex-1 overflow-y-auto bg-gray-50 p-4">
-                <div class="indicadores-grid" id="indicadores-container">
-                    <!-- Os cards de indicadores serão inseridos aqui via JavaScript -->
-                </div>
-            </main>
+    <main class="flex-1 overflow-y-auto p-6">
+        <!-- Cadastro de Métricas por Setor -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+          <h2 class="text-xl font-semibold mb-4">Cadastro de Setores</h2>
+        
+          <form id="form-setor" class="flex gap-4 items-center mb-4">
+            <input
+              type="text"
+              id="nomeSetor"
+              placeholder="Nome do setor"
+              class="border border-gray-300 rounded px-3 py-2 w-1/2"
+              required
+            />
+            <button
+              type="submit"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Cadastrar
+            </button>
+          </form>
+        
+          <div id="lista-setores" class="space-y-2">
+            <!-- Setores cadastrados aparecerão aqui -->
+          </div>
         </div>
+          
+    </main>
+      
     </div>
+  </div>
 
-    <!-- Modal de Detalhes -->
-    <div id="detalhe-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div class="p-6" id="modal-content">
-                <!-- Conteúdo do modal será inserido aqui via JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Edição de Meta -->
-    <div id="editar-meta-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
-            <div class="p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Editar Meta</h3>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Indicador</label>
-                    <input type="text" id="editar-meta-nome" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Meta Atual</label>
-                    <input type="text" id="editar-meta-atual" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nova Meta</label>
-                    <input type="number" id="editar-meta-nova" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div class="flex justify-end space-x-3">
-                    <button id="cancelar-meta" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                        Cancelar
-                    </button>
-                    <button id="btn-salvar-meta"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-                    Salvar Meta
-                </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/index.js"></script>
+    <script src="js/setores.js"></script>
     <script src="js/comum.js"></script>
 </body>
 </html>

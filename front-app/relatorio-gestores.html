@@ -36,7 +36,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
                         </svg>
-                        <span class="sidebar-item">Relatórios</span>
+                        <span class="sidebar-item">Painel de Indicadores</span>
                     </a>
                     <a href="preencher-indicadores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
                         <i class="fas fa-chart-line mr-3"></i>
@@ -54,11 +54,11 @@
             <div class="mt-auto px-4 py-2">
                 <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                        <span class="font-semibold text-sm">G</span>
+                        <span class="font-semibold text-sm"></span>
                     </div>
                     <div class="sidebar-item">
-                        <div class="text-sm font-medium">Gestor</div>
-                        <div class="text-xs text-blue-200">Perfil Limitado</div>
+                        <span id="campo-nome-usuario" class="text-white font-bold text-sm">Carregando...</span>
+                        <div id="campo-detalhe-perfil" class="text-xs text-blue-200">...</div>
                     </div>
                 </div>
             </div>
@@ -70,34 +70,28 @@
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-semibold text-gray-800">Relatórios</h1>
+                        <h1 class="text-xl font-semibold text-gray-800">Painel de Indicadores</h1>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="relative">
-                            <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                                <div class="relative">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                    </svg>
-                                    <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="relative">
                             <button id="profileButton" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                                    <span class="font-semibold text-white text-sm">G</span>
+                                    <span class="font-semibold text-white text-sm" id="iniciais-usuario">--</span>
                                 </div>
-                                <span class="text-sm font-medium text-gray-700">Gestor</span>
+                                <div class="flex flex-col items-start">
+                                    <span id="campo-nome-usuario" class="text-blue-900 font-bold text-sm">Carregando...</span>
+                                </div>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Meu Perfil</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
+                                <a href="configuracoes-gestores.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
                                 <div class="border-t border-gray-100"></div>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
+                                <button onclick="logout()" 
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
+                                    Sair
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -111,24 +105,6 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Área/Setor</label>
                         <select id="filter-setor" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="todos">Todos os Setores</option>
-                            <option value="corporativo">Corporativo</option>
-                            <option value="revenda">Revenda</option>
-                            <option value="ecommerce">E-commerce</option>
-                            <option value="marketing">Marketing</option>
-                            <option value="logistica">Logística</option>
-                            <option value="rh">RH</option>
-                            <option value="juridico">Jurídico</option>
-                            <option value="financeiro">Financeiro</option>
-                            <option value="controladoria">Controladoria</option>
-                            <option value="produtos-green">Produtos Green</option>
-                            <option value="produtos-blue">Produtos Blue</option>
-                            <option value="produtos-red">Produtos RED</option>
-                            <option value="pos-venda">Pós Venda</option>
-                            <option value="compras">Compras</option>
-                            <option value="projetos">Projetos</option>
-                            <option value="producao">Produção</option>
-                            <option value="engenharia">Engenharia</option>
-                            <option value="qualidade">Qualidade</option>
                         </select>
                     </div>
                     <div class="flex-1 min-w-[200px]">
@@ -218,24 +194,11 @@
                     </form>
                 </div>
             </div>
-            <div class="flex justify-end bg-gray-50 mb-6 mr-6">
-                <div class="flex gap-3">
-                    <button onclick="baixarPDF()"
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition">
-                        📄 Exportar PDF
-                    </button>
-            
-                    <button onclick="baixarExcel()"
-                        class="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition">
-                        📊 Exportar Excel
-                    </button>
-                </div>
-            </div>
             
         </div>
     </div>
             
-
+<script src="js/comum.js"></script>
 <script>
     function gerarRelatorio() {
       const setor = document.getElementById('setorFiltro').value;
