@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Setor, Usuario, Indicador, Preenchimento, LogDeAcao,
-    Meta, ConfiguracaoArmazenamento
+    Meta, ConfiguracaoArmazenamento, Configuracao
 )
 
 
@@ -68,6 +68,19 @@ class IndicadorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Indicador
+        fields = [
+            'id', 'nome', 'setor', 'setor_nome', 'tipo_meta',
+            'status', 'valor_meta', 'criado_em', 'periodicidade',
+            'mes_inicial', 'visibilidade', 'extracao_indicador'
+        ]
+
+
+# =============================
+# 🔹 CONFIGURAÇÃO PREENCHIMENTO
+# =============================
+class ConfiguracaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Configuracao
         fields = '__all__'
 
 
@@ -108,9 +121,15 @@ class MetaSerializer(serializers.ModelSerializer):
 # 🔹 LOG DE AÇÕES
 # =============================
 class LogDeAcaoSerializer(serializers.ModelSerializer):
+    usuario_nome = serializers.SerializerMethodField()
+
     class Meta:
         model = LogDeAcao
-        fields = '__all__'
+        fields = ['id', 'usuario_nome', 'acao', 'data']
+
+    def get_usuario_nome(self, obj):
+        return obj.usuario.first_name or obj.usuario.username
+
 
 
 # =============================

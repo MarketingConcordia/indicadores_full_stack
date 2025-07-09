@@ -11,6 +11,7 @@ from .views import (
     PreenchimentoViewSet,
     ConfiguracaoArmazenamentoViewSet,
     LogDeAcaoViewSet,
+    ConfiguracaoViewSet,
 
     # Views customizadas
     get_me,
@@ -33,7 +34,8 @@ router.register(r'usuarios', UsuarioViewSet)
 router.register(r'indicadores', IndicadorViewSet, basename='indicadores')
 router.register(r'preenchimentos', PreenchimentoViewSet, basename='preenchimentos')
 router.register(r'configuracao_armazenamento', ConfiguracaoArmazenamentoViewSet)
-router.register(r'logs', LogDeAcaoViewSet)
+router.register(r'logs', LogDeAcaoViewSet, basename='logs')
+router.register(r'configuracoes', ConfiguracaoViewSet)
 
 # 🔹 ROTAS CUSTOMIZADAS
 urlpatterns = [

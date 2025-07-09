@@ -1,4 +1,5 @@
 const token = localStorage.getItem('access');
+let graficoDesempenho = null;
 
 if (!token) {
     window.location.href = 'login.html';
@@ -165,134 +166,173 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Criar conteúdo do modal
                 modalContent.innerHTML = `
-                <div class="flex justify-between items-start mb-6">
-                <h2 class="text-2xl font-bold text-blue-800">${indicador.nome}</h2>
-                <button id="fechar-modal" class="text-gray-500 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                </button>
+                <!-- TOPO -->
+                <div class="w-full bg-white rounded p-4 mb-6 border shadow">
+                    <h2 id="titulo-indicador" class="text-2xl font-bold text-blue-800 mb-2">Nome do Indicador</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+                    <p><strong>Tipo de Meta:</strong> <span id="tipo-meta-indicador"></span></p>
+                    <p><strong>Setor:</strong> <span id="setor-indicador"></span></p>
+                    <p><strong>Meta Esperada:</strong> R$ <span id="meta-indicador"></span></p>
+                    <p><strong>Responsável:</strong> <span id="responsavel-indicador"></span></p>
+                    <p><strong>Último Preenchimento:</strong> <span id="ultimo-preenchimento-indicador"></span></p>
+                    </div>
+                    <div class="mt-4 flex gap-2">
+                    <button id="exportar-excel" class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700">
+                        Exportar Excel
+                    </button>
+                    <button id="exportar-pdf" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">
+                        Exportar PDF
+                    </button>
+                    <button id="fechar-modal" class="ml-auto text-gray-500 hover:text-gray-700">
+                        ✕ Fechar
+                    </button>
+                    </div>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="bg-white p-4 rounded-lg shadow">
-                <h3 class="text-lg font-semibold mb-3">Informações Gerais</h3>
-                <div class="space-y-2">
-                <div class="flex justify-between">
-                <span class="text-gray-600">Setor:</span>
-                <span class="font-medium">${indicador.setor_nome}</span>
+
+                <!-- FILTRO DE DATA -->
+                <div class="w-full bg-white rounded p-4 mb-6 border shadow">
+                    <label for="filtro-data-modal" class="block text-sm font-medium text-gray-700 mb-1">Filtrar histórico por mês/ano:</label>
+                    <input type="month" id="filtro-data-modal" class="border px-3 py-2 rounded w-48">
                 </div>
-                <div class="flex justify-between">
-                <span class="text-gray-600">Status:</span>
-                <span class="font-medium ${indicador.status === 'atingido' ? 'text-green-600' : 'text-red-600'}">
-            ${indicador.status === 'atingido' ? 'Meta atingida' : 'Meta não atingida'}
-            </span>
-            </div>
-            <div class="flex justify-between">
-            <span class="text-gray-600">Valor Atual:</span>
-            <span class="font-medium">${formatarValor(indicador.valor_atual)}</span>
 
-            </div>
-            <div class="flex justify-between">
-            <span class="text-gray-600">Meta:</span>
-            <span class="font-medium">${formatarValor(indicador.valor_atual)}</span>
+                <!-- HISTÓRICO -->
+                <div class="w-full bg-white rounded p-4 mb-6 border shadow overflow-auto max-h-[300px]">
+                    <h3 class="text-lg font-semibold mb-3">Histórico de Preenchimentos</h3>
+                    <table class="w-full text-sm text-left border">
+                    <thead class="bg-gray-100 text-gray-700">
+                        <tr>
+                        <th class="px-4 py-2 border">Data</th>
+                        <th class="px-4 py-2 border">Valor</th>
+                        <th class="px-4 py-2 border">Meta</th>
+                        <th class="px-4 py-2 border">Status</th>
+                        <th class="px-4 py-2 border">Comentários</th>
+                        <th class="px-4 py-2 border">Provas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo-historico-modal">
+                        <!-- Conteúdo dinâmico via JS -->
+                    </tbody>
+                    </table>
+                </div>
 
-            </div>
-            <div class="flex justify-between">
-            <span class="text-gray-600">Variação:</span>
-            <span class="font-medium ${indicador.variacao >= 0 ? 'text-green-600' : 'text-red-600'}">
-            ${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}%
-            </span>
-            </div>
-            <div class="flex justify-between">
-            <span class="text-gray-600">Responsável:</span>
-            <span class="font-medium">${indicador.responsavel}</span>
-            </div>
-            <div class="flex justify-between">
-            <span class="text-gray-600">Última Atualização:</span>
-            <span class="font-medium">${new Date(indicador.ultimaAtualizacao).toLocaleString('pt-BR')}</span>
-            </div>
-            </div>
-            </div>
-            
-            <div class="bg-white p-4 rounded-lg shadow" style="height: 300px;">
-            <h3 class="text-lg font-semibold mb-3">Tendência</h3>
-            <canvas id="grafico-tendencia" class="w-full h-full"></canvas>
-            </div>
-            </div>
-            
-            <div class="bg-white p-4 rounded-lg shadow mb-6">
-            <section class="mt-6">
-            <h2 class="text-lg font-bold mb-2">Histórico</h2>
-            <table class="w-full text-sm text-left">
-            <thead class="bg-gray-100 text-gray-700">
-            <tr>
-            <th class="px-4 py-2">MÊS/ANO</th>
-            <th class="px-4 py-2">VALOR</th>
-            <th class="px-4 py-2">META</th>
-            <th class="px-4 py-2">STATUS</th>
-            </tr>
-            </thead>
-            <tbody id="tabela-historico-body">
-            <!-- Linhas serão inseridas via JS -->
-            </tbody>
-            </table>
-            </section>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="text-lg font-semibold mb-3">Provas Enviadas</h3>
-            <div class="flex flex-wrap gap-2">
-            ${(indicador.provas || []).map(prova => `
-            <div class="relative group">
-            <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            </div>
-            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded">
-            <button class="text-white bg-blue-600 hover:bg-blue-700 rounded-full p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-            </svg>
-            </button>
-            </div>
-            </div>
-        `).join('')}
-        </div>
-        <div class="mt-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Origem das Provas:</label>
-        <input type="text" id="origem-provas-input" value="${indicador.origem}" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Informe o link ou caminho da origem das provas" />
-        </div>
-        </div>
-        
-        <div class="bg-white p-4 rounded-lg shadow">
-        <h3 class="text-lg font-semibold mb-3">Comentários</h3>
-        <div id="comentario-atual" class="bg-gray-50 p-3 rounded border border-gray-200 mb-3">
-        <p class="text-gray-700">${indicador.comentarios || 'Nenhum comentário registrado.'}</p>
-        </div>
-        <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Adicionar comentário:</label>
-        <textarea id="textarea-comentario" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" rows="2"></textarea>
-        <div class="flex justify-end mt-2">
-        <button id="botao-salvar-comentario" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors">
-        Salvar
-        </button>
-        </div>
-        </div>
-        </div>
-        </div>
-        
-        <div class="flex justify-end space-x-3">
-        <button id="solicitar-revisao" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-        Solicitar Revisão
-        </button>
-        <button id="editar-meta" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors" data-id="${indicador.id}">
-        Editar Meta
-        </button>
-        </div>
+                <!-- GRÁFICO -->
+                <div class="w-full bg-white rounded p-4 border shadow">
+                    <h3 class="text-lg font-semibold mb-3">Gráfico de Desempenho</h3>
+                    <canvas id="grafico-desempenho" class="w-full h-64"></canvas>
+                </div>
         `;
+
+        // 🟦 Preencher os dados do topo do modal
+        document.getElementById('titulo-indicador').textContent = indicador.nome;
+        document.getElementById('tipo-meta-indicador').textContent = indicador.tipo_meta;
+        document.getElementById('setor-indicador').textContent = indicador.setor_nome;
+        document.getElementById('meta-indicador').textContent = indicador.valor_meta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        document.getElementById('responsavel-indicador').textContent = indicador.responsavel;
+        document.getElementById('ultimo-preenchimento-indicador').textContent = indicador.ultimaAtualizacao 
+        ? new Date(indicador.ultimaAtualizacao).toLocaleDateString('pt-BR') 
+        : 'Sem dados';
+
+        // 🟨 Preencher a tabela de histórico
+        const corpoTabela = document.getElementById('corpo-historico-modal');
+        corpoTabela.innerHTML = '';
+
+        (indicador.historico || []).forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td class="px-4 py-2 border">${new Date(item.data).toLocaleDateString('pt-BR')}</td>
+            <td class="px-4 py-2 border">R$ ${parseFloat(item.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+            <td class="px-4 py-2 border">R$ ${parseFloat(item.meta).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+            <td class="px-4 py-2 border">${item.valor >= item.meta ? '✅ Atingida' : '❌ Não Atingida'}</td>
+            <td class="px-4 py-2 border">${item.comentario || '-'}</td>
+            <td class="px-4 py-2 border">
+            ${item.provas?.length > 0 
+                ? `<a href="${item.provas[0]}" target="_blank" class="text-blue-600 underline">Ver arquivo</a>` 
+                : '-'}
+            </td>
+        `;
+        corpoTabela.appendChild(tr);
+        });
+
+        // ✅ AGORA SIM – O canvas já está no DOM
+        const canvas = document.getElementById('grafico-desempenho');
+        if (canvas) {
+        const ctx = canvas.getContext('2d');
+
+        if (window.graficoDesempenho) {
+            window.graficoDesempenho.destroy();
+        }
+
+        window.graficoDesempenho = new Chart(ctx, {
+            type: 'line',
+            data: {
+            labels: (indicador.historico || []).map(item => new Date(item.data).toLocaleDateString('pt-BR')),
+            datasets: [
+                {
+                label: 'Valor',
+                data: (indicador.historico || []).map(item => item.valor),
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.3,
+                fill: true
+                },
+                {
+                label: 'Meta',
+                data: (indicador.historico || []).map(item => item.meta),
+                borderColor: '#ef4444',
+                borderDash: [5, 5],
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: false
+                }
+            ]
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            },
+            scales: {
+                y: { beginAtZero: false }
+            }
+            }
+        });
+        }
+
+        // ✅ Botão de fechar modal
+        const btnFechar = document.getElementById('fechar-modal');
+        if (btnFechar) {
+        btnFechar.addEventListener('click', () => {
+            document.getElementById('detalhe-modal').classList.add('hidden');
+        });
+        }
+
+        // Exportar histórico para Excel
+        document.getElementById('exportar-excel').addEventListener('click', () => {
+        const linhas = [['Data', 'Valor', 'Meta', 'Status', 'Comentário']];
+        (indicador.historico || []).forEach(item => {
+            linhas.push([
+            new Date(item.data).toLocaleDateString('pt-BR'),
+            item.valor,
+            item.meta,
+            item.valor >= item.meta ? 'Atingida' : 'Não Atingida',
+            item.comentario || ''
+            ]);
+        });
+
+        const csv = linhas.map(row => row.join(';')).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `historico_${indicador.nome}.csv`;
+        link.click();
+        });
+
+        // Exportar modal para PDF (será melhorado depois com html2pdf ou jsPDF)
+        document.getElementById('exportar-pdf').addEventListener('click', () => {
+        window.print(); // simples por enquanto — depois substituímos
+        });
+
         
         // Mostrar o modal
         modal.classList.remove('hidden');

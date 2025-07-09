@@ -1,15 +1,17 @@
 # Imports padrão do views.py
 from datetime import datetime
+from django.utils.dateparse import parse_date
+from django.db.models import Q
 from django.db import models
 from rest_framework import viewsets, permissions, generics
 from .models import (
     Setor, Usuario, Indicador, Preenchimento, LogDeAcao,
-    PermissaoIndicador, ConfiguracaoArmazenamento, Meta
+    PermissaoIndicador, ConfiguracaoArmazenamento, Meta, Configuracao
 )
 from .serializers import (
     SetorSerializer, UsuarioSerializer, IndicadorSerializer, PreenchimentoSerializer, MetaSerializer,
       ConfiguracaoArmazenamentoSerializer,
-    LogDeAcaoSerializer
+    LogDeAcaoSerializer, ConfiguracaoSerializer
 )
 from .storage_service import upload_arquivo
 from django.contrib.auth import get_user_model
@@ -65,6 +67,19 @@ class IndicadorViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# 🔹 CONFIGURAÇÃO PREENCHIMENTO
+class ConfiguracaoViewSet(viewsets.ModelViewSet):
+    queryset = Configuracao.objects.all()
+    serializer_class = ConfiguracaoSerializer
+    permission_classes = [IsAuthenticated]
 
 
 # 🔹 PREENCHIMENTO
@@ -98,10 +113,24 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         usuario = self.request.user
+
+        if usuario.perfil == 'gestor':
+            try:
+                config = ConfiguracaoArmazenamento.objects.get(ativo=True)
+                limite = config.dia_limite_preenchimento
+                hoje = datetime.today().day
+
+                if hoje > limite:
+                    raise serializers.ValidationError(
+                        f"Preenchimento bloqueado. O prazo terminou no dia {limite}."
+                    )
+            except ConfiguracaoArmazenamento.DoesNotExist:
+                raise serializers.ValidationError("Configuração de preenchimento não encontrada.")
+
         arquivo = self.request.FILES.get('arquivo')
         origem = self.request.data.get('origem')
 
-        # Configuração de armazenamento (se existir)
+        # Configuração de armazenamento (reutilizada)
         try:
             config = ConfiguracaoArmazenamento.objects.get(ativo=True)
         except ConfiguracaoArmazenamento.DoesNotExist:
@@ -120,21 +149,6 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
 
         preenchimento.save()
 
-        # # Notificações se necessário
-        # indicador = preenchimento.indicador
-        # try:
-        #     meta = Meta.objects.get(indicador=indicador, mes=preenchimento.mes, ano=preenchimento.ano)
-        #     if (indicador.tipo_meta == 'crescente' and preenchimento.valor_realizado < meta.valor_esperado) or \
-        #     (indicador.tipo_meta == 'decrescente' and preenchimento.valor_realizado > meta.valor_esperado):
-        #         masters = Usuario.objects.filter(perfil='master')
-        #         for m in masters:
-        #             Notificacao.objects.create(
-        #                 usuario=m,
-        #                 texto=f"O gestor {usuario.first_name} não atingiu a meta do indicador '{indicador.nome}'."
-        #             )
-        # except Meta.DoesNotExist:
-        #     pass
-
     def perform_destroy(self, instance):
         LogDeAcao.objects.create(
             usuario=self.request.user,
@@ -150,17 +164,49 @@ class ConfiguracaoArmazenamentoViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-# 🔹 LOGS DE AÇÃO
 class LogDeAcaoViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = LogDeAcao.objects.all()
+    queryset = LogDeAcao.objects.none()
     serializer_class = LogDeAcaoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
-        if user.perfil == 'master':
-            return LogDeAcao.objects.all().order_by('-data')
-        return LogDeAcao.objects.none()
+
+        # Usuário normal só vê os próprios logs
+        if user.perfil == 'gestor':
+            queryset = LogDeAcao.objects.filter(usuario=user)
+        else:
+            queryset = LogDeAcao.objects.all()
+
+        # 🔍 Filtros opcionais
+        usuario = self.request.query_params.get('usuario')
+        setor = self.request.query_params.get('setor')
+        data_inicio = self.request.query_params.get('data_inicio')
+        data_fim = self.request.query_params.get('data_fim')
+
+        if usuario:
+            queryset = queryset.filter(usuario__id=usuario)
+
+        if setor:
+            queryset = queryset.filter(usuario__setores__id=setor)
+
+        if data_inicio:
+            try:
+                inicio = parse_date(data_inicio)
+                if inicio:
+                    queryset = queryset.filter(data__date__gte=inicio)
+            except:
+                pass
+
+        if data_fim:
+            try:
+                fim = parse_date(data_fim)
+                if fim:
+                    queryset = queryset.filter(data__date__lte=fim)
+            except:
+                pass
+
+        return queryset.order_by('-data')
 
 
 # 🔹 RELATÓRIO

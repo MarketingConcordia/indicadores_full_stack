@@ -41,7 +41,7 @@ class Indicador(models.Model):
     TIPO_META_CHOICES = [
         ('crescente', 'Para cima'),
         ('decrescente', 'Para baixo'),
-        ('acompanhamento', 'Acompanhamento'),
+        ('monitoramento', 'Monitoramento'),
     ]
 
     STATUS_CHOICES = [
@@ -50,12 +50,15 @@ class Indicador(models.Model):
     ]
 
     nome = models.CharField(max_length=255)
-    descricao = models.TextField(blank=True, null=True)
     setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
     tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
     valor_meta = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     criado_em = models.DateTimeField(auto_now_add=True)
+    periodicidade = models.PositiveIntegerField(default=1, help_text="Periodicidade em meses (1 a 12)")
+    mes_inicial = models.DateField(null=True, blank=True)
+    visibilidade = models.BooleanField(default=True, help_text="Se o indicador será visível para todos")
+    extracao_indicador = models.TextField(blank=True, help_text="Instruções de como extrair esse indicador")
 
     def __str__(self):
         return self.nome
@@ -123,6 +126,13 @@ class ConfiguracaoArmazenamento(models.Model):
 
     tipo = models.CharField(max_length=10, choices=TIPOS_ARMAZENAMENTO, default='local')
 
+    dia_limite_preenchimento = models.PositiveSmallIntegerField(
+        default=10,
+        verbose_name="Dia limite para preenchimento",
+        help_text="Apenas até esse dia do mês os gestores poderão preencher indicadores."
+    )
+
+
     # AWS
     aws_access_key = models.CharField(max_length=200, blank=True, null=True)
     aws_secret_key = models.CharField(max_length=200, blank=True, null=True)
@@ -175,3 +185,10 @@ class LogDeAcao(models.Model):
 
     def __str__(self):
         return f"{self.usuario} - {self.acao} - {self.data.strftime('%d/%m/%Y %H:%M')}"
+
+
+# ======================
+# 🔹 CONFIGURAÇÃO PREENCHIMENTO
+# ======================
+class Configuracao(models.Model):
+    dia_limite_preenchimento = models.PositiveIntegerField(default=10)

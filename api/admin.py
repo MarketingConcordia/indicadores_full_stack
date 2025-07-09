@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import Usuario, Setor
+from .models import Usuario, Setor, Indicador
 from .forms import CustomUserCreationForm
 
 # === CONFIGURAÇÃO PARA USUÁRIOS CUSTOMIZADOS ===
@@ -47,3 +47,9 @@ class UsuarioAdmin(UserAdmin):
 class SetorAdmin(admin.ModelAdmin):
     list_display = ('nome',)
     ordering = ('nome',)
+
+@admin.register(Indicador)
+class IndicadorAdmin(admin.ModelAdmin):
+    list_display = ['nome', 'setor', 'valor_meta', 'tipo_meta', 'status', 'periodicidade', 'mes_inicial']
+    search_fields = ['nome']
+    list_filter = ['setor', 'tipo_meta', 'status']

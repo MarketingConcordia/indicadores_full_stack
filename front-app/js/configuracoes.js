@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarExibicaoCamposArmazenamento();
 
   carregarNotificacoesConfig();
-  carregarLogs();
   listarSetores();
 
   configurarFormularioSetor();
@@ -174,28 +173,5 @@ function configurarExibicaoCamposArmazenamento() {
     } else if (tipo === "gcp") {
       document.getElementById("gcpFields").classList.remove("hidden");
     }
-  });
-}
-
-
-// 🔹 LOGS DE AÇÃO
-function carregarLogs() {
-  fetch("http://127.0.0.1:8000/api/logs/", {
-    headers: { Authorization: `Bearer ${localStorage.getItem("access")}` }
-  })
-  .then(res => res.json())
-  .then(data => {
-    const tbody = document.getElementById("listaLogs");
-    tbody.innerHTML = "";
-
-    data.forEach(log => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="px-4 py-2 text-sm">${log.usuario || "Desconhecido"}</td>
-        <td class="px-4 py-2 text-sm">${log.acao}</td>
-        <td class="px-4 py-2 text-sm">${new Date(log.data).toLocaleString()}</td>
-      `;
-      tbody.appendChild(row);
-    });
   });
 }

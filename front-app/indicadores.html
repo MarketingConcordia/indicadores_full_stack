@@ -54,6 +54,12 @@
                         <i class="fas fa-chart-line mr-3"></i>
                         <span class="sidebar-item">Cadastrar indicadores</span>
                     </a>
+                    <a href="logs.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a6 6 0 00-6 6v2c0 .628-.214 1.245-.602 1.735L2.293 14.293A1 1 0 003 16h14a1 1 0 00.707-1.707l-1.105-1.105A2.996 2.996 0 0116 10V8a6 6 0 00-6-6zM10 18a2 2 0 002-2H8a2 2 0 002 2z" />
+                        </svg>
+                        <span class="sidebar-item">Logs</span> 
+                    </a>
                     <a href="configuracoes.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
@@ -82,7 +88,7 @@
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-semibold text-gray-800">Gestão de equipes</h1>
+                        <h1 class="text-xl font-semibold text-gray-800">Gestão de indicadores</h1>
                     </div>
                     <div class="flex items-center space-x-4">
                         <div class="relative">
@@ -114,10 +120,10 @@
     <main class="flex-1 overflow-y-auto p-6">
         <!-- Cadastro de Métricas por Setor -->
         <section class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Cadastrar Métrica por Setor</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Cadastrar Indicador</h2>
             <form id="form-metrica" class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label for="nomeMetrica" class="block text-sm font-medium text-gray-700">Nome da Métrica:</label>
+                <label for="nomeMetrica" class="block text-sm font-medium text-gray-700">Nome do indicador:</label>
                 <input type="text" id="nomeMetrica" name="nomeMetrica" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
               </div>
               <div>
@@ -131,23 +137,69 @@
                 <input type="number" id="metaMetrica" name="metaMetrica" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
               </div>
               <div>
-                <label for="tipo_meta" class="block text-sm font-medium text-gray-700">Tipo de Meta</label>
+                <label for="tipo_meta" class="block text-sm font-medium text-gray-700">Análise de Meta</label>
                 <select id="tipo_meta" name="tipo_meta" required
                         class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <option value="crescente">Para cima (quanto maior, melhor)</option>
                   <option value="decrescente">Para baixo (quanto menor, melhor)</option>
-                  <option value="acompanhamento">Acompanhamento</option>
+                  <option value="acompanhamento">Monitoramento</option>
                 </select>
               </div>
-              <div class="md:col-span-2">
-                <label for="descricaoMetrica" class="block text-sm font-medium text-gray-700">Descrição:</label>
-                <textarea id="descricaoMetrica" name="descricaoMetrica" rows="3" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
-              </div>
+              <div>
+                <label for="periodicidade" class="block text-sm font-medium text-gray-700">Periodicidade (em meses)</label>
+                <select id="periodicidade" name="periodicidade" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <option value="">Selecione</option>
+                    <option value="1">1 mês</option>
+                    <option value="2">2 meses</option>
+                    <option value="3">3 meses</option>
+                    <option value="4">4 meses</option>
+                    <option value="5">5 meses</option>
+                    <option value="6">6 meses</option>
+                    <option value="7">7 meses</option>
+                    <option value="8">8 meses</option>
+                    <option value="9">9 meses</option>
+                    <option value="10">10 meses</option>
+                    <option value="11">11 meses</option>
+                    <option value="12">12 meses</option>
+                </select>
+                </div>
+
+                <div>
+                <label for="mesInicial" class="block text-sm font-medium text-gray-700">Mês Inicial</label>
+                <input type="month" id="mesInicial" name="mesInicial" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <div>
+                <label for="visibilidade" class="block text-sm font-medium text-gray-700">Visibilidade</label>
+                <select id="visibilidade" name="visibilidade" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <option value="true">Visível para todos</option>
+                    <option value="false">Restrito (apenas gestor responsável)</option>
+                </select>
+                </div>
+
+                <div class="md:col-span-2">
+                <label for="extracaoIndicador" class="block text-sm font-medium text-gray-700">Como extrair este indicador</label>
+                <textarea id="extracaoIndicador" name="extracaoIndicador" rows="2" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+            </div>
+
               <div class="md:col-span-2 flex justify-end">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md">Cadastrar Métrica</button>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md">Cadastrar Indicador</button>
               </div>
             </form>
         </section>
+
+        <section class="bg-white p-6 rounded-lg shadow mt-6">
+            <div >
+                <h3 class="text-lg font-semibold mb-3">Configurações de Preenchimento</h3>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="input-dia-limite">Dia-limite para preenchimento (gestores)</label>
+                <input type="number" id="input-dia-limite" min="1" max="31" class="border px-3 py-2 rounded w-32 mb-2">
+                <button id="btn-salvar-dia-limite" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                    Salvar Configuração
+                </button>
+                <p id="status-dia-limite" class="text-sm mt-2 text-gray-600"></p>
+            </div>
+        </section>
+
 
         <div class="mt-10">
             <label for="filtro-setor" class="block text-sm font-medium text-gray-700 mb-1">Filtrar por Setor</label>
@@ -156,12 +208,30 @@
             </select>
         </div>
 
-          <div class="mt-10">
-            <h2 class="text-xl font-bold mb-2">Indicadores Cadastrados</h2>
-            <ul id="indicadores-lista" class="bg-white p-4 rounded shadow">
-              <!-- Lista renderizada via JS -->
-            </ul>
-          </div>
+        <div class="mt-10">
+            <h2 class="text-xl font-bold mb-4">Indicadores Cadastrados</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded shadow text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="text-left px-4 py-2">Indicador</th>
+                            <th class="text-left px-4 py-2">Setor</th>
+                            <th class="text-left px-4 py-2">Meta</th>
+                            <th class="text-left px-4 py-2">Tipo</th>
+                            <th class="text-left px-4 py-2">Visibilidade</th>
+                            <th class="text-left px-4 py-2">Periodicidade</th>
+                            <th class="text-left px-4 py-2">Mês Inicial</th>
+                            <th class="text-left px-4 py-2">Status</th>
+                            <th class="text-center px-4 py-2">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="indicadores-lista" class="divide-y divide-gray-200">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
           
     </main>
       
@@ -170,44 +240,81 @@
 
   <!-- Modal de Edição -->
     <div id="modal-edicao" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow p-6 w-full max-w-md">
-        <h2 class="text-xl font-bold mb-4">Editar Indicador</h2>
-        <form id="form-edicao-indicador" class="space-y-4">
-        <input type="hidden" id="edit-id">
-        <div>
-            <label class="block text-sm font-medium">Nome:</label>
-            <input type="text" id="edit-nome" class="w-full border rounded px-3 py-2" required>
+        <div class="bg-white rounded-lg shadow p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <h2 class="text-xl font-bold mb-4">Editar Indicador</h2>
+            <form id="form-edicao-indicador" class="space-y-4">
+                <input type="hidden" id="edit-id">
+
+                <div>
+                    <label class="block text-sm font-medium">Nome:</label>
+                    <input type="text" id="edit-nome" class="w-full border rounded px-3 py-2" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Setor:</label>
+                    <select id="edit-setor" class="w-full border rounded px-3 py-2" required></select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Meta Esperada:</label>
+                    <input type="number" id="edit-meta" class="w-full border rounded px-3 py-2" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Tipo de Meta:</label>
+                    <select id="edit-tipo" class="w-full border rounded px-3 py-2" required>
+                        <option value="crescente">Para cima</option>
+                        <option value="decrescente">Para baixo</option>
+                        <option value="acompanhamento">Acompanhamento</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Periodicidade (meses):</label>
+                    <select id="edit-periodicidade" class="w-full border rounded px-3 py-2" required>
+                        <option value="1">1 mês</option>
+                        <option value="2">2 meses</option>
+                        <option value="3">3 meses</option>
+                        <option value="4">4 meses</option>
+                        <option value="5">5 meses</option>
+                        <option value="6">6 meses</option>
+                        <option value="7">7 meses</option>
+                        <option value="8">8 meses</option>
+                        <option value="9">9 meses</option>
+                        <option value="10">10 meses</option>
+                        <option value="11">11 meses</option>
+                        <option value="12">12 meses</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Mês Inicial:</label>
+                    <input type="month" id="edit-mes-inicial" class="w-full border rounded px-3 py-2" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Visibilidade:</label>
+                    <select id="edit-visibilidade" class="w-full border rounded px-3 py-2" required>
+                        <option value="true">Visível para todos</option>
+                        <option value="false">Restrito (apenas gestor)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Como extrair o indicador:</label>
+                    <textarea id="edit-extracao" class="w-full border rounded px-3 py-2"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="fecharModal()" class="px-4 py-2 bg-gray-400 text-white rounded">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Salvar</button>
+                </div>
+            </form>
         </div>
-        <div>
-            <label class="block text-sm font-medium">Setor:</label>
-            <select id="edit-setor" class="w-full border rounded px-3 py-2" required></select>
-        </div>
-        <div>
-            <label class="block text-sm font-medium">Meta Esperada:</label>
-            <input type="number" id="edit-meta" class="w-full border rounded px-3 py-2" required>
-        </div>
-        <div>
-            <label class="block text-sm font-medium">Tipo de Meta:</label>
-            <select id="edit-tipo" class="w-full border rounded px-3 py-2" required>
-            <option value="crescente">Para cima</option>
-            <option value="decrescente">Para baixo</option>
-            <option value="acompanhamento">Acompanhamento</option>
-            </select>
-        </div>
-        <div>
-            <label class="block text-sm font-medium">Descrição:</label>
-            <textarea id="edit-descricao" class="w-full border rounded px-3 py-2"></textarea>
-        </div>
-        <div class="flex justify-end gap-2">
-            <button type="button" onclick="fecharModal()" class="px-4 py-2 bg-gray-400 text-white rounded">Cancelar</button>
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Salvar</button>
-        </div>
-        </form>
-    </div>
     </div>
 
-  <script src="js/comum.js"></script>
-  <script src="js/indicadores.js"></script>
+    <script src="js/indicadores.js"></script>
+    <script src="js/comum.js"></script>
 
 </body>
 </html>

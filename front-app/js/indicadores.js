@@ -43,8 +43,8 @@ async function carregarIndicadores() {
     if (!response.ok) throw new Error("Erro ao carregar indicadores");
 
     const data = await response.json();
-    todosIndicadores = data.results;
-    console.log("Indicadores recebidos:", todosIndicadores);
+    todosIndicadores = data.results || data;
+    todosIndicadores.forEach(i => console.log("🔎 Indicador:", i));
 
     renderizarIndicadores();
   } catch (error) {
@@ -63,28 +63,36 @@ function renderizarIndicadores() {
     .sort((a, b) => (a.status === 'pendente' ? -1 : 1));
 
   if (filtrados.length === 0) {
-    lista.innerHTML = '<li class="text-gray-500">Nenhum indicador encontrado.</li>';
+    lista.innerHTML = `
+      <tr><td colspan="9" class="text-center text-gray-500 py-4">Nenhum indicador encontrado.</td></tr>
+    `;
     return;
   }
 
   filtrados.forEach(ind => {
-    const li = document.createElement('li');
-    li.className = 'border-b py-2 flex justify-between items-center';
-    li.innerHTML = `
-      <div>
-        <p class="font-semibold">${ind.nome}</p>
-        <p class="text-sm text-gray-500">Setor: ${ind.setor_nome} | Meta: ${ind.valor_meta} (${ind.tipo_meta})</p>
-        <p class="text-sm text-gray-400">${ind.descricao}</p>
-        <p class="text-sm ${ind.status === 'pendente' ? 'text-red-500' : 'text-green-600'} font-bold">${ind.status.toUpperCase()}</p>
-      </div>
-      <div class="space-x-2">
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-gray-50';
+    tr.innerHTML = `
+      <td class="px-4 py-2 font-semibold">${ind.nome}</td>
+      <td class="px-4 py-2">${ind.setor_nome}</td>
+      <td class="px-4 py-2">R$ ${parseFloat(ind.valor_meta).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+      <td class="px-4 py-2 capitalize">${ind.tipo_meta}</td>
+      <td class="px-4 py-2">${ind.visibilidade ? 'Todos' : 'Restrito'}</td>
+      <td class="px-4 py-2">${ind.periodicidade} mês(es)</td>
+      <td class="px-4 py-2">${ind.mes_inicial ? new Date(ind.mes_inicial).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : '--'}</td>
+      <td class="px-4 py-2">
+        <span class="${ind.status === 'pendente' ? 'text-red-600' : 'text-green-600'} font-bold">${ind.status.toUpperCase()}</span>
+      </td>
+      <td class="px-4 py-2 text-center space-x-2">
         <button onclick='abrirModal(${JSON.stringify(ind)})' class="text-blue-600 hover:underline">Editar</button>
         <button onclick="excluirIndicador(${ind.id})" class="text-red-600 hover:underline">Excluir</button>
-      </div>
+      </td>
     `;
-    lista.appendChild(li);
+    lista.appendChild(tr);
   });
 }
+
+
 
 // 🔹 Excluir indicador
 async function excluirIndicador(id) {
@@ -106,16 +114,24 @@ async function excluirIndicador(id) {
 // 🔹 Salvar novo indicador
 async function salvarIndicador(event) {
   event.preventDefault();
+  console.log("Tentando salvar indicador...");
   const token = localStorage.getItem('access');
+
+  console.log("Valor de mesInicial:", document.getElementById('mesInicial'));
+  console.log("Valor de mesInicial.value:", document.getElementById('mesInicial').value);
 
   const payload = {
     nome: document.getElementById('nomeMetrica').value,
     setor: document.getElementById('setorMetrica').value,
     valor_meta: document.getElementById('metaMetrica').value,
     tipo_meta: document.getElementById('tipo_meta').value,
-    descricao: document.getElementById('descricaoMetrica').value,
+    periodicidade: parseInt(document.getElementById('periodicidade').value),
+    mes_inicial: document.getElementById('mesInicial').value + '-01',
+    visibilidade: document.getElementById('visibilidade').value === 'true',
+    extracao_indicador: document.getElementById('extracaoIndicador').value,
     status: 'pendente'
   };
+
 
   if (!payload.nome || !payload.setor || !payload.valor_meta || !payload.tipo_meta) {
     alert("Preencha todos os campos obrigatórios.");
@@ -141,7 +157,11 @@ async function salvarIndicador(event) {
       body: JSON.stringify(payload)
     });
 
-    if (!response.ok) throw new Error("Erro ao salvar");
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Erro detalhado:", errorData); // <--- Veja isso no console
+      throw new Error("Erro ao salvar");
+    }
 
     indicadorEditandoId = null;
     document.getElementById('form-metrica').reset();
@@ -162,7 +182,10 @@ function abrirModal(indicador) {
   document.getElementById('edit-setor').value = indicador.setor;
   document.getElementById('edit-meta').value = indicador.valor_meta;
   document.getElementById('edit-tipo').value = indicador.tipo_meta;
-  document.getElementById('edit-descricao').value = indicador.descricao || '';
+  document.getElementById('edit-periodicidade').value = indicador.periodicidade || '';
+  document.getElementById('edit-mes-inicial').value = indicador.mes_inicial ? indicador.mes_inicial.slice(0, 7) : '';
+  document.getElementById('edit-visibilidade').value = String(indicador.visibilidade);
+  document.getElementById('edit-extracao').value = indicador.extracao_indicador || '';
   document.getElementById('modal-edicao').classList.remove('hidden');
 }
 
@@ -182,9 +205,13 @@ document.getElementById('form-edicao-indicador').addEventListener('submit', asyn
     setor: document.getElementById('edit-setor').value,
     valor_meta: document.getElementById('edit-meta').value,
     tipo_meta: document.getElementById('edit-tipo').value,
-    descricao: document.getElementById('edit-descricao').value,
+    periodicidade: parseInt(document.getElementById('edit-periodicidade').value),
+    mes_inicial: document.getElementById('edit-mes-inicial').value,
+    visibilidade: document.getElementById('edit-visibilidade').value === 'true',
+    extracao_indicador: document.getElementById('edit-extracao').value,
     status: 'pendente'
   };
+
 
   try {
     const response = await fetch(`${BASE_URL}/indicadores/${id}/`, {
@@ -215,3 +242,58 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('filtro-setor').addEventListener('change', renderizarIndicadores);
   document.getElementById('form-metrica').addEventListener('submit', salvarIndicador);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  carregarDiaLimite();
+  document.getElementById("btn-salvar-dia-limite").addEventListener("click", salvarDiaLimite);
+});
+
+let configuracaoId = null;
+
+function carregarDiaLimite() {
+  const token = localStorage.getItem("access");
+  fetch("http://127.0.0.1:8000/api/configuracoes/", {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+    .then(res => res.json())
+    .then(data => {
+      const config = data.results ? data.results[0] : data;
+      configuracaoId = config.id;  // salva o ID
+      document.getElementById("input-dia-limite").value = config.dia_limite_preenchimento;
+    })
+    .catch(err => {
+      console.error("Erro ao carregar configuração:", err);
+    });
+}
+
+function salvarDiaLimite() {
+  const token = localStorage.getItem("access");
+  const novoValor = parseInt(document.getElementById("input-dia-limite").value);
+
+  if (isNaN(novoValor) || novoValor < 1 || novoValor > 31) {
+    alert("Informe um dia válido entre 1 e 31.");
+    return;
+  }
+
+  if (!configuracaoId) {
+    alert("Configuração não carregada.");
+    return;
+  }
+
+  fetch(`http://127.0.0.1:8000/api/configuracoes/${configuracaoId}/`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ dia_limite_preenchimento: novoValor })
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao salvar configuração");
+      document.getElementById("status-dia-limite").textContent = `Dia-limite atualizado para: ${novoValor}`;
+    })
+    .catch(err => {
+      console.error("Erro:", err);
+      alert("Erro ao salvar o dia-limite.");
+    });
+}
