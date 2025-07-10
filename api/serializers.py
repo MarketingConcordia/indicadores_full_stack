@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Setor, Usuario, Indicador, Preenchimento, LogDeAcao,
-    Meta, ConfiguracaoArmazenamento, Configuracao
+    Meta, ConfiguracaoArmazenamento, Configuracao, MetaMensal
 )
 
 
@@ -116,7 +116,11 @@ class MetaSerializer(serializers.ModelSerializer):
         model = Meta
         fields = '__all__'
 
-
+class MetaMensalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MetaMensal
+        fields = ['id', 'indicador', 'mes', 'valor_meta']
+        
 # =============================
 # 🔹 LOG DE AÇÕES
 # =============================

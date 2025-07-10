@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import Usuario, Setor, Indicador
+from .models import Usuario, Setor, Indicador, MetaMensal
 from .forms import CustomUserCreationForm
 
 # === CONFIGURAÇÃO PARA USUÁRIOS CUSTOMIZADOS ===
@@ -53,3 +53,5 @@ class IndicadorAdmin(admin.ModelAdmin):
     list_display = ['nome', 'setor', 'valor_meta', 'tipo_meta', 'status', 'periodicidade', 'mes_inicial']
     search_fields = ['nome']
     list_filter = ['setor', 'tipo_meta', 'status']
+
+admin.site.register(MetaMensal)

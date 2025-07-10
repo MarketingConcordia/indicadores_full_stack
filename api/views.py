@@ -6,11 +6,12 @@ from django.db import models
 from rest_framework import viewsets, permissions, generics
 from .models import (
     Setor, Usuario, Indicador, Preenchimento, LogDeAcao,
-    PermissaoIndicador, ConfiguracaoArmazenamento, Meta, Configuracao
+    PermissaoIndicador, ConfiguracaoArmazenamento, Meta, Configuracao,
+    MetaMensal
 )
 from .serializers import (
     SetorSerializer, UsuarioSerializer, IndicadorSerializer, PreenchimentoSerializer, MetaSerializer,
-      ConfiguracaoArmazenamentoSerializer,
+      ConfiguracaoArmazenamentoSerializer, MetaMensalSerializer,
     LogDeAcaoSerializer, ConfiguracaoSerializer
 )
 from .storage_service import upload_arquivo
@@ -30,6 +31,8 @@ from rest_framework import serializers
 from datetime import datetime
 from django.utils.timezone import now
 from rest_framework import status
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 # 🔹 SETOR
 class SetorViewSet(viewsets.ModelViewSet):
@@ -334,6 +337,16 @@ class MetaCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(definida_por=self.request.user)
+
+class MetaMensalViewSet(viewsets.ModelViewSet):
+    queryset = MetaMensal.objects.all()
+    serializer_class = MetaMensalSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['indicador', 'mes']
+    ordering_fields = ['mes']
+    ordering = ['mes']
 
 
 class PreenchimentoListCreateView(generics.ListCreateAPIView):

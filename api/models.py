@@ -80,7 +80,18 @@ class Meta(models.Model):
     def __str__(self):
         return f"Meta de {self.indicador.nome} para {self.mes}/{self.ano}"
 
+class MetaMensal(models.Model):
+    indicador = models.ForeignKey(Indicador, on_delete=models.CASCADE, related_name='metas_mensais')
+    mes = models.DateField(help_text="Representa o mês da meta. Use sempre o primeiro dia do mês.")
+    valor_meta = models.DecimalField(max_digits=10, decimal_places=2)
 
+    class Meta:
+        unique_together = ['indicador', 'mes']
+        ordering = ['mes']
+
+    def __str__(self):
+        return f"{self.indicador.nome} - {self.mes.strftime('%m/%Y')} : {self.valor_meta}"
+    
 # ======================
 # 🔹 PREENCHIMENTOS
 # ======================

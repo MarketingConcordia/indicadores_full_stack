@@ -7,6 +7,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
+
+  <script>
+        // Proteção: apenas usuários com perfil 'master' podem acessar
+        const perfil = localStorage.getItem('perfil_usuario');
+        if (perfil !== 'master') {
+            alert("Acesso negado. Esta página é exclusiva para o perfil Master.");
+            window.location.href = 'indexgestores.html'; // ou login.html se preferir
+        }
+    </script>
 </head>
 <body>
   <div class="flex h-screen bg-gray-100">

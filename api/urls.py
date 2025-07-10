@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenRefreshView
+from .views import MetaMensalViewSet
 
 from .views import (
     SetorViewSet,
@@ -36,6 +37,7 @@ router.register(r'preenchimentos', PreenchimentoViewSet, basename='preenchimento
 router.register(r'configuracao_armazenamento', ConfiguracaoArmazenamentoViewSet)
 router.register(r'logs', LogDeAcaoViewSet, basename='logs')
 router.register(r'configuracoes', ConfiguracaoViewSet)
+router.register(r'metas-mensais', MetaMensalViewSet)
 
 # 🔹 ROTAS CUSTOMIZADAS
 urlpatterns = [
