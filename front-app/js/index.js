@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const perfil = localStorage.getItem("perfil_usuario");
     if (perfil !== "master") {
-      alert("Acesso negado. Esta página é exclusiva para perfil master.");
-      window.location.href = "indexgestores.html";
+        alert("Acesso negado. Esta página é exclusiva para perfil master.");
+        window.location.href = "indexgestores.html";
     }
 
     preencherSelectSetores();
@@ -42,55 +42,57 @@ document.addEventListener('DOMContentLoaded', () => {
         const preenchimentos = preenchimentosData.results || preenchimentosData;
         const metasMensais = metasMensaisData.results || metasMensaisData;
 
-        const indicadoresComValores = indicadores.map(indicador => {
-            const preenchimentosDoIndicador = preenchimentos.filter(p => p.indicador === indicador.id);
-            const metasDoIndicador = metasMensais.filter(m => m.indicador === indicador.id);
+        const indicadoresComValores = indicadores
+            .map(indicador => {
+                const preenchimentosDoIndicador = preenchimentos.filter(p => p.indicador === indicador.id);
+                const metasDoIndicador = metasMensais.filter(m => m.indicador === indicador.id);
 
-            preenchimentosDoIndicador.sort((a, b) => new Date(a.data_preenchimento) - new Date(b.data_preenchimento));
+                preenchimentosDoIndicador.sort((a, b) => new Date(a.data_preenchimento) - new Date(b.data_preenchimento));
 
-            const historico = preenchimentosDoIndicador.map(p => {
-                const dataPreenchimento = new Date(p.data_preenchimento);
-                const mes = `${dataPreenchimento.getFullYear()}-${String(dataPreenchimento.getMonth() + 1).padStart(2, '0')}-01`;
+                const historico = preenchimentosDoIndicador.map(p => {
+                    const dataPreenchimento = new Date(p.data_preenchimento);
+                    const mes = `${dataPreenchimento.getFullYear()}-${String(dataPreenchimento.getMonth() + 1).padStart(2, '0')}-01`;
 
-                const metaDoMes = metasDoIndicador.find(m => m.mes === mes);
-                const metaValor = metaDoMes ? parseFloat(metaDoMes.valor_meta) : parseFloat(indicador.valor_meta);
+                    const metaDoMes = metasDoIndicador.find(m => m.mes === mes);
+                    const metaValor = metaDoMes ? parseFloat(metaDoMes.valor_meta) : parseFloat(indicador.valor_meta);
+
+                    return {
+                        data: p.data_preenchimento,
+                        valor: p.valor_realizado,
+                        meta: metaValor,
+                        comentario: p.comentario,
+                        provas: p.arquivo ? [p.arquivo] : []
+                    };
+                });
+
+                const ultimoPreenchimento = preenchimentosDoIndicador.at(-1);
+                let variacao = 0;
+                if (ultimoPreenchimento && indicador.valor_meta) {
+                    const valor = parseFloat(ultimoPreenchimento.valor_realizado);
+                    const meta = parseFloat(indicador.valor_meta);
+                    if (!isNaN(valor) && !isNaN(meta) && meta !== 0) {
+                        variacao = ((valor - meta) / meta) * 100;
+                    }
+                }
 
                 return {
-                    data: p.data_preenchimento,
-                    valor: p.valor_realizado,
-                    meta: metaValor,
-                    comentario: p.comentario,
-                    provas: p.arquivo ? [p.arquivo] : []
+                    ...indicador,
+                    valor_atual: ultimoPreenchimento?.valor_realizado || 0,
+                    atingido: verificarAtingimento(
+                        indicador.tipo_meta,
+                        ultimoPreenchimento?.valor_realizado,
+                        parseFloat(indicador.valor_meta)
+                    ),
+                    variacao: parseFloat(variacao.toFixed(2)),
+                    responsavel: ultimoPreenchimento?.nome_usuario || 'Desconhecido',
+                    ultimaAtualizacao: ultimoPreenchimento?.data_preenchimento || null,
+                    comentarios: ultimoPreenchimento?.comentario || '',
+                    origem: ultimoPreenchimento?.origem || '',
+                    provas: ultimoPreenchimento?.arquivo ? [ultimoPreenchimento.arquivo] : [],
+                    historico: historico
                 };
-            });
-
-            const ultimoPreenchimento = preenchimentosDoIndicador.at(-1);
-            let variacao = 0;
-            if (ultimoPreenchimento && indicador.valor_meta) {
-                const valor = parseFloat(ultimoPreenchimento.valor_realizado);
-                const meta = parseFloat(indicador.valor_meta);
-                if (!isNaN(valor) && !isNaN(meta) && meta !== 0) {
-                    variacao = ((valor - meta) / meta) * 100;
-                }
-            }
-
-            return {
-                ...indicador,
-                valor_atual: ultimoPreenchimento?.valor_realizado || 0,
-                atingido: verificarAtingimento(
-                    indicador.tipo_meta,
-                    ultimoPreenchimento?.valor_realizado,
-                    parseFloat(indicador.valor_meta)
-                ),
-                variacao: parseFloat(variacao.toFixed(2)),
-                responsavel: ultimoPreenchimento?.nome_usuario || 'Desconhecido',
-                ultimaAtualizacao: ultimoPreenchimento?.data_preenchimento || null,
-                comentarios: ultimoPreenchimento?.comentario || '',
-                origem: ultimoPreenchimento?.origem || '',
-                provas: ultimoPreenchimento?.arquivo ? [ultimoPreenchimento.arquivo] : [],
-                historico: historico
-            };
-        });
+            })
+            .filter(indicador => indicador.ultimaAtualizacao !== null); // <- só exibe preenchidos
 
         renderizarIndicadores(indicadoresComValores);
     })
@@ -134,7 +136,12 @@ function renderizarIndicadores(dados) {
             
             // Barra de status (meta atingida ou não) no lado esquerdo
             const atingido = indicador.atingido;
-            const statusClass = atingido ? 'bg-green-500' : 'bg-red-500';
+            let statusClass = 'bg-red-500'; // padrão: não atingido
+            if (indicador.tipo_meta === 'monitoramento') {
+                statusClass = 'bg-blue-500'; // azul para monitoramento
+            } else if (indicador.atingido) {
+                statusClass = 'bg-green-500'; // verde se atingido
+            }
             const statusIcon = atingido ? '✅' : '❌';
             const statusBar = `<div class="trend-bar ${statusClass}"></div>`;
             

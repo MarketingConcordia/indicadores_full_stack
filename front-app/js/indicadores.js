@@ -33,6 +33,23 @@ async function carregarSetores() {
   }
 }
 
+// 🔹 Função auxiliar para formatar valor com base no tipo_valor
+function formatarComTipo(valor, tipo) {
+  if (valor == null || valor === '') return '-';
+
+  const numero = parseFloat(valor);
+  if (isNaN(numero)) return valor;
+
+  switch (tipo) {
+    case 'monetario':
+      return 'R$ ' + numero.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    case 'percentual':
+      return numero.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + '%';
+    default:
+      return numero.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+  }
+}
+
 // 🔹 Carregar indicadores
 async function carregarIndicadores() {
   try {
@@ -75,7 +92,7 @@ function renderizarIndicadores() {
     tr.innerHTML = `
       <td class="px-4 py-2 font-semibold">${ind.nome}</td>
       <td class="px-4 py-2">${ind.setor_nome}</td>
-      <td class="px-4 py-2">R$ ${parseFloat(ind.valor_meta).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+      <td class="px-4 py-2">${formatarComTipo(ind.valor_meta, ind.tipo_valor)}</td>
       <td class="px-4 py-2 capitalize">${ind.tipo_meta}</td>
       <td class="px-4 py-2">${ind.visibilidade ? 'Todos' : 'Restrito'}</td>
       <td class="px-4 py-2">${ind.periodicidade} mês(es)</td>
@@ -125,6 +142,7 @@ async function salvarIndicador(event) {
     setor: document.getElementById('setorMetrica').value,
     valor_meta: document.getElementById('metaMetrica').value,
     tipo_meta: document.getElementById('tipo_meta').value,
+    tipo_valor: document.getElementById('tipo_valor').value,
     periodicidade: parseInt(document.getElementById('periodicidade').value),
     mes_inicial: document.getElementById('mesInicial').value + '-01',
     visibilidade: document.getElementById('visibilidade').value === 'true',
@@ -186,6 +204,7 @@ function abrirModal(indicador) {
   document.getElementById('edit-mes-inicial').value = indicador.mes_inicial ? indicador.mes_inicial.slice(0, 7) : '';
   document.getElementById('edit-visibilidade').value = String(indicador.visibilidade);
   document.getElementById('edit-extracao').value = indicador.extracao_indicador || '';
+  document.getElementById('edit-tipo-valor').value = indicador.tipo_valor || 'numeral';
   document.getElementById('modal-edicao').classList.remove('hidden');
 }
 
@@ -205,8 +224,9 @@ document.getElementById('form-edicao-indicador').addEventListener('submit', asyn
     setor: document.getElementById('edit-setor').value,
     valor_meta: document.getElementById('edit-meta').value,
     tipo_meta: document.getElementById('edit-tipo').value,
+    tipo_valor: document.getElementById('edit-tipo-valor').value,
     periodicidade: parseInt(document.getElementById('edit-periodicidade').value),
-    mes_inicial: document.getElementById('edit-mes-inicial').value,
+    mes_inicial: document.getElementById('edit-mes-inicial').value + '-01',
     visibilidade: document.getElementById('edit-visibilidade').value === 'true',
     extracao_indicador: document.getElementById('edit-extracao').value,
     status: 'pendente'
@@ -223,7 +243,11 @@ document.getElementById('form-edicao-indicador').addEventListener('submit', asyn
       body: JSON.stringify(payload)
     });
 
-    if (!response.ok) throw new Error("Erro ao atualizar indicador");
+    if (!response.ok) {
+      const erro = await response.json();
+      console.error("Erro detalhado:", erro);
+      throw new Error("Erro ao atualizar indicador");
+    }
 
     await carregarIndicadores();
     fecharModal();

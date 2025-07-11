@@ -71,7 +71,7 @@ class IndicadorSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'nome', 'setor', 'setor_nome', 'tipo_meta',
             'status', 'valor_meta', 'criado_em', 'periodicidade',
-            'mes_inicial', 'visibilidade', 'extracao_indicador'
+            'mes_inicial', 'visibilidade', 'extracao_indicador', 'tipo_valor'
         ]
 
 

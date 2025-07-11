@@ -49,11 +49,18 @@ class Indicador(models.Model):
         ('concluido', 'Concluído'),
     ]
 
+    TIPO_VALOR_CHOICES = [
+        ('numeral', 'Numeral'),
+        ('monetario', 'Monetário'),
+        ('percentual', 'Percentual'),
+    ]
+
     nome = models.CharField(max_length=255)
     setor = models.ForeignKey(Setor, on_delete=models.CASCADE, related_name='indicadores')
     tipo_meta = models.CharField(max_length=20, choices=TIPO_META_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
     valor_meta = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    tipo_valor = models.CharField(max_length=20, choices=TIPO_VALOR_CHOICES, default='numeral')
     criado_em = models.DateTimeField(auto_now_add=True)
     periodicidade = models.PositiveIntegerField(default=1, help_text="Periodicidade em meses (1 a 12)")
     mes_inicial = models.DateField(null=True, blank=True)

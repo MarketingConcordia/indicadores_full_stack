@@ -151,7 +151,15 @@
                         class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <option value="crescente">Para cima (quanto maior, melhor)</option>
                   <option value="decrescente">Para baixo (quanto menor, melhor)</option>
-                  <option value="acompanhamento">Monitoramento</option>
+                  <option value="monitoramento">Monitoramento</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Tipo de Valor</label>
+                <select id="tipo_valor" name="tipo_valor" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="numeral">Numeral</option>
+                    <option value="monetario">Monetário</option>
+                    <option value="percentual">Percentual</option>
                 </select>
               </div>
               <div>
@@ -274,7 +282,16 @@
                     <select id="edit-tipo" class="w-full border rounded px-3 py-2" required>
                         <option value="crescente">Para cima</option>
                         <option value="decrescente">Para baixo</option>
-                        <option value="acompanhamento">Acompanhamento</option>
+                        <option value="monitoramento">Monitoramento</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Tipo de Valor</label>
+                    <select id="edit-tipo-valor" name="edit-tipo-valor" class="w-full border rounded px-3 py-2">
+                        <option value="numeral">Numeral</option>
+                        <option value="monetario">Monetário</option>
+                        <option value="percentual">Percentual</option>
                     </select>
                 </div>
 
