@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.conf import settings
+from datetime import date
 
 
 # ======================
@@ -67,6 +68,10 @@ class Indicador(models.Model):
     visibilidade = models.BooleanField(default=True, help_text="Se o indicador será visível para todos")
     extracao_indicador = models.TextField(blank=True, help_text="Instruções de como extrair esse indicador")
 
+    def buscar_meta_para_mes(self, ano, mes):
+        data = date(ano, mes, 1)
+        return self.metas_mensais.filter(mes=data).first()
+    
     def __str__(self):
         return self.nome
 

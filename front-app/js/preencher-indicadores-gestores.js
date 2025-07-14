@@ -152,10 +152,10 @@ document.getElementById('formPreenchimento').addEventListener('submit', async fu
         carregarIndicadores();
 
     } catch (error) {
-        const errorText = await error.response?.text?.() || error.message;
-        console.error("Erro detalhado:", errorText);
-        alert("Erro ao salvar o preenchimento:\n" + errorText);
+      console.error("Erro detalhado:", error);
+      alert("Erro ao salvar o preenchimento:\n" + error.message);
     }
+
 });
 
 

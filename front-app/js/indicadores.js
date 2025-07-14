@@ -226,7 +226,7 @@ document.getElementById('form-edicao-indicador').addEventListener('submit', asyn
     tipo_meta: document.getElementById('edit-tipo').value,
     tipo_valor: document.getElementById('edit-tipo-valor').value,
     periodicidade: parseInt(document.getElementById('edit-periodicidade').value),
-    mes_inicial: document.getElementById('edit-mes-inicial').value + '-01',
+    mes_inicial: document.getElementById('edit-mes-inicial').value,
     visibilidade: document.getElementById('edit-visibilidade').value === 'true',
     extracao_indicador: document.getElementById('edit-extracao').value,
     status: 'pendente'

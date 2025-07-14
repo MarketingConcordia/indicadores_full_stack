@@ -1,5 +1,6 @@
 # Imports padrão do views.py
-from datetime import datetime
+from datetime import datetime, date
+from rest_framework.decorators import action
 from django.utils.dateparse import parse_date
 from django.db.models import Q
 from django.db import models
@@ -33,6 +34,7 @@ from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from dateutil.relativedelta import relativedelta
 
 # 🔹 SETOR
 class SetorViewSet(viewsets.ModelViewSet):
@@ -71,11 +73,31 @@ class IndicadorViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
     
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def perform_create(self, serializer):
+        indicador = serializer.save()
+        gerar_preenchimentos_retroativos(indicador)
+    
+def gerar_preenchimentos_retroativos(indicador):
+        hoje = date.today()
+        
+        if not indicador.mes_inicial:
+            return  # Sem mês inicial, nada a fazer
+
+        data_inicio = indicador.mes_inicial.replace(day=1)
+        periodicidade = indicador.periodicidade or 1  # Padrão: 1 mês
+
+        data_iterada = data_inicio
+        preenchimentos = []
+
+        while data_iterada <= hoje.replace(day=1):
+            preenchimentos.append(Preenchimento(
+                indicador=indicador,
+                data_preenchimento=data_iterada,
+                valor_realizado=None
+            ))
+            data_iterada += relativedelta(months=periodicidade)
+
+        Preenchimento.objects.bulk_create(preenchimentos)
 
 
 # 🔹 CONFIGURAÇÃO PREENCHIMENTO
@@ -87,6 +109,7 @@ class ConfiguracaoViewSet(viewsets.ModelViewSet):
 
 # 🔹 PREENCHIMENTO
 class PreenchimentoViewSet(viewsets.ModelViewSet):
+    queryset = Preenchimento.objects.all()
     serializer_class = PreenchimentoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -158,6 +181,24 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
             acao=f"Excluiu preenchimento do indicador '{instance.indicador.nome}' do mês {instance.mes}."
         )
         instance.delete()
+
+    @action(detail=False, methods=['get'], url_path='pendentes')
+    def pendentes(self, request):
+        user = request.user
+        hoje = date.today()
+
+        # Apenas os preenchimentos que ainda não foram realizados até o mês atual
+        queryset = Preenchimento.objects.filter(
+            valor_realizado__isnull=True,
+            data_preenchimento__lte=hoje
+        ).select_related('indicador', 'indicador__setor')
+
+        # Se for gestor, filtra pelos setores dele
+        if user.perfil == 'gestor':
+            queryset = queryset.filter(indicador__setor__in=user.setores.all())
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 # 🔹 CONFIGURAÇÃO DE ARMAZENAMENTO

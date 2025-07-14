@@ -76,3 +76,39 @@ function carregarLogsComFiltros() {
       alert("Erro ao aplicar os filtros.");
     });
 }
+
+function renderizarLogs(logs) {
+  const tbody = document.getElementById("listaLogs");
+  tbody.innerHTML = "";
+
+  if (logs.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="3" class="text-center text-gray-500 py-4">Nenhum log encontrado com os filtros selecionados.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  logs.forEach(log => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td class="px-4 py-2 text-sm text-gray-900">${log.usuario_nome}</td>
+      <td class="px-4 py-2 text-sm text-gray-700">${log.acao}</td>
+      <td class="px-4 py-2 text-sm text-gray-500">${formatarData(log.data)}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+function formatarData(isoString) {
+  const data = new Date(isoString);
+  const dia = String(data.getDate()).padStart(2, '0');
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const ano = data.getFullYear();
+  const horas = String(data.getHours()).padStart(2, '0');
+  const minutos = String(data.getMinutes()).padStart(2, '0');
+  return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+}
