@@ -35,12 +35,33 @@ from rest_framework import status
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from dateutil.relativedelta import relativedelta
+from api.utils.logs import registrar_log
 
 # 🔹 SETOR
 class SetorViewSet(viewsets.ModelViewSet):
-    queryset = Setor.objects.all().order_by("id")
+    queryset = Setor.objects.all()
     serializer_class = SetorSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        nome = response.data.get('nome')
+        registrar_log(request.user, f"Cadastrou o setor '{nome}'")
+        return response
+
+    def update(self, request, *args, **kwargs):
+        setor = self.get_object()
+        nome = setor.nome
+        response = super().update(request, *args, **kwargs)
+        registrar_log(request.user, f"Editou o setor '{nome}'")
+        return response
+
+    def destroy(self, request, *args, **kwargs):
+        setor = self.get_object()
+        nome = setor.nome
+        setor.delete()
+        registrar_log(request.user, f"Excluiu o setor '{nome}'")
+        return Response({"detail": "Setor excluído com sucesso."}, status=status.HTTP_204_NO_CONTENT)
 
 
 # 🔹 USUARIO
@@ -52,6 +73,24 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         if self.request.method == 'POST':
             return [AllowAny()]  # ✅ Libera requisição POST para cadastro
         return [IsAuthenticated()]
+    
+    def perform_create(self, serializer):
+        usuario = serializer.save()
+        LogDeAcao.objects.create(
+            usuario=self.request.user,
+            acao=f"Cadastrou o usuário '{usuario.first_name or usuario.username}' com perfil {usuario.perfil.upper()}"
+        )
+
+    def perform_update(self, serializer):
+        usuario_antigo = self.get_object()
+        usuario_atualizado = serializer.save()
+
+        if usuario_antigo.is_active and not usuario_atualizado.is_active:
+            LogDeAcao.objects.create(
+                usuario=self.request.user,
+                acao=f"Inativou o usuário '{usuario_antigo.first_name or usuario_antigo.username}'"
+            )
+
 
 
 # 🔹 INDICADOR
@@ -60,22 +99,42 @@ class IndicadorViewSet(viewsets.ModelViewSet):
     serializer_class = IndicadorSerializer
     permission_classes = [IsAuthenticated]
 
-    def destroy(self, request, *args, **kwargs):
-        indicador = self.get_object()
-        indicador.delete()
-        return Response({"detail": "Indicador excluído com sucesso."}, status=status.HTTP_204_NO_CONTENT)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        setor_id = self.request.query_params.get('setor')
+
+        if setor_id:
+            queryset = queryset.filter(setor_id=setor_id)
+
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        indicador_nome = response.data.get('nome')
+        registrar_log(request.user, f"Cadastrou o indicador '{indicador_nome}'")
+        return response
 
     def update(self, request, *args, **kwargs):
         parcial = kwargs.pop('partial', False)
         indicador = self.get_object()
+        nome_anterior = indicador.nome
         serializer = self.get_serializer(indicador, data=request.data, partial=parcial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        registrar_log(request.user, f"Editou o indicador '{nome_anterior}'")
         return Response(serializer.data)
-    
+
+    def destroy(self, request, *args, **kwargs):
+        indicador = self.get_object()
+        nome = indicador.nome
+        indicador.delete()
+        registrar_log(request.user, f"Excluiu o indicador '{nome}'")
+        return Response({"detail": "Indicador excluído com sucesso."}, status=status.HTTP_204_NO_CONTENT)
+
     def perform_create(self, serializer):
         indicador = serializer.save()
         gerar_preenchimentos_retroativos(indicador)
+
     
 def gerar_preenchimentos_retroativos(indicador):
         hoje = date.today()
@@ -104,7 +163,13 @@ def gerar_preenchimentos_retroativos(indicador):
 class ConfiguracaoViewSet(viewsets.ModelViewSet):
     queryset = Configuracao.objects.all()
     serializer_class = ConfiguracaoSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        registrar_log(request.user, f"Atualizou as configurações do sistema.")
+        return response
+
 
 
 # 🔹 PREENCHIMENTO
@@ -174,6 +239,46 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
             preenchimento.origem = origem
 
         preenchimento.save()
+
+        # ✅ Criar log apenas se foi preenchido com valor
+        if preenchimento.valor_realizado is not None:
+            valor = preenchimento.valor_realizado
+            tipo = preenchimento.indicador.tipo_valor
+            nome_indicador = preenchimento.indicador.nome
+            mes = str(preenchimento.mes).zfill(2)
+            ano = preenchimento.ano
+
+            if tipo == 'monetario':
+                valor_formatado = f"R$ {float(valor):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            elif tipo == 'percentual':
+                valor_formatado = f"{float(valor):.2f}%"
+            else:
+                valor_formatado = f"{valor}"
+
+            mensagem = f"{usuario.first_name or usuario.username} preencheu o indicador '{nome_indicador}' com {valor_formatado} referente a {mes}/{ano}"
+            LogDeAcao.objects.create(usuario=usuario, acao=mensagem)
+
+    def perform_update(self, serializer):
+        preenchimento = serializer.save()
+        usuario = self.request.user
+
+        if preenchimento.valor_realizado is not None:
+            valor = preenchimento.valor_realizado
+            tipo = preenchimento.indicador.tipo_valor
+            nome_indicador = preenchimento.indicador.nome
+            mes = str(preenchimento.mes).zfill(2)
+            ano = preenchimento.ano
+
+            if tipo == 'monetario':
+                valor_formatado = f"R$ {float(valor):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            elif tipo == 'percentual':
+                valor_formatado = f"{float(valor):.2f}%"
+            else:
+                valor_formatado = f"{valor}"
+
+            mensagem = f"{usuario.first_name or usuario.username} atualizou o preenchimento do indicador '{nome_indicador}' para {valor_formatado} referente a {mes}/{ano}"
+            LogDeAcao.objects.create(usuario=usuario, acao=mensagem)
+
 
     def perform_destroy(self, instance):
         LogDeAcao.objects.create(

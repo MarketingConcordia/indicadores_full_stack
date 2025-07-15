@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     carregarUsuarioLogado();
     configurarToggleSidebar();
+    configurarDropdownPerfil()
 });
 
 // 🔹 Carrega dados do usuário logado e exibe no topo
@@ -68,4 +69,20 @@ function logout() {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
     window.location.href = "login.html";
+}
+
+// 👤 Dropdown do perfil
+function configurarDropdownPerfil() {
+  const profileButton = document.getElementById("profileButton");
+  const profileMenu = document.getElementById("profileMenu");
+
+  profileButton.addEventListener("click", () => {
+    profileMenu.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+      profileMenu.classList.add("hidden");
+    }
+  });
 }

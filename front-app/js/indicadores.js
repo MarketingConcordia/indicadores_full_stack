@@ -96,9 +96,12 @@ function renderizarIndicadores() {
       <td class="px-4 py-2 capitalize">${ind.tipo_meta}</td>
       <td class="px-4 py-2">${ind.visibilidade ? 'Todos' : 'Restrito'}</td>
       <td class="px-4 py-2">${ind.periodicidade} mês(es)</td>
-      <td class="px-4 py-2">${ind.mes_inicial ? new Date(ind.mes_inicial).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : '--'}</td>
+      <td class="px-4 py-2">${ind.mes_inicial ? new Date(Date.UTC(
+      parseInt(ind.mes_inicial.slice(0, 4)),  // ano
+      parseInt(ind.mes_inicial.slice(5, 7)) - 1  // mês (0-indexado)
+      )).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : '--'}</td>
       <td class="px-4 py-2">
-        <span class="${ind.status === 'pendente' ? 'text-red-600' : 'text-green-600'} font-bold">${ind.status.toUpperCase()}</span>
+        <span class="${ind.status === 'Pendente' ? 'text-red-600' : 'text-green-600'} font-bold">${ind.status.toUpperCase()}</span>
       </td>
       <td class="px-4 py-2 text-center space-x-2">
         <button onclick='abrirModal(${JSON.stringify(ind)})' class="text-blue-600 hover:underline">Editar</button>
