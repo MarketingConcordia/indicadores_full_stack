@@ -118,7 +118,6 @@
                                 </svg>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Meu Perfil</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
                                 <div class="border-t border-gray-100"></div>
                                 <button onclick="logout()" 
@@ -140,14 +139,17 @@
                             <option value="todos">Todos os Setores</option>
                         </select>
                     </div>
-                    <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Período</label>
-                        <select id="filter-periodo" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="filter-group flex flex-col">
+                        <label for="filter-ano" class="text-sm font-medium text-gray-700 mb-1">Ano:</label>
+                        <select id="filter-ano" class="border px-3 py-2 rounded">
+                            <option value="todos">Todos os Anos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group flex flex-col">
+                        <label for="filter-mes" class="text-sm font-medium text-gray-700 mb-1">Mês:</label>
+                        <select id="filter-mes" class="border px-3 py-2 rounded">
+                            <option value="todos">Todos os Meses</option>
                             <option value="mes-atual">Mês Atual</option>
-                            <option value="mes-anterior">Mês Anterior</option>
-                            <option value="trimestre-atual">Trimestre Atual</option>
-                            <option value="trimestre-anterior">Trimestre Anterior</option>
-                            <option value="personalizado">Período Personalizado</option>
                         </select>
                     </div>
                     <div class="flex-1 min-w-[200px]">

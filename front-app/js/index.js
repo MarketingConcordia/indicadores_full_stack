@@ -1,5 +1,7 @@
 const token = localStorage.getItem('access');
 let graficoDesempenho = null;
+let indicadoresComValoresGlobais = []; // Variável global para os indicadores processados
+let periodosDisponiveis = {}; // Para armazenar anos e meses disponíveis { 'YYYY': Set('MM', 'MM'), ... }
 
 // Função para verificar se a meta foi atingida, com base no tipo de meta
 function verificarAtingimento(tipo, valor, meta) {
@@ -13,8 +15,6 @@ function verificarAtingimento(tipo, valor, meta) {
 if (!token) {
     window.location.href = 'login.html';
 }
-
-let indicadores = [];
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -44,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }).then(res => res.json())
         ])
         .then(([indicadoresData, preenchimentosData, metasMensaisData]) => {
-            const indicadores = indicadoresData.results || indicadoresData;
+            const indicadoresBase = indicadoresData.results || indicadoresData;
             const preenchimentos = preenchimentosData.results || preenchimentosData;
             const metasMensais = metasMensaisData.results || metasMensaisData;
 
-            const indicadoresComValores = indicadores
+            const indicadoresCalculados = indicadoresBase
                 .map(indicador => {
                     const preenchimentosDoIndicador = preenchimentos.filter(p => p.indicador === indicador.id);
                     const metasDoIndicador = metasMensais.filter(m => m.indicador === indicador.id);
@@ -100,7 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .filter(indicador => indicador.ultimaAtualizacao !== null); // <- só exibe preenchidos
 
-            renderizarIndicadores(indicadoresComValores);
+            indicadoresComValoresGlobais = indicadoresCalculados; // Atribui ao global
+            preencherFiltrosAnoMes(); // Chama para popular os filtros de ano/mês
+            aplicarFiltros(); // Chama aplicarFiltros inicialmente para renderizar com os filtros padrão
         })
         .catch(error => {
             console.error('Erro ao carregar indicadores ou preenchimentos:', error);
@@ -114,7 +116,7 @@ function renderizarIndicadores(dados) {
     container.innerHTML = '';
 
     // Cores para os diferentes setores
-    const coresSetores = { // FAZER COM QUE ISSO SEJA DE FORMA RANDOMICA!!!
+    const coresSetores = {
         "Financeiro": "#4f46e5", // indigo
         "Marketing": "#ec4899", // pink
         "Logística": "#f59e0b", // amber
@@ -157,15 +159,16 @@ function renderizarIndicadores(dados) {
         // Formatação do valor e meta
         const formatarValor = (valor) => {
             if (valor >= 1000) {
-                return valor.toLocaleString('pt-BR');
+                return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             }
-            return valor;
+            return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         };
 
         // Variação com seta
         const variacaoIcon = indicador.variacao >= 0 ? '↑' : '↓';
         const variacaoClass = indicador.variacao >= 0 ? 'text-green-500' : 'text-red-500';
-        const variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior</span></span>`;
+        const variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior ou meta do período</span></span>`;
+
 
         card.innerHTML = `
             ${statusBar}
@@ -213,9 +216,9 @@ function mostrarDetalhes(indicador) {
     // Formatação do valor e meta
     const formatarValor = (valor) => {
         if (valor >= 1000) {
-            return valor.toLocaleString('pt-BR');
+            return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         }
-        return valor;
+        return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     };
 
     // Criar conteúdo do modal
@@ -320,13 +323,6 @@ function mostrarDetalhes(indicador) {
 
     (indicador.historico || []).forEach(item => {
         const tr = document.createElement('tr');
-
-        console.log('🧪 Verificando status histórico:', {
-            tipo: indicador.tipo_meta,
-            valor: item.valor,
-            meta: item.meta,
-            atingido: verificarAtingimento(indicador.tipo_meta, item.valor, item.meta)
-        });
 
         const statusTexto = verificarAtingimento(
                 indicador.tipo_meta,
@@ -473,7 +469,8 @@ function mostrarDetalhes(indicador) {
                 if (response.ok) {
                     alert('Meta atualizada com sucesso!');
                     fecharModalMeta();
-                    carregarIndicadores(); // 🔥 Atualiza os cards no dashboard após salvar
+                    // carregarIndicadores(); // 🔥 Atualiza os cards no dashboard após salvar - Removido ou alterado
+                    location.reload(); // Recarrega tudo para refletir a nova meta
                 } else {
                     alert('Erro ao atualizar a meta.');
                 }
@@ -502,134 +499,33 @@ function mostrarDetalhes(indicador) {
     });
 }
 
-// Inicializar a página
+// Inicializar a página (este bloco é executado após o DOM ser carregado)
 document.addEventListener('DOMContentLoaded', () => {
-    // Renderizar indicadores
-    // indicadores is not defined here, it should be passed or fetched again if needed.
-    // renderizarIndicadores(indicadores); 
-    carregarUsuarioLogado();
+    carregarUsuarioLogado(); // Esta função não foi fornecida, assumindo que existe em outro lugar.
 
     // Configurar eventos de filtro
     const filtroSetor = document.getElementById('filter-setor');
-    const filtroPeriodo = document.getElementById('filter-periodo');
+    const filtroAno = document.getElementById('filter-ano'); // Novo filtro de ano
+    const filtroMes = document.getElementById('filter-mes'); // Renomeado de filter-periodo
     const filtroStatus = document.getElementById('filter-status');
     const limparFiltros = document.getElementById('limpar-filtros');
 
-    function aplicarFiltrosAPI() {
-        const token = localStorage.getItem('access');
-        const setorSelecionado = document.getElementById('filter-setor').value;
-        const statusSelecionado = document.getElementById('filter-status').value;
-        const periodoSelecionado = document.getElementById('filter-periodo').value;
-
-        let url = 'http://127.0.0.1:8000/api/indicadores/?';
-
-        if (setorSelecionado !== 'todos') {
-            url += `setor=${setorSelecionado}&`;
-        }
-
-        if (statusSelecionado !== 'todos') {
-            url += `status=${statusSelecionado}&`;
-        }
-
-        if (periodoSelecionado !== 'mes-atual') {
-            url += `periodo=${periodoSelecionado}&`;
-        }
-
-        console.log('🔗 URL gerada para filtros:', url);
-
-        // Aqui buscamos tudo novamente, pois renderizarIndicadores precisa de preenchimentos e metas
-        Promise.all([
-            fetch(url, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => res.json()),
-            fetch('http://127.0.0.1:8000/api/preenchimentos/', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => res.json()),
-            fetch('http://127.0.0.1:8000/api/metas-mensais/', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then(res => res.json())
-        ])
-        .then(([indicadoresData, preenchimentosData, metasMensaisData]) => {
-            const indicadoresFiltrados = indicadoresData.results || indicadoresData;
-            const preenchimentos = preenchimentosData.results || preenchimentosData;
-            const metasMensais = metasMensaisData.results || metasMensaisData;
-
-            const indicadoresComValores = indicadoresFiltrados.map(indicador => {
-                const preenchimentosDoIndicador = preenchimentos.filter(p => p.indicador === indicador.id);
-                const metasDoIndicador = metasMensais.filter(m => m.indicador === indicador.id);
-
-                preenchimentosDoIndicador.sort((a, b) => new Date(a.data_preenchimento) - new Date(b.data_preenchimento));
-
-                const historico = preenchimentosDoIndicador.map(p => {
-                    const dataPreenchimento = new Date(p.data_preenchimento);
-                    const mes = `${dataPreenchimento.getFullYear()}-${String(dataPreenchimento.getMonth() + 1).padStart(2, '0')}-01`;
-                    const metaDoMes = metasDoIndicador.find(m => m.mes === mes);
-                    const metaValor = metaDoMes ? parseFloat(metaDoMes.valor_meta) : parseFloat(indicador.valor_meta);
-
-                    return {
-                        data: p.data_preenchimento,
-                        valor: p.valor_realizado,
-                        meta: metaValor,
-                        comentario: p.comentario,
-                        provas: p.arquivo ? [p.arquivo] : []
-                    };
-                });
-
-                const ultimoPreenchimento = preenchimentosDoIndicador.at(-1);
-                let variacao = 0;
-                if (ultimoPreenchimento && indicador.valor_meta) {
-                    const valor = parseFloat(ultimoPreenchimento.valor_realizado);
-                    const meta = parseFloat(indicador.valor_meta);
-                    if (!isNaN(valor) && !isNaN(meta) && meta !== 0) {
-                        variacao = ((valor - meta) / meta) * 100;
-                    }
-                }
-
-                return {
-                    ...indicador,
-                    valor_atual: ultimoPreenchimento?.valor_realizado || 0,
-                    atingido: verificarAtingimento(
-                        indicador.tipo_meta,
-                        ultimoPreenchimento?.valor_realizado,
-                        parseFloat(indicador.valor_meta)
-                    ),
-                    variacao: parseFloat(variacao.toFixed(2)),
-                    responsavel: ultimoPreenchimento?.nome_usuario || 'Desconhecido',
-                    ultimaAtualizacao: ultimoPreenchimento?.data_preenchimento || null,
-                    comentarios: ultimoPreenchimento?.comentario || '',
-                    origem: ultimoPreenchimento?.origem || '',
-                    provas: ultimoPreenchimento?.arquivo ? [ultimoPreenchimento.arquivo] : [],
-                    historico: historico
-                };
-            }).filter(ind => ind.ultimaAtualizacao !== null);
-
-            renderizarIndicadores(indicadoresComValores);
-        })
-        .catch(error => {
-            console.error('❌ Erro no catch do aplicarFiltrosAPI:', error);
-            alert('Erro ao aplicar filtros.');
-        });
-}
-
-
-
-
-    filtroSetor.addEventListener('change', aplicarFiltrosAPI);
-    filtroPeriodo.addEventListener('change', aplicarFiltrosAPI);
-    filtroStatus.addEventListener('change', aplicarFiltrosAPI);
-
+    // Event listeners agora chamam aplicarFiltros
+    filtroSetor.addEventListener('change', aplicarFiltros);
+    filtroAno.addEventListener('change', () => {
+        popularMesesDoAnoSelecionado(filtroAno.value);
+        aplicarFiltros(); // Aplica o filtro após mudar o ano e popular os meses
+    });
+    filtroMes.addEventListener('change', aplicarFiltros);
+    filtroStatus.addEventListener('change', aplicarFiltros);
 
     limparFiltros.addEventListener('click', () => {
         filtroSetor.value = 'todos';
-        filtroPeriodo.value = 'mes-atual';
+        filtroAno.value = 'todos'; // Resetar ano
+        popularMesesDoAnoSelecionado('todos'); // Repopular meses para todos os anos
+        filtroMes.value = 'mes-atual'; // Resetar mês
         filtroStatus.value = 'todos';
-        renderizarIndicadores(indicadores);
+        aplicarFiltros(); // reseta os filtros
     });
 
     // Configurar eventos do modal de edição de meta
@@ -678,13 +574,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // Configurar evento para o botão de perfil
-    const profileButton = document.getElementById('profileButton');
-    const profileMenu = document.getElementById('profileMenu');
+    // // Configurar evento para o botão de perfil
+    // const profileButton = document.getElementById('profileButton');
+    // const profileMenu = document.getElementById('profileMenu');
 
-    profileButton.addEventListener('click', () => {
-        profileMenu.classList.toggle('hidden');
-    });
+    // profileButton.addEventListener('click', () => {
+    //     profileMenu.classList.toggle('hidden');
+    // });
 
     // Fechar modais ao clicar fora deles
     const detalheModal = document.getElementById('detalhe-modal');
@@ -702,6 +598,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// Função para preencher os selects de ano e mês
+function preencherFiltrosAnoMes() {
+    const selectAno = document.getElementById('filter-ano');
+    const selectMes = document.getElementById('filter-mes');
+
+    if (!selectAno || !selectMes) return;
+
+    // Limpa e adiciona a opção padrão para Ano
+    selectAno.innerHTML = `<option value="todos">Todos os Anos</option>`;
+
+    // Coleta anos e meses disponíveis
+    indicadoresComValoresGlobais.forEach(indicador => {
+        (indicador.historico || []).forEach(item => {
+            const date = new Date(item.data);
+            const year = date.getFullYear().toString();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+
+            if (!periodosDisponiveis[year]) {
+                periodosDisponiveis[year] = new Set();
+            }
+            periodosDisponiveis[year].add(month);
+        });
+    });
+
+    const sortedYears = Object.keys(periodosDisponiveis).sort((a, b) => parseInt(a) - parseInt(b));
+
+    sortedYears.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        selectAno.appendChild(option);
+    });
+
+    // Inicializa o select de meses com base na seleção padrão de "Todos os Anos"
+    popularMesesDoAnoSelecionado(selectAno.value);
+}
+
+// Função para popular o select de meses com base no ano selecionado
+function popularMesesDoAnoSelecionado(selectedYear) {
+    const selectMes = document.getElementById('filter-mes');
+    if (!selectMes) return;
+
+    selectMes.innerHTML = `<option value="todos">Todos os Meses</option>`;
+    // Adiciona "Mês Atual" apenas se nenhum ano específico for selecionado,
+    // pois "Mês Atual" se refere ao último preenchimento geral.
+    if (selectedYear === 'todos') {
+        selectMes.innerHTML += `<option value="mes-atual">Mês Atual</option>`;
+    }
+
+
+    let mesesParaAdicionar = new Set();
+    if (selectedYear === 'todos') {
+        // Se "Todos os Anos", coleta todos os meses únicos de todos os anos
+        Object.values(periodosDisponiveis).forEach(mesesSet => {
+            mesesSet.forEach(mes => mesesParaAdicionar.add(mes));
+        });
+    } else if (periodosDisponiveis[selectedYear]) {
+        // Se um ano específico, coleta os meses daquele ano
+        periodosDisponiveis[selectedYear].forEach(mes => mesesParaAdicionar.add(mes));
+    }
+
+    const sortedMonths = Array.from(mesesParaAdicionar).sort((a, b) => parseInt(a) - parseInt(b));
+
+    sortedMonths.forEach(month => {
+        const monthName = new Date(2000, parseInt(month) - 1, 1).toLocaleString('pt-BR', {
+            month: 'long'
+        });
+        const option = document.createElement('option');
+        option.value = month;
+        option.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+        selectMes.appendChild(option);
+    });
+}
 
 function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
     const corpoTabela = document.getElementById('corpo-historico-modal');
@@ -794,43 +764,113 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
 function aplicarFiltros() {
     const setorSelecionado = document.getElementById('filter-setor').value;
     const statusSelecionado = document.getElementById('filter-status').value;
-    const periodoSelecionado = document.getElementById('filter-periodo').value;
+    const anoSelecionado = document.getElementById('filter-ano').value;
+    const mesSelecionado = document.getElementById('filter-mes').value; // Agora é o filtro de mês
 
-    let filtrados = [...indicadores]; // usa os indicadores já carregados
+    let dadosFiltradosTemporarios = [...indicadoresComValoresGlobais]; // Começa com todos os dados processados
 
-    // Filtro por setor
+    // 1. Filtrar por setor
     if (setorSelecionado !== 'todos') {
-        filtrados = filtrados.filter(ind =>
+        dadosFiltradosTemporarios = dadosFiltradosTemporarios.filter(ind =>
             ind.setor_nome?.toLowerCase().includes(setorSelecionado.replace(/-/g, ''))
         );
     }
 
-    // Filtro por status
+    // 2. Ajustar dados com base no filtro de Ano/Mês
+    let indicadoresParaRenderizar = [];
+
+    dadosFiltradosTemporarios.forEach(indicadorOriginal => {
+        let valorNoPeriodo = null;
+        let metaNoPeriodo = parseFloat(indicadorOriginal.valor_meta); // Meta padrão do indicador
+        let ultimaAtualizacaoNoPeriodo = null;
+        let comentariosNoPeriodo = indicadorOriginal.comentarios;
+        let provasNoPeriodo = indicadorOriginal.provas;
+        let responsavelNoPeriodo = indicadorOriginal.responsavel;
+        let variacaoNoPeriodo = indicadorOriginal.variacao; // Variacao padrão (a mais recente)
+
+        // Se "Mês Atual" está selecionado ou nenhum filtro de ano/mês está ativo, usa os valores mais recentes
+        if (mesSelecionado === 'mes-atual' || (anoSelecionado === 'todos' && mesSelecionado === 'todos')) {
+            valorNoPeriodo = indicadorOriginal.valor_atual;
+            metaNoPeriodo = parseFloat(indicadorOriginal.valor_meta); // Volta para a meta geral do indicador
+            ultimaAtualizacaoNoPeriodo = indicadorOriginal.ultimaAtualizacao;
+            comentariosNoPeriodo = indicadorOriginal.comentarios;
+            provasNoPeriodo = indicadorOriginal.provas;
+            responsavelNoPeriodo = indicadorOriginal.responsavel;
+            variacaoNoPeriodo = indicadorOriginal.variacao; // Mantém a variação geral
+        } else {
+            // Filtrar histórico para encontrar o preenchimento mais recente no período selecionado
+            const preenchimentoDoPeriodo = (indicadorOriginal.historico || [])
+                .filter(item => {
+                    const itemDate = new Date(item.data);
+                    const itemYear = itemDate.getFullYear().toString();
+                    const itemMonth = String(itemDate.getMonth() + 1).padStart(2, '0');
+
+                    const matchesYear = anoSelecionado === 'todos' || itemYear === anoSelecionado;
+                    const matchesMonth = mesSelecionado === 'todos' || itemMonth === mesSelecionado;
+
+                    return matchesYear && matchesMonth;
+                })
+                .sort((a, b) => new Date(b.data) - new Date(a.data)) // Pega o mais recente dentro do período
+                .at(0);
+
+            if (preenchimentoDoPeriodo) {
+                valorNoPeriodo = preenchimentoDoPeriodo.valor;
+                metaNoPeriodo = preenchimentoDoPeriodo.meta; // Usa a meta específica do mês se houver
+                ultimaAtualizacaoNoPeriodo = preenchimentoDoPeriodo.data;
+                comentariosNoPeriodo = preenchimentoDoPeriodo.comentario;
+                provasNoPeriodo = preenchimentoDoPeriodo.provas;
+                // Responsável do histórico não está diretamente no item, mantém o do indicador original por padrão.
+
+                // Recalcular variação para o período selecionado em relação à meta do período
+                if (metaNoPeriodo !== 0) {
+                    variacaoNoPeriodo = ((valorNoPeriodo - metaNoPeriodo) / metaNoPeriodo) * 100;
+                } else {
+                    variacaoNoPeriodo = 0;
+                }
+            } else {
+                // Se não há dados para o período selecionado, este indicador não será renderizado neste filtro
+                return; // Pula este indicador
+            }
+        }
+
+        // Cria uma nova representação do indicador com os valores do período filtrado
+        const indicadorPeriodo = {
+            ...indicadorOriginal,
+            valor_atual: valorNoPeriodo,
+            atingido: verificarAtingimento(indicadorOriginal.tipo_meta, valorNoPeriodo, metaNoPeriodo),
+            variacao: parseFloat(variacaoNoPeriodo.toFixed(2)),
+            valor_meta: metaNoPeriodo,
+            ultimaAtualizacao: ultimaAtualizacaoNoPeriodo,
+            comentarios: comentariosNoPeriodo,
+            provas: provasNoPeriodo,
+            responsavel: responsavelNoPeriodo
+        };
+        indicadoresParaRenderizar.push(indicadorPeriodo);
+    });
+
+
+    // 3. Filtrar por status (aplicado após a adaptação dos valores por período)
     if (statusSelecionado !== 'todos') {
-        filtrados = filtrados.filter(ind => {
+        indicadoresParaRenderizar = indicadoresParaRenderizar.filter(ind => {
             if (statusSelecionado === 'atingidos') return ind.atingido === true;
             if (statusSelecionado === 'nao-atingidos') return ind.atingido === false;
             return true;
         });
     }
 
-    // Filtro por período
-    if (periodoSelecionado !== 'mes-atual') {
-        // Aqui você pode ajustar depois a lógica exata conforme o backend
-        // Por enquanto, mantemos o carregamento atual
-    }
-
-    renderizarIndicadores(filtrados);
+    renderizarIndicadores(indicadoresParaRenderizar);
 }
 
+
 document.getElementById('filter-setor').addEventListener('change', aplicarFiltros);
-document.getElementById('filter-status').addEventListener('change', aplicarFiltros);
-document.getElementById('filter-periodo').addEventListener('change', aplicarFiltros);
+// Event listener para filter-ano e filter-mes configurados dentro de DOMContentLoaded
 
 document.getElementById('limpar-filtros').addEventListener('click', () => {
     document.getElementById('filter-setor').value = 'todos';
+    document.getElementById('filter-ano').value = 'todos';
+    popularMesesDoAnoSelecionado('todos'); // Repopular o select de meses para "Todos os Anos"
+    document.getElementById('filter-mes').value = 'mes-atual';
     document.getElementById('filter-status').value = 'todos';
-    document.getElementById('filter-periodo').value = 'mes-atual';
 
     aplicarFiltros(); // reseta os filtros
 });
@@ -842,28 +882,28 @@ function preencherSelectSetores() {
     if (!select) return;
 
     fetch("http://127.0.0.1:8000/api/setores/", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    .then(res => {
-        if (!res.ok) throw new Error("Erro ao carregar setores.");
-        return res.json();
-    })
-    .then(data => {
-        const setores = data.results || data;
-        select.innerHTML = '<option value="todos">Todos os Setores</option>';
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Erro ao carregar setores.");
+            return res.json();
+        })
+        .then(data => {
+            const setores = data.results || data;
+            select.innerHTML = '<option value="todos">Todos os Setores</option>';
 
-        setores.forEach(setor => {
-            const opt = document.createElement("option");
-            opt.value = setor.id; // ✅ valor = ID real
-            opt.textContent = setor.nome; // nome com acento, capitalização correta
-            select.appendChild(opt);
+            setores.forEach(setor => {
+                const opt = document.createElement("option");
+                opt.value = setor.nome.toLowerCase().replace(/\s+/g, '-'); // ex: "Produtos Green" → "produtos-green"
+                opt.textContent = setor.nome;
+                select.appendChild(opt);
+            });
+        })
+        .catch(err => {
+            console.error("Erro ao preencher setores:", err);
         });
-    })
-    .catch(err => {
-        console.error("Erro ao preencher setores:", err);
-    });
 }
 
 function abrirComentarioPopup(texto) {

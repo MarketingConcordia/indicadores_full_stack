@@ -15,12 +15,13 @@ from .views import (
     ConfiguracaoViewSet,
 
     # Views customizadas
-    get_me,
+    me,
     meu_usuario,
     meus_preenchimentos,
     indicadores_pendentes,
     gerar_relatorio_pdf,
     gerar_relatorio_excel,
+    usuario_logado,
     RelatorioView,
     IndicadorListCreateView,
     MetaCreateView,
@@ -41,7 +42,7 @@ router.register(r'metas-mensais', MetaMensalViewSet)
 
 # 🔹 ROTAS CUSTOMIZADAS
 urlpatterns = [
-    path('me/', get_me),
+    path('me/', me),
     path('meu-usuario/', meu_usuario, name="meu-usuario"),
     path('preenchimentos/meus/', meus_preenchimentos, name='meus-preenchimentos'),
     path('indicadores/pendentes/', indicadores_pendentes, name='indicadores-pendentes'),

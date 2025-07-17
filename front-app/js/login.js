@@ -44,6 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("perfil_usuario", usuario.perfil);
         localStorage.setItem("setores_usuario", JSON.stringify(usuario.setores || []));
 
+        // ✅ Salva o setor principal do gestor
+        if (usuario.setores && usuario.setores.length > 0) {
+          localStorage.setItem("setor_usuario", usuario.setores[0].nome);
+          localStorage.setItem("setor_usuario_id", usuario.setores[0].id);
+
+        }
+
         if (usuario.perfil === "master") {
           window.location.href = "index.html";
         } else if (usuario.perfil === "gestor") {

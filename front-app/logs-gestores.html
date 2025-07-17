@@ -1,16 +1,24 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Indicadores - Perfil Gestor</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+        // Proteção: apenas usuários com perfil 'master' podem acessar
+        const perfil = localStorage.getItem('perfil_usuario');
+            if (perfil !== "gestor") {
+            alert("Acesso negado. Esta página é exclusiva para perfil gestor.");
+            window.location.href = "index.html";
+            return;
+        }
+    </script>
 </head>
+
 <body>
     <div class="flex h-screen bg-gray-100">
         <!-- Sidebar -->
@@ -28,7 +36,7 @@
             
             <div class="mt-8 flex-1">
                 <nav>
-                    <a href="indexgestores.html" class="flex items-center px-4 py-3 bg-blue-700 text-white hover:bg-blue-600 transition-colors">
+                    <a href="indexgestores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-600 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
                         </svg>
@@ -44,7 +52,7 @@
                         <i class="fas fa-chart-line mr-3"></i>
                         <span class="sidebar-item">Preencher indicadores</span>
                     </a>
-                    <a href="logs-gestores.html" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition-colors">
+                    <a href="logs-gestores.html" class="flex items-center px-4 py-3 bg-blue-700 text-white hover:bg-blue-700 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 2a6 6 0 00-6 6v2c0 .628-.214 1.245-.602 1.735L2.293 14.293A1 1 0 003 16h14a1 1 0 00.707-1.707l-1.105-1.105A2.996 2.996 0 0116 10V8a6 6 0 00-6-6zM10 18a2 2 0 002-2H8a2 2 0 002 2z" />
                         </svg>
@@ -73,15 +81,14 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col bg-gray-50 overflow-hidden">
             <!-- Navbar -->
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-semibold text-gray-800">Dashboard Geral</h1>
+                        <h1 class="text-xl font-semibold text-gray-800">Painel de Indicadores</h1>
                     </div>
                     <div class="flex items-center space-x-4">
-                        
                         <div class="relative">
                             <button id="profileButton" class="flex items-center space-x-2 focus:outline-none">
                                 <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
@@ -95,9 +102,9 @@
                                 </svg>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
+                                <a href="configuracoes-gestores.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
                                 <div class="border-t border-gray-100"></div>
-                                <button id="logoutButton" onclick="logout()" 
+                                <button onclick="logout()" 
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
                                     Sair
                                 </button>
@@ -109,107 +116,72 @@
 
             <!-- Filtros -->
             <div class="bg-white shadow-sm p-4 border-b">
-                <div class="flex flex-wrap items-center gap-4">
-                    <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Área/Setor</label>
-                        <select id="filter-setor" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="todos">Todos os Setores</option>
-                        </select>
-                    </div>
-                    <div class="filter-group flex flex-col">
-                        <label for="filter-ano" class="text-sm font-medium text-gray-700 mb-1">Ano:</label>
-                        <select id="filter-ano" class="border px-3 py-2 rounded">
-                            <option value="todos">Todos os Anos</option>
-                        </select>
-                    </div>
-                    <div class="filter-group flex flex-col">
-                        <label for="filter-mes" class="text-sm font-medium text-gray-700 mb-1">Mês:</label>
-                        <select id="filter-mes" class="border px-3 py-2 rounded">
-                            <option value="todos">Todos os Meses</option>
-                            <option value="mes-atual">Mês Atual</option>
-                        </select>
-                    </div>
-                    <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select id="filter-status" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                    
+                    <!-- Filtro de Usuário -->
+                    <div>
+                        <label for="filtro-usuario" class="block text-sm font-medium text-gray-700 mb-1">Usuário</label>
+                        <select id="filtro-usuario" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="todos">Todos</option>
-                            <option value="atingidos">Atingidos</option>
-                            <option value="nao-atingidos">Não Atingidos</option>
                         </select>
                     </div>
-                    <div class="flex items-end">
-                        <button id="limpar-filtros" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                            Limpar Filtros
-                        </button>
+
+                    <!-- Filtro de Setor -->
+                    <div>
+                        <label for="filtro-setor" class="block text-sm font-medium text-gray-700 mb-1">Setor</label>
+                        <select id="filtro-setor" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="todos">Todos</option>
+                        </select>
                     </div>
+
+                    <!-- Data Inicial -->
+                    <div>
+                        <label for="filtro-data-inicio" class="block text-sm font-medium text-gray-700 mb-1">Data Início</label>
+                        <input type="date" id="filtro-data-inicio" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Data Final -->
+                    <div>
+                        <label for="filtro-data-fim" class="block text-sm font-medium text-gray-700 mb-1">Data Fim</label>
+                        <input type="date" id="filtro-data-fim" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <!-- Botão de Aplicar -->
+                <div class="flex justify-end mt-4">
+                    <button id="btn-aplicar-filtros" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                    Aplicar Filtros
+                    </button>
                 </div>
             </div>
 
+            
             <!-- Conteúdo Principal -->
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4">
-                <div id="indicadores-container" class="indicadores-grid">
-                    <!-- Os cards serão inseridos aqui pelo JavaScript -->
-                </div>
-            </main>
+                <!--Logs-->
+                <section class="bg-white rounded shadow p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Logs de Ações</h2>
+                
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-blue-800">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-white uppercase">Usuário</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-white uppercase">Ação</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-white uppercase">Data</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaLogs" class="divide-y divide-gray-200">
+                            <!-- Conteúdo gerado dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>    
         </div>
     </div>
-
-    <!-- Modal de Detalhes -->
-    <div id="detalhe-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div class="p-6" id="modal-content">
-                <!-- Conteúdo do modal será inserido aqui via JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE EDIÇÃO DE META -->
-    <div id="editar-meta-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-            <h2 class="text-xl font-bold mb-4 text-blue-800">Editar Meta</h2>
-            
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Indicador</label>
-                <input id="editar-meta-nome" type="text" class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Meta Atual</label>
-                <input id="editar-meta-atual" type="text" class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
-            </div>
-            
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nova Meta</label>
-                <input id="editar-meta-nova" type="number" step="0.01" class="w-full border rounded px-3 py-2">
-            </div>
-            
-            <div class="flex justify-end gap-3">
-                <button id="cancelar-meta" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Cancelar</button>
-                <button id="btn-salvar-meta" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pop-up de Comentário -->
-    <div id="popup-comentario" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
-        <button onclick="fecharPopupComentario()" class="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-xl">×</button>
-        <h3 class="text-lg font-semibold mb-2 text-gray-800">Comentário</h3>
-        <p id="conteudo-comentario" class="text-gray-700 text-sm"></p>
-    </div>
-    </div>
-
-    <!-- Pop-up de Provas -->
-    <div id="popup-provas" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
-        <button onclick="fecharPopupProvas()" class="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-xl">×</button>
-        <h3 class="text-lg font-semibold mb-3 text-gray-800">Prova Enviada</h3>
-        <a id="link-prova" href="#" target="_blank" class="text-blue-600 underline text-sm">Abrir Documento</a>
-    </div>
-    </div>
-
-    <script src="js/index-gestores.js"></script>
+    
     <script src="js/comum.js"></script>
-
+    <script src="js/logs-gestores.js"></script>
 </body>
 </html>

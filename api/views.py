@@ -13,7 +13,7 @@ from .models import (
 from .serializers import (
     SetorSerializer, UsuarioSerializer, IndicadorSerializer, PreenchimentoSerializer, MetaSerializer,
       ConfiguracaoArmazenamentoSerializer, MetaMensalSerializer,
-    LogDeAcaoSerializer, ConfiguracaoSerializer
+    LogDeAcaoSerializer, ConfiguracaoSerializer, SetorSimplesSerializer
 )
 from .storage_service import upload_arquivo
 from django.contrib.auth import get_user_model
@@ -100,13 +100,17 @@ class IndicadorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        setor_id = self.request.query_params.get('setor')
+        usuario = self.request.user
+        queryset = Indicador.objects.all().select_related('setor')
 
-        if setor_id:
-            queryset = queryset.filter(setor_id=setor_id)
+        # Se for master, retorna todos os indicadores
+        if usuario.perfil == 'master':
+            return queryset
 
-        return queryset
+        # Se for gestor, restringe por setor e visibilidade
+        setores_usuario = usuario.setores.all()
+        return queryset.filter(models.Q(visibilidade=True) | models.Q(setor__in=setores_usuario))
+
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
@@ -456,13 +460,10 @@ def gerar_relatorio_excel(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_me(request):
-    user = request.user
-    return Response({
-        'id': user.id,
-        'email': user.email,
-        'perfil': user.perfil
-    })
+def me(request):
+    serializer = UsuarioSerializer(request.user)
+    return Response(serializer.data)
+
 
 class IndicadorListCreateView(generics.ListCreateAPIView):
     queryset = Indicador.objects.all()
@@ -569,4 +570,13 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def meu_usuario(request):
     usuario = request.user
     serializer = UsuarioSerializer(usuario)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def usuario_logado(request):
+    """
+    Endpoint que retorna os dados do usuário autenticado.
+    """
+    serializer = UsuarioSerializer(request.user)
     return Response(serializer.data)
