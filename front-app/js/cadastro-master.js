@@ -91,7 +91,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.ok) {
                     successModal.classList.remove('hidden');
                 } else {
-                    alert('Erro ao criar conta. Verifique se o e-mail já está cadastrado ou se há outro problema.');
+                    response.json().then(data => {
+                        let msg = 'Erro ao criar conta:\n';
+                        for (const key in data) {
+                            msg += `${key}: ${data[key]}\n`;
+                        }
+                        alert(msg);
+                    });
                 }
             })
             .catch(error => {

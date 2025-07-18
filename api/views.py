@@ -1,4 +1,5 @@
 # Imports padrão do views.py
+from django.contrib.auth import authenticate
 from datetime import datetime, date
 from rest_framework.decorators import action
 from django.utils.dateparse import parse_date
@@ -71,15 +72,21 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.request.method == 'POST':
-            return [AllowAny()]  # ✅ Libera requisição POST para cadastro
+            return [AllowAny()]  # Permite cadastro de novo Master
         return [IsAuthenticated()]
+
     
     def perform_create(self, serializer):
         usuario = serializer.save()
+
+        # 🔐 Log da ação
         LogDeAcao.objects.create(
-            usuario=self.request.user,
+            usuario=self.request.user if self.request.user.is_authenticated else usuario,
             acao=f"Cadastrou o usuário '{usuario.first_name or usuario.username}' com perfil {usuario.perfil.upper()}"
         )
+
+
+
 
     def perform_update(self, serializer):
         usuario_antigo = self.get_object()
@@ -557,8 +564,13 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not user.is_active:
             raise serializers.ValidationError("Conta inativa.")
 
-        # Esta linha abaixo força a autenticação usando o username interno (necessário para JWT)
-        attrs['username'] = user.username
+        # Autenticação correta usando backend
+        user = authenticate(username=user.username, password=password)
+        if user is None:
+            raise serializers.ValidationError("Falha na autenticação.")
+
+        # Define o user explicitamente para o TokenObtainPairSerializer
+        self.user = user
 
         return super().validate(attrs)
 

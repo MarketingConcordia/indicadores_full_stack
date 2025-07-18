@@ -21,42 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarUsuarioLogado();
 });
 
-// === GERAÇÃO DE RELATÓRIOS PDF / EXCEL ===
-// function baixarPDF() {
-//     const { jsPDF } = window.jspdf;
-//     const doc = new jsPDF();
-
-//     doc.text("Relatório de Indicadores", 14, 15);
-
-//     const rows = [];
-//     document.querySelectorAll("#historico-body tr").forEach(tr => {
-//         const row = Array.from(tr.querySelectorAll("td")).map(td => td.innerText);
-//         rows.push(row);
-//     });
-
-//     doc.autoTable({
-//         head: [['Indicador', 'Mês/Ano', 'Valor', 'Comentário', 'Prova', 'Status']],
-//         body: rows,
-//         startY: 25
-//     });
-
-//     doc.save("relatorio.pdf");
-// }
-
-// function baixarExcel() {
-//     const wb = XLSX.utils.book_new();
-//     const ws_data = [["Indicador", "Mês/Ano", "Valor", "Comentário", "Prova", "Status"]];
-
-//     document.querySelectorAll("#historico-body tr").forEach(tr => {
-//         const row = Array.from(tr.querySelectorAll("td")).map(td => td.innerText);
-//         ws_data.push(row);
-//     });
-
-//     const ws = XLSX.utils.aoa_to_sheet(ws_data);
-//     XLSX.utils.book_append_sheet(wb, ws, "Relatório");
-//     XLSX.writeFile(wb, "relatorio.xlsx");
-// }
-
 // === FUNÇÕES DE FILTRO E HISTÓRICO ===
 
 function configurarEventosDeFiltro() {
@@ -194,10 +158,19 @@ function renderizarHistorico(preenchimentos) {
         mesesOrdenados.forEach(mes => {
             const dados = dadosAgrupados[indicador][mes];
             if (dados) {
-                const corStatus = dados.status === "Atingida" ? "text-green-600" : 
-                            dados.status === "Não Atingida" ? "text-red-600" : "text-gray-600";
-                const icone = dados.status === "Atingida" ? "✅" : 
-                            dados.status === "Não Atingida" ? "❌" : "📊";
+                const status = (dados.status || "").toLowerCase();
+
+                const corStatus = status === "atingida"
+                    ? "text-green-600"
+                    : status === "não atingida" || status === "nao atingida"
+                    ? "text-red-600"
+                    : "text-gray-600";
+
+                const icone = status === "atingida"
+                    ? "✅"
+                    : status === "não atingida" || status === "nao atingida"
+                    ? "❌"
+                    : "📊";
 
                 row += `
                     <td class="px-4 py-2">${formatarValor(dados.valor)}</td>
@@ -211,6 +184,7 @@ function renderizarHistorico(preenchimentos) {
 
         tbody.innerHTML += `<tr>${row}</tr>`;
     }
+
 }
 
 function calcularStatus(valor, meta, tipo) {

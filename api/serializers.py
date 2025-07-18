@@ -27,8 +27,11 @@ class SetorSimplesSerializer(serializers.ModelSerializer):
 # =============================
 class UsuarioSerializer(serializers.ModelSerializer):
     setores = SetorSimplesSerializer(many=True, read_only=True)
-    setores_ids = serializers.ListField(
-        child=serializers.IntegerField(), write_only=True, required=True
+    setores_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Setor.objects.all(),
+        required=False,
+        write_only=True
     )
 
     class Meta:
@@ -38,28 +41,51 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
+    def validate(self, data):
+        perfil = data.get('perfil')
+        setores = data.get('setores_ids')
+
+        if perfil == 'gestor' and (not setores or len(setores) == 0):
+            raise serializers.ValidationError({
+                'setores_ids': 'Este campo é obrigatório para gestores.'
+            })
+        return data
+
     def create(self, validated_data):
         setores_ids = validated_data.pop('setores_ids', [])
         email = validated_data.get('email')
         username = validated_data.get('username', email)
-        validated_data['username'] = username
+        password = validated_data.pop('password')
 
-        user = Usuario.objects.create_user(**validated_data)
+        validated_data['username'] = username
+        user = Usuario(**validated_data)
+        user.set_password(password)
+        user.save()
+
         if setores_ids:
             user.setores.set(setores_ids)
+
         return user
 
     def update(self, instance, validated_data):
         setores = validated_data.pop('setores_ids', None)
+        password = validated_data.pop('password', None)
+        username = validated_data.get('username', instance.email)
+
+        validated_data['username'] = username
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+
+        if password:
+            instance.set_password(password)
 
         if setores is not None:
             instance.setores.set(setores)
 
         instance.save()
         return instance
+
 
 
 # =============================
@@ -126,7 +152,8 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'indicador', 'valor_realizado', 'data_preenchimento',
             'indicador_nome', 'setor_nome', 'tipo_meta', 
-            'meta', 'mes', 'ano'
+            'meta', 'mes', 'ano',
+            'comentario', 'arquivo'
         ]
 
     def get_meta(self, obj):

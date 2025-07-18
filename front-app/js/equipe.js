@@ -10,6 +10,20 @@ document.addEventListener("DOMContentLoaded", () => {
   listarGestores();
   preencherSelectSetores();
 
+    // 🧠 Controle do campo setor conforme perfil selecionado
+    const perfilSelect = document.getElementById("perfil");
+    const setorSelect = document.getElementById("setorGestor");
+
+    perfilSelect.addEventListener("change", function () {
+      if (this.value === "master") {
+        setorSelect.disabled = true;
+        setorSelect.value = "";
+      } else {
+        setorSelect.disabled = false;
+      }
+    });
+
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -24,8 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (isNaN(setorSelecionado)) {
-      alert("Selecione um setor válido.");
+    const perfilSelecionado = document.getElementById("perfil").value;
+
+    if (perfilSelecionado === "gestor" && isNaN(setorSelecionado)) {
+      alert("Selecione um setor válido para o gestor.");
       return;
     }
 
@@ -41,9 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
       email: email,
       username: email,
       password: senha,
-      perfil: document.getElementById("perfil").value,
-      setores_ids: [setorSelecionado]
+      perfil: perfilSelecionado
     };
+
+    if (perfilSelecionado === "gestor") {
+      payload.setores_ids = [setorSelecionado];
+    }
 
     fetch("http://127.0.0.1:8000/api/usuarios/", {
       method: "POST",

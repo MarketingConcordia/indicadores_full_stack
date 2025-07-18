@@ -105,7 +105,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 100,
 }
 
 # === SIMPLE JWT ===
@@ -163,3 +163,14 @@ SECURE_HSTS_PRELOAD = True
 
 # === OUTROS ===
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# === E-MAIL ===
+# === EMAIL (DESENVOLVIMENTO PADRÃO) ===
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST", default="smtp.dev.com")
+EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="teste@dev.com")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="senha123")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="no-reply@dev.com")
+
