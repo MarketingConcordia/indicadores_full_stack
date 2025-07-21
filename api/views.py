@@ -62,7 +62,10 @@ class SetorViewSet(viewsets.ModelViewSet):
         nome = setor.nome
         setor.delete()
         registrar_log(request.user, f"Excluiu o setor '{nome}'")
-        return Response({"detail": "Setor excluído com sucesso."}, status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"detail": "Setor excluído com sucesso."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 
 # 🔹 USUARIO
@@ -72,21 +75,15 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.request.method == 'POST':
-            return [AllowAny()]  # Permite cadastro de novo Master
+            return [AllowAny()]  # Permite criação de novo Master
         return [IsAuthenticated()]
 
-    
     def perform_create(self, serializer):
         usuario = serializer.save()
-
-        # 🔐 Log da ação
         LogDeAcao.objects.create(
             usuario=self.request.user if self.request.user.is_authenticated else usuario,
             acao=f"Cadastrou o usuário '{usuario.first_name or usuario.username}' com perfil {usuario.perfil.upper()}"
         )
-
-
-
 
     def perform_update(self, serializer):
         usuario_antigo = self.get_object()
@@ -99,7 +96,6 @@ class UsuarioViewSet(viewsets.ModelViewSet):
             )
 
 
-
 # 🔹 INDICADOR
 class IndicadorViewSet(viewsets.ModelViewSet):
     queryset = Indicador.objects.all().select_related('setor')
@@ -110,28 +106,31 @@ class IndicadorViewSet(viewsets.ModelViewSet):
         usuario = self.request.user
         queryset = Indicador.objects.all().select_related('setor')
 
-        # Se for master, retorna todos os indicadores
+        # Perfil master vê todos os indicadores
         if usuario.perfil == 'master':
             return queryset
 
-        # Se for gestor, restringe por setor e visibilidade
+        # Gestor vê apenas indicadores visíveis ou do seu setor
         setores_usuario = usuario.setores.all()
-        return queryset.filter(models.Q(visibilidade=True) | models.Q(setor__in=setores_usuario))
-
+        return queryset.filter(
+            models.Q(visibilidade=True) | models.Q(setor__in=setores_usuario)
+        )
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
-        indicador_nome = response.data.get('nome')
-        registrar_log(request.user, f"Cadastrou o indicador '{indicador_nome}'")
+        nome = response.data.get('nome')
+        registrar_log(request.user, f"Cadastrou o indicador '{nome}'")
         return response
 
     def update(self, request, *args, **kwargs):
         parcial = kwargs.pop('partial', False)
         indicador = self.get_object()
         nome_anterior = indicador.nome
+
         serializer = self.get_serializer(indicador, data=request.data, partial=parcial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         registrar_log(request.user, f"Editou o indicador '{nome_anterior}'")
         return Response(serializer.data)
 
@@ -139,35 +138,41 @@ class IndicadorViewSet(viewsets.ModelViewSet):
         indicador = self.get_object()
         nome = indicador.nome
         indicador.delete()
+
         registrar_log(request.user, f"Excluiu o indicador '{nome}'")
-        return Response({"detail": "Indicador excluído com sucesso."}, status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"detail": "Indicador excluído com sucesso."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
     def perform_create(self, serializer):
         indicador = serializer.save()
         gerar_preenchimentos_retroativos(indicador)
 
-    
+
 def gerar_preenchimentos_retroativos(indicador):
-        hoje = date.today()
-        
-        if not indicador.mes_inicial:
-            return  # Sem mês inicial, nada a fazer
+    hoje = date.today()
 
-        data_inicio = indicador.mes_inicial.replace(day=1)
-        periodicidade = indicador.periodicidade or 1  # Padrão: 1 mês
+    if not indicador.mes_inicial:
+        return  # Não há data de início
 
-        data_iterada = data_inicio
-        preenchimentos = []
+    data_inicio = indicador.mes_inicial.replace(day=1)
+    periodicidade = indicador.periodicidade or 1  # Padrão: 1 mês
 
-        while data_iterada <= hoje.replace(day=1):
-            preenchimentos.append(Preenchimento(
+    data_iterada = data_inicio
+    preenchimentos = []
+
+    while data_iterada <= hoje.replace(day=1):
+        preenchimentos.append(
+            Preenchimento(
                 indicador=indicador,
                 data_preenchimento=data_iterada,
-                valor_realizado=None
-            ))
-            data_iterada += relativedelta(months=periodicidade)
+                valor_realizado=None,
+            )
+        )
+        data_iterada += relativedelta(months=periodicidade)
 
-        Preenchimento.objects.bulk_create(preenchimentos)
+    Preenchimento.objects.bulk_create(preenchimentos)
 
 
 # 🔹 CONFIGURAÇÃO PREENCHIMENTO
@@ -178,151 +183,14 @@ class ConfiguracaoViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
-        registrar_log(request.user, f"Atualizou as configurações do sistema.")
+        registrar_log(request.user, "Atualizou as configurações do sistema.")
         return response
 
 
-
-# 🔹 PREENCHIMENTO
-class PreenchimentoViewSet(viewsets.ModelViewSet):
-    queryset = Preenchimento.objects.all()
-    serializer_class = PreenchimentoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        queryset = Preenchimento.objects.all()
-        user = self.request.user
-
-        if user.perfil == 'gestor':
-            queryset = queryset.filter(indicador__setor__in=user.setores.all())
-
-        setor = self.request.query_params.get('setor')
-        mes = self.request.query_params.get('mes')
-        status = self.request.query_params.get('status')
-
-        if setor:
-            queryset = queryset.filter(indicador__setor__iexact=setor)
-
-        if mes:
-            queryset = queryset.filter(mes=mes)
-
-        if status == 'atingido':
-            queryset = queryset.filter(valor__gte=models.F('indicador__meta'))
-        elif status == 'nao-atingido':
-            queryset = queryset.filter(valor__lt=models.F('indicador__meta'))
-
-        return queryset
-
-    def perform_create(self, serializer):
-        usuario = self.request.user
-
-        if usuario.perfil == 'gestor':
-            try:
-                config = ConfiguracaoArmazenamento.objects.get(ativo=True)
-                limite = config.dia_limite_preenchimento
-                hoje = datetime.today().day
-
-                if hoje > limite:
-                    raise serializers.ValidationError(
-                        f"Preenchimento bloqueado. O prazo terminou no dia {limite}."
-                    )
-            except ConfiguracaoArmazenamento.DoesNotExist:
-                raise serializers.ValidationError("Configuração de preenchimento não encontrada.")
-
-        arquivo = self.request.FILES.get('arquivo')
-        origem = self.request.data.get('origem')
-
-        # Configuração de armazenamento (reutilizada)
-        try:
-            config = ConfiguracaoArmazenamento.objects.get(ativo=True)
-        except ConfiguracaoArmazenamento.DoesNotExist:
-            raise serializers.ValidationError("Nenhuma configuração de armazenamento ativa encontrada.")
-
-        url_arquivo = None
-        if arquivo:
-            url_arquivo = upload_arquivo(arquivo, arquivo.name, config)
-
-        preenchimento = serializer.save(preenchido_por=usuario)
-
-        if url_arquivo:
-            preenchimento.arquivo = url_arquivo
-        if origem:
-            preenchimento.origem = origem
-
-        preenchimento.save()
-
-        # ✅ Criar log apenas se foi preenchido com valor
-        if preenchimento.valor_realizado is not None:
-            valor = preenchimento.valor_realizado
-            tipo = preenchimento.indicador.tipo_valor
-            nome_indicador = preenchimento.indicador.nome
-            mes = str(preenchimento.mes).zfill(2)
-            ano = preenchimento.ano
-
-            if tipo == 'monetario':
-                valor_formatado = f"R$ {float(valor):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-            elif tipo == 'percentual':
-                valor_formatado = f"{float(valor):.2f}%"
-            else:
-                valor_formatado = f"{valor}"
-
-            mensagem = f"{usuario.first_name or usuario.username} preencheu o indicador '{nome_indicador}' com {valor_formatado} referente a {mes}/{ano}"
-            LogDeAcao.objects.create(usuario=usuario, acao=mensagem)
-
-    def perform_update(self, serializer):
-        preenchimento = serializer.save()
-        usuario = self.request.user
-
-        if preenchimento.valor_realizado is not None:
-            valor = preenchimento.valor_realizado
-            tipo = preenchimento.indicador.tipo_valor
-            nome_indicador = preenchimento.indicador.nome
-            mes = str(preenchimento.mes).zfill(2)
-            ano = preenchimento.ano
-
-            if tipo == 'monetario':
-                valor_formatado = f"R$ {float(valor):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-            elif tipo == 'percentual':
-                valor_formatado = f"{float(valor):.2f}%"
-            else:
-                valor_formatado = f"{valor}"
-
-            mensagem = f"{usuario.first_name or usuario.username} atualizou o preenchimento do indicador '{nome_indicador}' para {valor_formatado} referente a {mes}/{ano}"
-            LogDeAcao.objects.create(usuario=usuario, acao=mensagem)
-
-
-    def perform_destroy(self, instance):
-        LogDeAcao.objects.create(
-            usuario=self.request.user,
-            acao=f"Excluiu preenchimento do indicador '{instance.indicador.nome}' do mês {instance.mes}."
-        )
-        instance.delete()
-
-    @action(detail=False, methods=['get'], url_path='pendentes')
-    def pendentes(self, request):
-        user = request.user
-        hoje = date.today()
-
-        # Apenas os preenchimentos que ainda não foram realizados até o mês atual
-        queryset = Preenchimento.objects.filter(
-            valor_realizado__isnull=True,
-            data_preenchimento__lte=hoje
-        ).select_related('indicador', 'indicador__setor')
-
-        # Se for gestor, filtra pelos setores dele
-        if user.perfil == 'gestor':
-            queryset = queryset.filter(indicador__setor__in=user.setores.all())
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-
-# 🔹 CONFIGURAÇÃO DE ARMAZENAMENTO
 class ConfiguracaoArmazenamentoViewSet(viewsets.ModelViewSet):
     queryset = ConfiguracaoArmazenamento.objects.all()
     serializer_class = ConfiguracaoArmazenamentoSerializer
     permission_classes = [permissions.IsAuthenticated]
-
 
 class LogDeAcaoViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = LogDeAcao.objects.none()
@@ -332,13 +200,12 @@ class LogDeAcaoViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         user = self.request.user
 
-        # Usuário normal só vê os próprios logs
         if user.perfil == 'gestor':
             queryset = LogDeAcao.objects.filter(usuario=user)
         else:
             queryset = LogDeAcao.objects.all()
 
-        # 🔍 Filtros opcionais
+        # Filtros opcionais
         usuario = self.request.query_params.get('usuario')
         setor = self.request.query_params.get('setor')
         data_inicio = self.request.query_params.get('data_inicio')
@@ -366,7 +233,126 @@ class LogDeAcaoViewSet(viewsets.ReadOnlyModelViewSet):
             except:
                 pass
 
-        return queryset.order_by('-data')
+        return queryset.order_by("-data")
+
+
+
+# 🔹 PREENCHIMENTO
+class PreenchimentoViewSet(viewsets.ModelViewSet):
+    queryset = Preenchimento.objects.all()
+    serializer_class = PreenchimentoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Preenchimento.objects.all()
+        user = self.request.user
+
+        if user.perfil == 'gestor':
+            queryset = queryset.filter(indicador__setor__in=user.setores.all())
+
+        setor = self.request.query_params.get('setor')
+        mes = self.request.query_params.get('mes')
+        status = self.request.query_params.get('status')
+
+        if setor:
+            queryset = queryset.filter(indicador__setor__iexact=setor)
+        if mes:
+            queryset = queryset.filter(mes=mes)
+        if status == 'atingido':
+            queryset = queryset.filter(valor__gte=models.F('indicador__meta'))
+        elif status == 'nao-atingido':
+            queryset = queryset.filter(valor__lt=models.F('indicador__meta'))
+
+        return queryset
+
+    def perform_create(self, serializer):
+        usuario = self.request.user
+
+        # 🔐 Bloqueio por prazo (para gestores)
+        if usuario.perfil == 'gestor':
+            try:
+                config = ConfiguracaoArmazenamento.objects.get(ativo=True)
+                limite = config.dia_limite_preenchimento
+                hoje = datetime.today().day
+
+                if hoje > limite:
+                    raise serializers.ValidationError(
+                        f"Preenchimento bloqueado. O prazo terminou no dia {limite}."
+                    )
+            except ConfiguracaoArmazenamento.DoesNotExist:
+                raise serializers.ValidationError(
+                    "Configuração de preenchimento não encontrada."
+                )
+
+        # ⬆️ Upload de arquivos e origem
+        arquivo = self.request.FILES.get('arquivo')
+        origem = self.request.data.get('origem')
+
+        try:
+            config = ConfiguracaoArmazenamento.objects.get(ativo=True)
+        except ConfiguracaoArmazenamento.DoesNotExist:
+            raise serializers.ValidationError("Nenhuma configuração de armazenamento ativa encontrada.")
+
+        url_arquivo = upload_arquivo(arquivo, arquivo.name, config) if arquivo else None
+
+        preenchimento = serializer.save(preenchido_por=usuario)
+        if url_arquivo:
+            preenchimento.arquivo = url_arquivo
+        if origem:
+            preenchimento.origem = origem
+        preenchimento.save()
+
+        # 📝 Log se preenchido com valor
+        if preenchimento.valor_realizado is not None:
+            self._registrar_log_preenchimento(preenchimento, usuario, acao="preencheu")
+
+    def perform_update(self, serializer):
+        preenchimento = serializer.save()
+        usuario = self.request.user
+
+        if preenchimento.valor_realizado is not None:
+            self._registrar_log_preenchimento(preenchimento, usuario, acao="atualizou")
+
+    def perform_destroy(self, instance):
+        LogDeAcao.objects.create(
+            usuario=self.request.user,
+            acao=f"Excluiu preenchimento do indicador '{instance.indicador.nome}' do mês {instance.mes}."
+        )
+        instance.delete()
+
+    def _registrar_log_preenchimento(self, preenchimento, usuario, acao="preencheu"):
+        valor = preenchimento.valor_realizado
+        tipo = preenchimento.indicador.tipo_valor
+        nome_indicador = preenchimento.indicador.nome
+        mes = str(preenchimento.mes).zfill(2)
+        ano = preenchimento.ano
+
+        if tipo == 'monetario':
+            valor_formatado = f"R$ {float(valor):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        elif tipo == 'percentual':
+            valor_formatado = f"{float(valor):.2f}%"
+        else:
+            valor_formatado = f"{valor}"
+
+        mensagem = f"{usuario.first_name or usuario.username} {acao} o indicador '{nome_indicador}' com {valor_formatado} referente a {mes}/{ano}"
+        LogDeAcao.objects.create(usuario=usuario, acao=mensagem)
+
+    @action(detail=False, methods=['get'], url_path='pendentes')
+    def pendentes(self, request):
+        user = request.user
+        hoje = date.today()
+
+        queryset = Preenchimento.objects.filter(
+            valor_realizado__isnull=True,
+            data_preenchimento__lte=hoje
+        ).select_related('indicador', 'indicador__setor')
+
+        if user.perfil == 'gestor':
+            queryset = queryset.filter(indicador__setor__in=user.setores.all())
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 
 # 🔹 RELATÓRIO
@@ -381,13 +367,16 @@ class RelatorioView(APIView):
 
         preenchimentos = Preenchimento.objects.all()
 
+        # 🔒 Restrições para gestor
         if user.perfil == 'gestor':
-            setores_ids = user.setores.all().values_list('id', flat=True)
+            setores_ids = user.setores.values_list('id', flat=True)
             indicadores_ids_setor = Indicador.objects.filter(setor_id__in=setores_ids).values_list('id', flat=True)
             indicadores_ids_manual = PermissaoIndicador.objects.filter(usuario=user).values_list('indicador_id', flat=True)
+
             indicadores_ids = list(indicadores_ids_setor) + list(indicadores_ids_manual)
             preenchimentos = preenchimentos.filter(indicador_id__in=indicadores_ids)
 
+        # 🔍 Filtros adicionais
         if setor:
             preenchimentos = preenchimentos.filter(indicador__setor__id=setor)
         if mes:
@@ -441,7 +430,7 @@ def gerar_relatorio_pdf(request):
 # 🔹 EXCEL
 def gerar_relatorio_excel(request):
     response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
     response['Content-Disposition'] = 'attachment; filename=relatorio.xlsx'
 
@@ -465,51 +454,13 @@ def gerar_relatorio_excel(request):
     wb.save(response)
     return response
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def me(request):
     serializer = UsuarioSerializer(request.user)
     return Response(serializer.data)
 
-
-class IndicadorListCreateView(generics.ListCreateAPIView):
-    queryset = Indicador.objects.all()
-    serializer_class = IndicadorSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def perform_create(self, serializer):
-        # Apenas usuários master podem criar
-        if self.request.user.perfil != 'master':
-            raise permissions.PermissionDenied("Apenas usuários Master podem criar indicadores.")
-        serializer.save()
-
-
-class MetaCreateView(generics.CreateAPIView):
-    queryset = Meta.objects.all()
-    serializer_class = MetaSerializer
-    permission_classes = [permissions.IsAuthenticated, IsMasterUser]
-
-    def perform_create(self, serializer):
-        serializer.save(definida_por=self.request.user)
-
-class MetaMensalViewSet(viewsets.ModelViewSet):
-    queryset = MetaMensal.objects.all()
-    serializer_class = MetaMensalSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['indicador', 'mes']
-    ordering_fields = ['mes']
-    ordering = ['mes']
-
-
-class PreenchimentoListCreateView(generics.ListCreateAPIView):
-    queryset = Preenchimento.objects.all()
-    serializer_class = PreenchimentoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def perform_create(self, serializer):
-        serializer.save(preenchido_por=self.request.user)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -518,6 +469,7 @@ def meus_preenchimentos(request):
     serializer = PreenchimentoSerializer(preenchimentos, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def indicadores_pendentes(request):
@@ -525,7 +477,6 @@ def indicadores_pendentes(request):
     mes_atual = now().month
     ano_atual = now().year
 
-    # Filtra indicadores do setor do gestor
     if usuario.perfil == 'gestor':
         indicadores = Indicador.objects.filter(setor__in=usuario.setores.all())
     else:
@@ -545,12 +496,63 @@ def indicadores_pendentes(request):
     serializer = IndicadorSerializer(indicadores_pendentes, many=True)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def meu_usuario(request):
+    usuario = request.user
+    serializer = UsuarioSerializer(usuario)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def usuario_logado(request):
+    """
+    Endpoint que retorna os dados do usuário autenticado.
+    """
+    serializer = UsuarioSerializer(request.user)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def indicadores_com_historico(request):
+    from .serializers import PreenchimentoSerializer
+
+    usuario = request.user
+    indicadores = Indicador.objects.all()
+
+    if usuario.perfil == 'gestor':
+        indicadores = indicadores.filter(setor__in=usuario.setores.all())
+
+    resultado = []
+    for indicador in indicadores:
+        preenchimentos = Preenchimento.objects.filter(
+            indicador=indicador
+        ).order_by('data_preenchimento')
+
+        historico_serializado = PreenchimentoSerializer(preenchimentos, many=True).data
+
+        resultado.append({
+            "id": indicador.id,
+            "nome": indicador.nome,
+            "setor_nome": indicador.setor.nome,
+            "tipo_meta": indicador.tipo_meta,
+            "tipo_valor": indicador.tipo_valor,
+            "valor_meta": indicador.valor_meta,
+            "historico": historico_serializado
+        })
+
+    return Response(resultado)
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         email = attrs.get('email')
         password = attrs.get('password')
 
-        if email is None or password is None:
+        if not email or not password:
             raise serializers.ValidationError("Email e senha são obrigatórios.")
 
         try:
@@ -564,31 +566,62 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not user.is_active:
             raise serializers.ValidationError("Conta inativa.")
 
-        # Autenticação correta usando backend
         user = authenticate(username=user.username, password=password)
         if user is None:
             raise serializers.ValidationError("Falha na autenticação.")
 
-        # Define o user explicitamente para o TokenObtainPairSerializer
         self.user = user
-
         return super().validate(attrs)
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def meu_usuario(request):
-    usuario = request.user
-    serializer = UsuarioSerializer(usuario)
-    return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def usuario_logado(request):
-    """
-    Endpoint que retorna os dados do usuário autenticado.
-    """
-    serializer = UsuarioSerializer(request.user)
-    return Response(serializer.data)
+
+class IndicadorListCreateView(generics.ListCreateAPIView):
+    queryset = Indicador.objects.all()
+    serializer_class = IndicadorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        if self.request.user.perfil != 'master':
+            raise permissions.PermissionDenied("Apenas usuários Master podem criar indicadores.")
+        serializer.save()
+
+
+
+class MetaCreateView(generics.CreateAPIView):
+    queryset = Meta.objects.all()
+    serializer_class = MetaSerializer
+    permission_classes = [permissions.IsAuthenticated, IsMasterUser]
+
+    def perform_create(self, serializer):
+        serializer.save(definida_por=self.request.user)
+
+
+
+class MetaMensalViewSet(viewsets.ModelViewSet):
+    queryset = MetaMensal.objects.all()
+    serializer_class = MetaMensalSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['indicador', 'mes']
+    ordering_fields = ['mes']
+    ordering = ['mes']
+
+
+
+class PreenchimentoListCreateView(generics.ListCreateAPIView):
+    queryset = Preenchimento.objects.all()
+    serializer_class = PreenchimentoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(preenchido_por=self.request.user)
+
+
+
+
+

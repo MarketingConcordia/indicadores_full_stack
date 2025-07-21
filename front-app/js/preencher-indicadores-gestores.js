@@ -54,9 +54,11 @@ function carregarIndicadores() {
       const anoAtual = hoje.getFullYear();
 
       data.forEach(indicador => {
-        const chaveAtual = `${indicador.id}_${mesAtual}_${anoAtual}`;
+        const mes = indicador.mes;
+        const ano = indicador.ano;
+        const chave = `${indicador.id}_${mes}_${ano}`;
 
-        if (!preenchimentosRealizados.has(chaveAtual)) {
+        if (!preenchimentosRealizados.has(chave)) {
           const div = document.createElement('div');
           div.className = "bg-white p-4 rounded shadow-md";
 
@@ -64,14 +66,14 @@ function carregarIndicadores() {
             <h3 class="text-lg font-bold mb-1">${indicador.nome}</h3>
             <p class="text-sm text-gray-600">${indicador.descricao || ''}</p>
             <div class="mt-2 p-2 bg-yellow-100 text-yellow-700 text-sm rounded">
-              Preenchimento pendente deste mês.
+              Preenchimento pendente de ${String(mes).padStart(2, '0')}/${ano}.
             </div>
             <button onclick='abrirModal(${JSON.stringify(indicador)})' class="mt-2 bg-blue-600 text-white px-4 py-1 rounded">
               Preencher
             </button>
           `;
 
-          container.appendChild(div);
+          document.getElementById('indicadores-container').appendChild(div);
         }
       });
     })

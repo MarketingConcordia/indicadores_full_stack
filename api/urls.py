@@ -27,6 +27,7 @@ from .views import (
     MetaCreateView,
     PreenchimentoListCreateView,
     MyTokenObtainPairView,
+    indicadores_com_historico
 )
 
 # 🔹 ROTAS PADRÃO (ViewSets com router)
@@ -54,6 +55,7 @@ urlpatterns = [
     path('indicadores/', IndicadorListCreateView.as_view(), name='indicadores'),
     path('metas/', MetaCreateView.as_view(), name='criar-meta'),
     path('preenchimentos/', PreenchimentoListCreateView.as_view(), name='preenchimentos'),
+    path("indicadores-completo/", indicadores_com_historico, name="indicadores_completo"),
 
     # 🔐 Autenticação
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

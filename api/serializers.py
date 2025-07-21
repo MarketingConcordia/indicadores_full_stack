@@ -87,7 +87,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
         return instance
 
 
-
 # =============================
 # 🔹 INDICADORES
 # =============================
@@ -110,14 +109,11 @@ class IndicadorSerializer(serializers.ModelSerializer):
         return "Concluído" if preenchido else "Pendente"
 
     def create(self, validated_data):
-        # Cria o indicador normalmente
         indicador = super().create(validated_data)
 
-        # Define a data base do primeiro mês da meta
         data_base = validated_data.get('mes_inicial') or date.today()
         data_base = date(data_base.year, data_base.month, 1)
 
-        # Cria metas mensais com base na periodicidade (ex: 12 meses)
         for i in range(12):
             mes = data_base + relativedelta(months=i)
             MetaMensal.objects.create(
@@ -145,15 +141,17 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
     indicador_nome = serializers.CharField(source='indicador.nome', read_only=True)
     setor_nome = serializers.CharField(source='indicador.setor.nome', read_only=True)
     tipo_meta = serializers.CharField(source='indicador.tipo_meta', read_only=True)
+    tipo_valor = serializers.CharField(source='indicador.tipo_valor', read_only=True)
+    preenchido_por = serializers.SerializerMethodField()
     meta = serializers.SerializerMethodField()
 
     class Meta:
         model = Preenchimento
         fields = [
             'id', 'indicador', 'valor_realizado', 'data_preenchimento',
-            'indicador_nome', 'setor_nome', 'tipo_meta', 
+            'indicador_nome', 'setor_nome', 'tipo_meta', 'tipo_valor',
             'meta', 'mes', 'ano',
-            'comentario', 'arquivo'
+            'comentario', 'arquivo', 'preenchido_por'
         ]
 
     def get_meta(self, obj):
@@ -165,6 +163,28 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
             print("Erro ao buscar meta:", e)
             return None
 
+    def get_preenchido_por(self, obj):
+        if obj.preenchido_por:
+            return {
+                "id": obj.preenchido_por.id,
+                "first_name": obj.preenchido_por.first_name,
+                "username": obj.preenchido_por.username
+            }
+        return None
+
+
+
+# ✅ NOVO: Serializer específico para histórico
+class PreenchimentoHistoricoSerializer(serializers.ModelSerializer):
+    tipo_valor = serializers.CharField(source='indicador.tipo_valor', read_only=True)
+
+    class Meta:
+        model = Preenchimento
+        fields = [
+            'data_preenchimento', 'valor_realizado', 'comentario',
+            'arquivo', 'mes', 'ano', 'tipo_valor'
+        ]
+
 
 # =============================
 # 🔹 METAS MENSAIS
@@ -174,11 +194,13 @@ class MetaSerializer(serializers.ModelSerializer):
         model = Meta
         fields = '__all__'
 
+
 class MetaMensalSerializer(serializers.ModelSerializer):
     class Meta:
         model = MetaMensal
         fields = ['id', 'indicador', 'mes', 'valor_meta']
-        
+
+
 # =============================
 # 🔹 LOG DE AÇÕES
 # =============================
@@ -191,7 +213,6 @@ class LogDeAcaoSerializer(serializers.ModelSerializer):
 
     def get_usuario_nome(self, obj):
         return obj.usuario.first_name or obj.usuario.username
-
 
 
 # =============================

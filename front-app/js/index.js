@@ -12,6 +12,21 @@ function verificarAtingimento(tipo, valor, meta) {
     return false;
 }
 
+// Função para formatar valores com base no tipo_valor
+function formatarValorComTipo(valor, tipo) {
+    if (valor == null) return "-";
+    const numero = parseFloat(valor);
+    if (isNaN(numero)) return "-";
+
+    if (tipo === "monetario") {
+        return `R$ ${numero.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`;
+    } else if (tipo === "percentual") {
+        return `${numero.toFixed(2)}%`;
+    } else {
+        return numero.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+    }
+}
+
 if (!token) {
     window.location.href = 'login.html';
 }
@@ -90,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             parseFloat(indicador.valor_meta)
                         ),
                         variacao: parseFloat(variacao.toFixed(2)),
-                        responsavel: ultimoPreenchimento?.nome_usuario || 'Desconhecido',
+                        responsavel: ultimoPreenchimento?.preenchido_por?.first_name || ultimoPreenchimento?.preenchido_por?.username || 'Desconhecido',
                         ultimaAtualizacao: ultimoPreenchimento?.data_preenchimento || null,
                         comentarios: ultimoPreenchimento?.comentario || '',
                         origem: ultimoPreenchimento?.origem || '',
@@ -213,15 +228,7 @@ function mostrarDetalhes(indicador) {
     const modal = document.getElementById('detalhe-modal');
     const modalContent = document.getElementById('modal-content');
 
-    // Formatação do valor e meta
-    const formatarValor = (valor) => {
-        if (valor >= 1000) {
-            return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-        }
-        return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    };
-
-    // Criar conteúdo do modal
+    // Criar conteúdo do modal (sem meta preenchida ainda)
     modalContent.innerHTML = `
         <div class="w-full bg-white rounded p-4 mb-6 border shadow">
             <button id="fechar-modal" class="absolute top-4 right-4 text-white hover:text-gray-700 text-xl font-bold focus:outline-none">
@@ -231,7 +238,7 @@ function mostrarDetalhes(indicador) {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
                 <p><strong>Tipo de Meta:</strong> <span id="tipo-meta-indicador"></span></p>
                 <p><strong>Setor:</strong> <span id="setor-indicador"></span></p>
-                <p><strong>Meta Esperada:</strong> R$ <span id="meta-indicador"></span></p>
+                <p><strong>Meta Esperada:</strong> <span id="meta-indicador"></span></p>
                 <p><strong>Responsável:</strong> <span id="responsavel-indicador"></span></p>
                 <p><strong>Último Preenchimento:</strong> <span id="ultimo-preenchimento-indicador"></span></p>
             </div>
@@ -263,8 +270,7 @@ function mostrarDetalhes(indicador) {
                         <th class="px-4 py-2 border">Provas</th>
                     </tr>
                 </thead>
-                <tbody id="corpo-historico-modal">
-                    </tbody>
+                <tbody id="corpo-historico-modal"></tbody>
             </table>
             <div class="mt-4 flex gap-2 flex-wrap">
                 <button id="editar-meta" data-id="${indicador.id}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
@@ -286,42 +292,28 @@ function mostrarDetalhes(indicador) {
         </div>
     `;
 
-    // ✅ Botão de fechar modal
-    const btnFechar = document.getElementById('fechar-modal');
-    if (btnFechar) {
-        btnFechar.addEventListener('click', () => {
-            document.getElementById('detalhe-modal').classList.add('hidden');
-        });
-    }
-
-    // 🟦 Preencher os dados do topo do modal
+    // 🟦 Preencher dados do topo do modal
     document.getElementById('titulo-indicador').textContent = indicador.nome;
     document.getElementById('tipo-meta-indicador').textContent = indicador.tipo_meta;
     document.getElementById('setor-indicador').textContent = indicador.setor_nome;
-    document.getElementById('meta-indicador').textContent = indicador.valor_meta?.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2
-    });
-    document.getElementById('responsavel-indicador').textContent = indicador.responsavel;
-    document.getElementById('ultimo-preenchimento-indicador').textContent = indicador.ultimaAtualizacao ?
-        new Date(indicador.ultimaAtualizacao).toLocaleDateString('pt-BR') :
-        'Sem dados';
-    const filtroDataInput = document.getElementById('filtro-data-modal');
-    if (filtroDataInput) {
-        filtroDataInput.addEventListener('change', (e) => {
-            const mesAnoSelecionado = e.target.value;
-            aplicarFiltroHistorico(indicador, mesAnoSelecionado);
-        });
-
-        // Garantir que ao abrir o modal o histórico venha completo inicialmente
-        aplicarFiltroHistorico(indicador, "");
-    }
-
+    document.getElementById('meta-indicador').textContent = formatarValorComTipo(indicador.valor_meta, indicador.tipo_valor);
+    document.getElementById('responsavel-indicador').textContent = indicador.responsavel || '—';
+    document.getElementById('ultimo-preenchimento-indicador').textContent = indicador.ultimaAtualizacao
+        ? new Date(indicador.ultimaAtualizacao).toLocaleDateString('pt-BR') : 'Sem dados';
 
     // 🟨 Preencher a tabela de histórico
     const corpoTabela = document.getElementById('corpo-historico-modal');
     corpoTabela.innerHTML = '';
 
+    // 🔧 Corrige o tipo de valor em cada item do histórico (caso venha sem)
     (indicador.historico || []).forEach(item => {
+        if (!item.tipo_valor) {
+            item.tipo_valor = indicador.tipo_valor;
+        }
+    });
+
+    (indicador.historico || []).forEach(item => {
+
         const tr = document.createElement('tr');
 
         const statusTexto = verificarAtingimento(
@@ -334,8 +326,8 @@ function mostrarDetalhes(indicador) {
 
         tr.innerHTML = `
             <td class="px-4 py-2 border">${new Date(item.data).toLocaleDateString('pt-BR')}</td>
-            <td class="px-4 py-2 border">R$ ${parseFloat(item.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-            <td class="px-4 py-2 border">R$ ${parseFloat(item.meta).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(item.valor, item.tipo_valor)}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(item.meta, item.tipo_valor)}</td>
             <td class="px-4 py-2 border">${statusTexto}</td>
             <td class="px-4 py-2 border text-center">
                 <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirComentarioPopup('${item.comentario?.replace(/'/g, "\\'") || ''}')">
@@ -350,6 +342,53 @@ function mostrarDetalhes(indicador) {
         `;
         corpoTabela.appendChild(tr);
     });
+
+
+
+    // 🧠 Fechar modal
+    const btnFechar = document.getElementById('fechar-modal');
+    if (btnFechar) {
+        btnFechar.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    }
+
+    // 🔍 Filtrar histórico
+    const filtroDataInput = document.getElementById('filtro-data-modal');
+    if (filtroDataInput) {
+        filtroDataInput.addEventListener('change', (e) => {
+            const mesAnoSelecionado = e.target.value;
+            aplicarFiltroHistorico(indicador, mesAnoSelecionado);
+        });
+        aplicarFiltroHistorico(indicador, "");
+    }
+
+    // 📨 Buscar responsável do último preenchimento
+    fetch(`http://127.0.0.1:8000/api/preenchimentos/?indicador=${indicador.id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(res => res.json())
+        .then(preenchimentos => {
+            if (!preenchimentos.length) return;
+
+            const ultimo = preenchimentos[preenchimentos.length - 1];
+            const responsavel = ultimo?.preenchido_por?.first_name || ultimo?.preenchido_por?.username || "—";
+            const data = ultimo?.data_preenchimento
+                ? new Date(ultimo.data_preenchimento).toLocaleDateString("pt-BR")
+                : "—";
+
+            document.getElementById("responsavel-indicador").textContent = responsavel;
+            document.getElementById("ultimo-preenchimento-indicador").textContent = data;
+        })
+        .catch(error => {
+            console.error("Erro ao buscar último preenchimento:", error);
+        });
+
+
+    modal.classList.remove("hidden");
+
 
     // 🟢 Exportar histórico em Excel
     document.getElementById('exportar-excel').addEventListener('click', () => {
@@ -691,15 +730,17 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
     // Preencher tabela com dados filtrados
     historicoFiltrado.forEach(item => {
         const atingido = verificarAtingimento(indicador.tipo_meta, Number(item.valor), Number(item.meta));
-        const statusTexto = atingido ?
-            '✅ Atingida' :
-            (indicador.tipo_meta === 'monitoramento' ? '📊 Monitoramento' : '❌ Não Atingida');
+        const statusTexto = atingido
+            ? '✅ Atingida'
+            : (indicador.tipo_meta === 'monitoramento' ? '📊 Monitoramento' : '❌ Não Atingida');
+
+        const tipoValor = indicador.tipo_valor;
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td class="px-4 py-2 border">${new Date(item.data).toLocaleDateString('pt-BR')}</td>
-            <td class="px-4 py-2 border">R$ ${parseFloat(item.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-            <td class="px-4 py-2 border">R$ ${parseFloat(item.meta).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(item.valor, tipoValor)}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(item.meta, tipoValor)}</td>
             <td class="px-4 py-2 border">${statusTexto}</td>
             <td class="px-4 py-2 border text-center">
                 <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirComentarioPopup('${item.comentario?.replace(/'/g, "\\'") || ''}')">
@@ -708,12 +749,13 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
             </td>
             <td class="px-4 py-2 border text-center">
                 ${item.provas?.length > 0
-                ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
-                : '-'}
+                    ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
+                    : '-'}
             </td>
         `;
         corpoTabela.appendChild(tr);
     });
+
 
     // Atualizar gráfico
     if (window.graficoDesempenho) {
