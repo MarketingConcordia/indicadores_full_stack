@@ -88,14 +88,17 @@ function abrirModal(indicador) {
     document.getElementById('titulo-indicador').innerText = `Preencher - ${indicador.nome}`;
     document.getElementById('modal-preencher').classList.remove('hidden');
 
-    // 🆕 Limpar campos ao abrir
+    // Limpar campos
     document.getElementById('valor').value = '';
+    document.getElementById('comentario').value = '';
+    document.getElementById('origem').value = '';
+    document.getElementById('provas').value = '';
 
-    // 🆕 Pré-preencher mês atual
-    const hoje = new Date();
-    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-    const ano = hoje.getFullYear();
+    // Definir MÊS/ANO conforme o indicador pendente (e bloquear edição)
+    const mes = String(indicador.mes).padStart(2, '0');
+    const ano = indicador.ano;
     document.getElementById('mes').value = `${mes}/${ano}`;
+    document.getElementById('mes').disabled = true;
 }
 
 
@@ -142,10 +145,20 @@ document.getElementById('formPreenchimento').addEventListener('submit', async fu
         });
 
         if (!response.ok) {
+          let mensagemErro = "Erro ao salvar o preenchimento.";
+
+          const clone = response.clone(); // ✅ clone a resposta antes de ler
+          try {
             const erro = await response.json();
-            console.error("⚠️ Erro da API:", erro); // Mostra o erro detalhado no console
-            const mensagem = Object.values(erro).flat().join('\n');
-            throw new Error(mensagem || "Erro ao salvar o preenchimento.");
+            console.error("⚠️ Erro da API:", erro);
+            mensagemErro = Object.values(erro).flat().join('\n');
+          } catch (e) {
+            const texto = await clone.text(); // ✅ use o clone para .text()
+            console.error("⚠️ Erro HTML da API:", texto);
+            mensagemErro = "Erro interno no servidor (500). Verifique os logs do Django.";
+          }
+
+          throw new Error(mensagemErro);
         }
 
         alert('Preenchimento salvo com sucesso!');

@@ -284,7 +284,23 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
                     "Configuração de preenchimento não encontrada."
                 )
 
-        # ⬆️ Upload de arquivos e origem
+        indicador = serializer.validated_data['indicador']
+        mes = serializer.validated_data['mes']
+        ano = serializer.validated_data['ano']
+        valor_realizado = serializer.validated_data.get('valor_realizado')
+        comentario = serializer.validated_data.get('comentario')
+
+        preenchimento, created = Preenchimento.objects.update_or_create(
+            indicador=indicador,
+            mes=mes,
+            ano=ano,
+            preenchido_por=usuario,
+            defaults={
+                'valor_realizado': valor_realizado,
+                'comentario': comentario,
+            }
+        )
+
         arquivo = self.request.FILES.get('arquivo')
         origem = self.request.data.get('origem')
 
@@ -293,18 +309,18 @@ class PreenchimentoViewSet(viewsets.ModelViewSet):
         except ConfiguracaoArmazenamento.DoesNotExist:
             raise serializers.ValidationError("Nenhuma configuração de armazenamento ativa encontrada.")
 
-        url_arquivo = upload_arquivo(arquivo, arquivo.name, config) if arquivo else None
-
-        preenchimento = serializer.save(preenchido_por=usuario)
-        if url_arquivo:
+        if arquivo:
+            url_arquivo = upload_arquivo(arquivo, arquivo.name, config)
             preenchimento.arquivo = url_arquivo
+
         if origem:
             preenchimento.origem = origem
+
         preenchimento.save()
 
-        # 📝 Log se preenchido com valor
         if preenchimento.valor_realizado is not None:
             self._registrar_log_preenchimento(preenchimento, usuario, acao="preencheu")
+
 
     def perform_update(self, serializer):
         preenchimento = serializer.save()
@@ -473,28 +489,57 @@ def meus_preenchimentos(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def indicadores_pendentes(request):
+    """
+    Retorna todos os preenchimentos pendentes por mês retroativo
+    com base na periodicidade e mes_inicial de cada indicador.
+    """
+    from dateutil.relativedelta import relativedelta
     usuario = request.user
-    mes_atual = now().month
-    ano_atual = now().year
+    hoje = date.today()
+    pendentes = []
 
+    # Filtra indicadores do setor do gestor
     if usuario.perfil == 'gestor':
         indicadores = Indicador.objects.filter(setor__in=usuario.setores.all())
     else:
         indicadores = Indicador.objects.all()
 
-    indicadores_pendentes = []
     for indicador in indicadores:
-        preenchido = Preenchimento.objects.filter(
-            indicador=indicador,
-            mes=mes_atual,
-            ano=ano_atual
-        ).exists()
+        if not indicador.mes_inicial:
+            continue
 
-        if not preenchido:
-            indicadores_pendentes.append(indicador)
+        data_base = date(indicador.mes_inicial.year, indicador.mes_inicial.month, 1)
+        periodicidade = indicador.periodicidade or 1
 
-    serializer = IndicadorSerializer(indicadores_pendentes, many=True)
-    return Response(serializer.data)
+        data_iterada = data_base
+
+        # Lista todos os meses até o atual
+        while data_iterada <= hoje:
+            mes = data_iterada.month
+            ano = data_iterada.year
+
+            # Verifica se esse mês já foi preenchido
+            preenchido = Preenchimento.objects.filter(
+                indicador=indicador,
+                preenchido_por=usuario,
+                mes=mes,
+                ano=ano
+            ).exists()
+
+            if not preenchido:
+                pendentes.append({
+                    "id": indicador.id,
+                    "nome": indicador.nome,
+                    "mes": mes,
+                    "ano": ano,
+                    "tipo_valor": indicador.tipo_valor,
+                    "descricao": indicador.extracao_indicador or ""
+                })
+
+            data_iterada += relativedelta(months=periodicidade)
+
+    return Response(pendentes)
+
 
 
 @api_view(['GET'])
