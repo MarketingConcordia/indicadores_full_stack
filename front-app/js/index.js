@@ -31,6 +31,26 @@ if (!token) {
     window.location.href = 'login.html';
 }
 
+function gerarIntervaloDeMeses(dataInicio, dataFim) {
+  const [anoInicio, mesInicio] = dataInicio.split("-").map(Number);
+  const [anoFim, mesFim] = dataFim.split("-").map(Number);
+
+  const datas = [];
+  let ano = anoInicio;
+  let mes = mesInicio;
+
+  while (ano < anoFim || (ano === anoFim && mes <= mesFim)) {
+    datas.push(`${ano}-${String(mes).padStart(2, "0")}-01`); // Formato YYYY-MM-01
+    mes++;
+    if (mes > 12) {
+      mes = 1;
+      ano++;
+    }
+  }
+
+  return datas;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const perfil = localStorage.getItem("perfil_usuario");
@@ -71,20 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     preenchimentosDoIndicador.sort((a, b) => new Date(a.data_preenchimento) - new Date(b.data_preenchimento));
 
                     const historico = preenchimentosDoIndicador.map(p => {
-                        const dataPreenchimento = new Date(p.data_preenchimento);
-                        const mes = `${dataPreenchimento.getFullYear()}-${String(dataPreenchimento.getMonth() + 1).padStart(2, '0')}-01`;
-
-                        const metaDoMes = metasDoIndicador.find(m => m.mes === mes);
+                        const dataReferencia = new Date(p.ano, p.mes - 1, 1);
+                        const metaDoMes = metasDoIndicador.find(m => m.mes.startsWith(`${p.ano}-${String(p.mes).padStart(2, '0')}`));
                         const metaValor = metaDoMes ? parseFloat(metaDoMes.valor_meta) : parseFloat(indicador.valor_meta);
 
                         return {
-                            data: p.data_preenchimento,
+                            data: dataReferencia,
                             valor: p.valor_realizado,
                             meta: metaValor,
                             comentario: p.comentario,
                             provas: p.arquivo ? [p.arquivo] : []
                         };
                     });
+
 
                     const ultimoPreenchimento = preenchimentosDoIndicador.at(-1);
                     let variacao = 0;
@@ -110,7 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         comentarios: ultimoPreenchimento?.comentario || '',
                         origem: ultimoPreenchimento?.origem || '',
                         provas: ultimoPreenchimento?.arquivo ? [ultimoPreenchimento.arquivo] : [],
-                        historico: historico
+                        historico: historico,
+                        metas_mensais: metasDoIndicador // Passar metas mensais para o indicador
                     };
                 })
                 .filter(indicador => indicador.ultimaAtualizacao !== null); // <- só exibe preenchidos
@@ -253,8 +273,19 @@ function mostrarDetalhes(indicador) {
         </div>
 
         <div class="w-full bg-white rounded p-4 mb-6 border shadow">
-            <label for="filtro-data-modal" class="block text-sm font-medium text-gray-700 mb-1">Filtrar histórico por mês/ano:</label>
-            <input type="month" id="filtro-data-modal" class="border px-3 py-2 rounded w-48">
+            <div class="flex gap-4 items-end">
+            <div>
+                <label for="filtro-inicio" class="block text-sm font-medium text-gray-700 mb-1">Início:</label>
+                <input type="month" id="filtro-inicio" class="border px-3 py-2 rounded w-40">
+            </div>
+            <div>
+                <label for="filtro-fim" class="block text-sm font-medium text-gray-700 mb-1">Fim:</label>
+                <input type="month" id="filtro-fim" class="border px-3 py-2 rounded w-40">
+            </div>
+            <button id="btn-aplicar-filtro-periodo" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
+                Aplicar Filtro
+            </button>
+            </div>
         </div>
 
         <div class="w-full bg-white rounded p-4 mb-6 border shadow overflow-auto max-h-[300px]">
@@ -305,29 +336,29 @@ function mostrarDetalhes(indicador) {
     const corpoTabela = document.getElementById('corpo-historico-modal');
     corpoTabela.innerHTML = '';
 
-    // 🔧 Corrige o tipo de valor em cada item do histórico (caso venha sem)
-    (indicador.historico || []).forEach(item => {
-        if (!item.tipo_valor) {
-            item.tipo_valor = indicador.tipo_valor;
-        }
-    });
+    (indicador.historico || [])
+    .sort((a, b) => new Date(a.data) - new Date(b.data))
+    .forEach(item => {
+        const data = new Date(item.data);
+        const ano = data.getFullYear();
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const chave = `${ano}-${mes}`;
 
-    (indicador.historico || []).forEach(item => {
+        // Busca a meta mensal atualizada
+        const metaMensal = indicador.metas_mensais?.find(m => m.mes.startsWith(chave));
+        const metaFinal = metaMensal ? parseFloat(metaMensal.valor_meta) : parseFloat(item.meta);
+
+        const atingido = verificarAtingimento(indicador.tipo_meta, parseFloat(item.valor), metaFinal);
+
+        const statusTexto = atingido
+            ? '✅ Atingida'
+            : (indicador.tipo_meta === 'monitoramento' ? '📊 Monitoramento' : '❌ Não Atingida');
 
         const tr = document.createElement('tr');
-
-        const statusTexto = verificarAtingimento(
-                indicador.tipo_meta,
-                parseFloat(item.valor),
-                parseFloat(item.meta)
-            ) ?
-            '✅ Atingida' :
-            (indicador.tipo_meta === 'monitoramento' ? '📊 Monitoramento' : '❌ Não Atingida');
-
         tr.innerHTML = `
-            <td class="px-4 py-2 border">${new Date(item.data).toLocaleDateString('pt-BR')}</td>
-            <td class="px-4 py-2 border">${formatarValorComTipo(item.valor, item.tipo_valor)}</td>
-            <td class="px-4 py-2 border">${formatarValorComTipo(item.meta, item.tipo_valor)}</td>
+            <td class="px-4 py-2 border">${data.toLocaleDateString('pt-BR')}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(item.valor, indicador.tipo_valor)}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(metaFinal, indicador.tipo_valor)}</td>
             <td class="px-4 py-2 border">${statusTexto}</td>
             <td class="px-4 py-2 border text-center">
                 <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirComentarioPopup('${item.comentario?.replace(/'/g, "\\'") || ''}')">
@@ -336,14 +367,12 @@ function mostrarDetalhes(indicador) {
             </td>
             <td class="px-4 py-2 border text-center">
                 ${item.provas?.length > 0
-                ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
-                : '-'}
+                    ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
+                    : '-'}
             </td>
         `;
         corpoTabela.appendChild(tr);
     });
-
-
 
     // 🧠 Fechar modal
     const btnFechar = document.getElementById('fechar-modal');
@@ -354,14 +383,7 @@ function mostrarDetalhes(indicador) {
     }
 
     // 🔍 Filtrar histórico
-    const filtroDataInput = document.getElementById('filtro-data-modal');
-    if (filtroDataInput) {
-        filtroDataInput.addEventListener('change', (e) => {
-            const mesAnoSelecionado = e.target.value;
-            aplicarFiltroHistorico(indicador, mesAnoSelecionado);
-        });
-        aplicarFiltroHistorico(indicador, "");
-    }
+    aplicarFiltroHistorico(indicador, "", "");
 
     // 📨 Buscar responsável do último preenchimento
     fetch(`http://127.0.0.1:8000/api/preenchimentos/?indicador=${indicador.id}`, {
@@ -393,11 +415,14 @@ function mostrarDetalhes(indicador) {
     // 🟢 Exportar histórico em Excel
     document.getElementById('exportar-excel').addEventListener('click', () => {
         const dados = (indicador.historico || []).map(item => ({
-            Data: new Date(item.data).toLocaleDateString('pt-BR'),
+            Data: (() => {
+            if (!item.data || isNaN(new Date(item.data).getTime())) return '—';
+            return new Date(item.data).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+            })(),
             "Valor Realizado": parseFloat(item.valor).toLocaleString('pt-BR', {
                 minimumFractionDigits: 2
             }),
-            "Meta": parseFloat(item.meta).toLocaleString('pt-BR', {
+            "Meta": parseFloat(item.meta).toLocaleString('pt-BR', { // Use item.meta directly
                 minimumFractionDigits: 2
             }),
             "Status": verificarAtingimento(indicador.tipo_meta, item.valor, item.meta) ? "✅ Atingida" : "❌ Não Atingida",
@@ -449,7 +474,10 @@ function mostrarDetalhes(indicador) {
         window.graficoDesempenho = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: (indicador.historico || []).map(item => new Date(item.data).toLocaleDateString('pt-BR')),
+                labels: (indicador.historico || []).map(item => (() => {
+                if (!item.data || isNaN(new Date(item.data).getTime())) return '—';
+                return new Date(item.data).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                })()),
                 datasets: [{
                         label: 'Valor',
                         data: (indicador.historico || []).map(item => item.valor),
@@ -460,7 +488,7 @@ function mostrarDetalhes(indicador) {
                     },
                     {
                         label: 'Meta',
-                        data: (indicador.historico || []).map(item => item.meta),
+                        data: (indicador.historico || []).map(item => parseFloat(item.meta)), // Use item.meta directly
                         borderColor: '#ef4444',
                         borderDash: [5, 5],
                         borderWidth: 2,
@@ -489,6 +517,11 @@ function mostrarDetalhes(indicador) {
     // Mostrar o modal
     modal.classList.remove('hidden');
 
+    document.getElementById('btn-aplicar-filtro-periodo').addEventListener('click', () => {
+        const dataInicio = document.getElementById('filtro-inicio').value;
+        const dataFim = document.getElementById('filtro-fim').value;
+        aplicarFiltroHistorico(indicador, dataInicio, dataFim);
+    });
 
     function salvarMeta(indicadorId) {
         const novaMeta = document.getElementById('input-nova-meta').value;
@@ -577,39 +610,83 @@ document.addEventListener('DOMContentLoaded', () => {
         editarMetaModal.classList.add('hidden');
     });
 
-    // Salvar nova meta
-    salvarMeta.addEventListener('click', () => {
+    // ✅ Substituindo envio para funcionar com PATCH/POST corretamente
+    salvarMeta.addEventListener('click', async () => {
         const novaMeta = parseFloat(document.getElementById('editar-meta-nova').value);
         const indicadorId = editarMetaModal.dataset.id;
+        const dataInicio = document.getElementById("filtro-inicio").value;
+        const dataFim = document.getElementById("filtro-fim").value;
 
-        if (isNaN(novaMeta)) {
-            alert("Insira um valor válido para a nova meta.");
+        if (isNaN(novaMeta) || !dataInicio || !dataFim) {
+            alert("Informe um valor válido e selecione o intervalo de datas.");
             return;
         }
 
-        fetch(`http://127.0.0.1:8000/api/indicadores/${indicadorId}/`, {
-                method: 'PATCH',
+        const mesesIntervalo = gerarIntervaloDeMeses(dataInicio, dataFim);
+
+        // Busca metas existentes
+        let metasExistentes = [];
+        try {
+            const res = await fetch(`http://127.0.0.1:8000/api/metas-mensais/?indicador=${indicadorId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            metasExistentes = await res.json();
+        } catch (err) {
+            console.error("Erro ao buscar metas existentes:", err);
+            alert("Erro ao buscar metas já existentes.");
+            return;
+        }
+
+        const mapaMetas = {};
+        (metasExistentes.results || metasExistentes).forEach(meta => {
+            mapaMetas[meta.mes] = meta.id;
+        });
+
+        const requisicoes = mesesIntervalo.map(async mes => {
+            const mesFormatado = `${mes}`; // já vem no formato YYYY-MM-DD
+
+            const payload = {
+                indicador: parseInt(indicadorId),
+                mes: mesFormatado,
+                valor_meta: novaMeta
+            };
+
+            // Se já existe meta para esse mês, faz PATCH
+            if (mapaMetas[mesFormatado]) {
+                const metaId = mapaMetas[mesFormatado];
+                return fetch(`http://127.0.0.1:8000/api/metas-mensais/${metaId}/`, {
+                    method: "PATCH",
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ valor_meta: novaMeta })
+                });
+            }
+
+            // Senão, faz POST
+            return fetch(`http://127.0.0.1:8000/api/metas-mensais/`, {
+                method: "POST",
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    valor_meta: novaMeta
-                })
-            })
-            .then(res => {
-                if (!res.ok) throw new Error("Erro ao atualizar meta");
-                return res.json();
-            })
+                body: JSON.stringify(payload)
+            });
+        });
+
+        Promise.all(requisicoes)
             .then(() => {
-                alert("Meta atualizada com sucesso!");
-                editarMetaModal.classList.add('hidden');
-                document.getElementById('detalhe-modal').classList.add('hidden');
-                location.reload(); // Recarrega tudo para refletir a nova meta
+                alert("Meta(s) atualizada(s) para o período filtrado!");
+                editarMetaModal.classList.add("hidden");
+                document.getElementById("detalhe-modal").classList.add("hidden");
+                location.reload();
             })
             .catch(err => {
-                console.error("Erro ao atualizar meta:", err);
-                alert("Erro ao atualizar a meta.");
+                console.error("Erro ao salvar meta mensal:", err);
+                alert("Erro ao atualizar a(s) meta(s) do período.");
             });
     });
 
@@ -708,11 +785,11 @@ function popularMesesDoAnoSelecionado(selectedYear) {
         const option = document.createElement('option');
         option.value = month;
         option.textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
-        selectMes.appendChild(option);
+        selectMes.appendChild(option); // Corrigido de 'opt' para 'option'
     });
 }
 
-function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
+function aplicarFiltroHistorico(indicador, dataInicio = "", dataFim = "") {
     const corpoTabela = document.getElementById('corpo-historico-modal');
     const canvas = document.getElementById('grafico-desempenho');
     if (!canvas) return;
@@ -720,27 +797,40 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
     const ctx = canvas.getContext('2d');
     corpoTabela.innerHTML = '';
 
-    // Filtrar os itens pelo mês/ano
+    const inicio = dataInicio
+        ? new Date(parseInt(dataInicio.split("-")[0]), parseInt(dataInicio.split("-")[1]) - 1, 1)
+        : null;
+
+    const fim = dataFim
+        ? new Date(parseInt(dataFim.split("-")[0]), parseInt(dataFim.split("-")[1]) - 1, 1)
+        : null;
+
+
     const historicoFiltrado = (indicador.historico || []).filter(item => {
         const data = new Date(item.data);
-        const anoMes = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
-        return mesAnoSelecionado === "" || anoMes === mesAnoSelecionado;
+        if (inicio && data < inicio) return false;
+        if (fim && data > fim) return false;
+        return true;
     });
 
-    // Preencher tabela com dados filtrados
     historicoFiltrado.forEach(item => {
-        const atingido = verificarAtingimento(indicador.tipo_meta, Number(item.valor), Number(item.meta));
+        const data = new Date(item.data);
+        const ano = data.getFullYear();
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const chave = `${ano}-${mes}`;
+        const metaMensal = indicador.metas_mensais?.find(m => m.mes.startsWith(chave));
+        const metaFinal = metaMensal ? parseFloat(metaMensal.valor_meta) : parseFloat(item.meta);
+
+        const atingido = verificarAtingimento(indicador.tipo_meta, Number(item.valor), metaFinal);
         const statusTexto = atingido
             ? '✅ Atingida'
             : (indicador.tipo_meta === 'monitoramento' ? '📊 Monitoramento' : '❌ Não Atingida');
 
-        const tipoValor = indicador.tipo_valor;
-
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td class="px-4 py-2 border">${new Date(item.data).toLocaleDateString('pt-BR')}</td>
-            <td class="px-4 py-2 border">${formatarValorComTipo(item.valor, tipoValor)}</td>
-            <td class="px-4 py-2 border">${formatarValorComTipo(item.meta, tipoValor)}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(item.valor, indicador.tipo_valor)}</td>
+            <td class="px-4 py-2 border">${formatarValorComTipo(metaFinal, indicador.tipo_valor)}</td>
             <td class="px-4 py-2 border">${statusTexto}</td>
             <td class="px-4 py-2 border text-center">
                 <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirComentarioPopup('${item.comentario?.replace(/'/g, "\\'") || ''}')">
@@ -756,8 +846,6 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
         corpoTabela.appendChild(tr);
     });
 
-
-    // Atualizar gráfico
     if (window.graficoDesempenho) {
         window.graficoDesempenho.destroy();
     }
@@ -765,8 +853,11 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
     window.graficoDesempenho = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: historicoFiltrado.map(item => new Date(item.data).toLocaleDateString('pt-BR')),
-            datasets: [{
+            labels: historicoFiltrado.map(item =>
+                new Date(item.data).toLocaleDateString('pt-BR')
+            ),
+            datasets: [
+                {
                     label: 'Valor',
                     data: historicoFiltrado.map(item => item.valor),
                     borderColor: '#3b82f6',
@@ -776,7 +867,14 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
                 },
                 {
                     label: 'Meta',
-                    data: historicoFiltrado.map(item => item.meta),
+                    data: historicoFiltrado.map(item => {
+                        const data = new Date(item.data);
+                        const ano = data.getFullYear();
+                        const mes = String(data.getMonth() + 1).padStart(2, '0');
+                        const chave = `${ano}-${mes}`;
+                        const metaMensal = indicador.metas_mensais?.find(m => m.mes.startsWith(chave));
+                        return metaMensal ? parseFloat(metaMensal.valor_meta) : parseFloat(item.meta);
+                    }),
                     borderColor: '#ef4444',
                     borderDash: [5, 5],
                     borderWidth: 2,
@@ -789,9 +887,7 @@ function aplicarFiltroHistorico(indicador, mesAnoSelecionado) {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    position: 'top'
-                }
+                legend: { position: 'top' }
             },
             scales: {
                 y: {

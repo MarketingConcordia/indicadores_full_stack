@@ -129,7 +129,34 @@ class IndicadorViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(indicador, data=request.data, partial=parcial)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        indicador_atualizado = serializer.save()
+
+        # 🔄 Atualizar metas futuras se a meta foi alterada
+        nova_meta = indicador_atualizado.valor_meta
+        periodicidade = indicador_atualizado.periodicidade or 12
+        hoje = datetime.today().replace(day=1)
+
+        for i in range(periodicidade):
+            mes_alvo = hoje + relativedelta(months=i)
+
+            # Pular se já houver preenchimento para este mês
+            ja_preenchido = Preenchimento.objects.filter(
+                indicador=indicador_atualizado,
+                data_preenchimento__year=mes_alvo.year,
+                data_preenchimento__month=mes_alvo.month,
+                valor_realizado__isnull=False
+            ).exists()
+
+
+            if ja_preenchido:
+                continue
+
+            # Atualiza ou cria a meta mensal com a nova meta
+            MetaMensal.objects.update_or_create(
+                indicador=indicador_atualizado,
+                mes=mes_alvo.date(),
+                defaults={'valor_meta': nova_meta}
+            )
 
         registrar_log(request.user, f"Editou o indicador '{nome_anterior}'")
         return Response(serializer.data)

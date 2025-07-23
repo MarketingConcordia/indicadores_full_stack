@@ -12,8 +12,43 @@ function verificarAtingimento(tipo, valor, meta) {
     return false;
 }
 
+// Função para formatar valores com base no tipo_valor
+function formatarValorComTipo(valor, tipo) {
+    if (valor == null) return "-";
+    const numero = parseFloat(valor);
+    if (isNaN(numero)) return "-";
+
+    if (tipo === "monetario") {
+        return `R$ ${numero.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`;
+    } else if (tipo === "percentual") {
+        return `${numero.toFixed(2)}%`;
+    } else {
+        return numero.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+    }
+}
+
 if (!token) {
     window.location.href = 'login.html';
+}
+
+function gerarIntervaloDeMeses(dataInicio, dataFim) {
+  const [anoInicio, mesInicio] = dataInicio.split("-").map(Number);
+  const [anoFim, mesFim] = dataFim.split("-").map(Number);
+
+  const datas = [];
+  let ano = anoInicio;
+  let mes = mesInicio;
+
+  while (ano < anoFim || (ano === anoFim && mes <= mesFim)) {
+    datas.push(`${ano}-${String(mes).padStart(2, "0")}-01`); // Formato YYYY-MM-01
+    mes++;
+    if (mes > 12) {
+      mes = 1;
+      ano++;
+    }
+  }
+
+  return datas;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

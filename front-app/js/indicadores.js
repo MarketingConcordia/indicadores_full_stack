@@ -147,7 +147,7 @@ async function salvarIndicador(event) {
     tipo_meta: document.getElementById('tipo_meta').value,
     tipo_valor: document.getElementById('tipo_valor').value,
     periodicidade: parseInt(document.getElementById('periodicidade').value),
-    mes_inicial: document.getElementById('mesInicial').value + '-01',
+    mes_inicial: new Date(document.getElementById('mesInicial').value + '-01').toISOString().split('T')[0],
     visibilidade: document.getElementById('visibilidade').value === 'true',
     extracao_indicador: document.getElementById('extracaoIndicador').value,
     status: 'pendente'
@@ -229,7 +229,7 @@ document.getElementById('form-edicao-indicador').addEventListener('submit', asyn
     tipo_meta: document.getElementById('edit-tipo').value,
     tipo_valor: document.getElementById('edit-tipo-valor').value,
     periodicidade: parseInt(document.getElementById('edit-periodicidade').value),
-    mes_inicial: document.getElementById('edit-mes-inicial').value,
+    mes_inicial: new Date(document.getElementById('edit-mes-inicial').value + '-01').toISOString().split('T')[0],
     visibilidade: document.getElementById('edit-visibilidade').value === 'true',
     extracao_indicador: document.getElementById('edit-extracao').value,
     status: 'pendente'

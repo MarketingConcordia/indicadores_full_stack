@@ -93,13 +93,15 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class IndicadorSerializer(serializers.ModelSerializer):
     setor_nome = serializers.CharField(source='setor.nome', read_only=True)
     status = serializers.SerializerMethodField()
+    metas_mensais = serializers.SerializerMethodField()
 
     class Meta:
         model = Indicador
         fields = [
             'id', 'nome', 'setor', 'setor_nome', 'tipo_meta',
             'status', 'valor_meta', 'criado_em', 'periodicidade',
-            'mes_inicial', 'visibilidade', 'extracao_indicador', 'tipo_valor'
+            'mes_inicial', 'visibilidade', 'extracao_indicador', 'tipo_valor',
+            'metas_mensais'
         ]
 
     def get_status(self, obj):
@@ -123,6 +125,18 @@ class IndicadorSerializer(serializers.ModelSerializer):
             )
 
         return indicador
+    
+    def get_metas_mensais(self, obj):
+        metas = obj.metas_mensais.order_by("mes")
+        return [
+            {
+                "id": meta.id,
+                "mes": meta.mes.strftime("%Y-%m-%d"),
+                "valor_meta": meta.valor_meta
+            }
+            for meta in metas
+        ]
+
 
 
 # =============================
