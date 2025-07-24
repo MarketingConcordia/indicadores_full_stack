@@ -1,3 +1,30 @@
+function isTokenExpired(token) {
+  if (!token) return true;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiry = payload.exp;
+    const now = Math.floor(Date.now() / 1000); // tempo atual em segundos
+    return now >= expiry;
+  } catch (e) {
+    console.error("Erro ao verificar token:", e);
+    return true;
+  }
+}
+
+function verificarSessao() {
+  const token = localStorage.getItem('access');
+  if (!token || isTokenExpired(token)) {
+    alert("Sua sessão expirou. Faça login novamente.");
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+}
+
+// Execute imediatamente ao carregar
+verificarSessao();
+
+
 document.addEventListener("DOMContentLoaded", () => {
     carregarUsuarioLogado();
     configurarToggleSidebar();

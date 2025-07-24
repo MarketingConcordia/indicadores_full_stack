@@ -277,21 +277,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let configuracaoId = null;
 
-function carregarDiaLimite() {
-  const token = localStorage.getItem("access");
-  fetch("http://127.0.0.1:8000/api/configuracoes/", {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-    .then(res => res.json())
-    .then(data => {
-      const config = data.results ? data.results[0] : data;
-      configuracaoId = config.id;  // salva o ID
-      document.getElementById("input-dia-limite").value = config.dia_limite_preenchimento;
-    })
-    .catch(err => {
-      console.error("Erro ao carregar configuração:", err);
-    });
-}
+// function carregarDiaLimite() {
+//   const token = localStorage.getItem("access");
+//   fetch("http://127.0.0.1:8000/api/configuracoes/", {
+//     headers: { Authorization: `Bearer ${token}` }
+//   })
+//     .then(res => res.json())
+//     .then(data => {
+//       const config = data.results ? data.results[0] : data;
+//       configuracaoId = config.id;  // salva o ID
+//       document.getElementById("input-dia-limite").value = config.dia_limite_preenchimento;
+//     })
+//     .catch(err => {
+//       console.error("Erro ao carregar configuração:", err);
+//     });
+// }
 
 function salvarDiaLimite() {
   const token = localStorage.getItem("access");
