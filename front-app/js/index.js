@@ -88,7 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const preenchimentosDoIndicador = preenchimentos.filter(p => p.indicador === indicador.id);
                     const metasDoIndicador = metasMensais.filter(m => m.indicador === indicador.id);
 
-                    preenchimentosDoIndicador.sort((a, b) => new Date(a.data_preenchimento) - new Date(b.data_preenchimento));
+                    preenchimentosDoIndicador.sort((a, b) => {
+                        // Primeiro, compara pelo ano
+                        if (a.ano !== b.ano) {
+                            return a.ano - b.ano; // Ordena anos em ordem crescente
+                        }
+                        // Se os anos forem iguais, compara pelo mês
+                        return a.mes - b.mes; // Ordena meses em ordem crescente
+                    });
 
                     const historico = preenchimentosDoIndicador.map(p => {
                         const dataReferencia = new Date(p.ano, p.mes - 1, 1);
@@ -106,32 +113,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                     const ultimoPreenchimento = preenchimentosDoIndicador.at(-1);
+
+                    let valorAtual = 0;
+                    let valorMeta = parseFloat(indicador.valor_meta);
+                    let ultimaAtualizacao = null;
+                    let atingido = false;
                     let variacao = 0;
-                    if (ultimoPreenchimento && indicador.valor_meta) {
-                        const valor = parseFloat(ultimoPreenchimento.valor_realizado);
-                        const meta = parseFloat(indicador.valor_meta);
-                        if (!isNaN(valor) && !isNaN(meta) && meta !== 0) {
-                            variacao = ((valor - meta) / meta) * 100;
+                    let comentarios = '';
+                    let provas = [];
+                    let responsavel = '—';
+
+                    if (ultimoPreenchimento) {
+                        const ano = ultimoPreenchimento.ano;
+                        const mes = String(ultimoPreenchimento.mes).padStart(2, '0');
+                        // ORIGINAL: const metaMensal = metasDoIndicador.find(m => m.mes.startsWith(`${ano}-${mes}`));
+
+                        // NOVO: Buscar a meta para o mês 07/2025 (ou qualquer mês/ano específico que você queira)
+                        const metaMensalJulho2025 = metasDoIndicador.find(m => m.mes.startsWith(`2025-07`));
+                        valorMeta = metaMensalJulho2025 ? parseFloat(metaMensalJulho2025.valor_meta) : parseFloat(indicador.valor_meta);
+
+
+                        valorAtual = parseFloat(ultimoPreenchimento.valor_realizado);
+                        ultimaAtualizacao = ultimoPreenchimento.data_preenchimento;
+                        atingido = verificarAtingimento(indicador.tipo_meta, valorAtual, valorMeta);
+
+                        if (valorMeta !== 0) {
+                            variacao = ((valorAtual - valorMeta) / valorMeta) * 100;
                         }
+
+                        comentarios = ultimoPreenchimento.comentario || '';
+                        provas = ultimoPreenchimento.arquivo ? [ultimoPreenchimento.arquivo] : [];
+                        responsavel = ultimoPreenchimento?.preenchido_por?.first_name || ultimoPreenchimento?.preenchido_por?.username || 'Desconhecido';
                     }
 
                     return {
                         ...indicador,
-                        valor_atual: ultimoPreenchimento?.valor_realizado || 0,
-                        atingido: verificarAtingimento(
-                            indicador.tipo_meta,
-                            ultimoPreenchimento?.valor_realizado,
-                            parseFloat(indicador.valor_meta)
-                        ),
+                        valor_atual: valorAtual,
+                        valor_meta: valorMeta,
+                        atingido: atingido,
                         variacao: parseFloat(variacao.toFixed(2)),
-                        responsavel: ultimoPreenchimento?.preenchido_por?.first_name || ultimoPreenchimento?.preenchido_por?.username || 'Desconhecido',
-                        ultimaAtualizacao: ultimoPreenchimento?.data_preenchimento || null,
-                        comentarios: ultimoPreenchimento?.comentario || '',
+                        responsavel: responsavel,
+                        ultimaAtualizacao: ultimaAtualizacao,
+                        comentarios: comentarios,
                         origem: ultimoPreenchimento?.origem || '',
-                        provas: ultimoPreenchimento?.arquivo ? [ultimoPreenchimento.arquivo] : [],
+                        provas: provas,
                         historico: historico,
-                        metas_mensais: metasDoIndicador // Passar metas mensais para o indicador
+                        metas_mensais: metasDoIndicador
                     };
+
                 })
                 .filter(indicador => indicador.ultimaAtualizacao !== null); // <- só exibe preenchidos
 
@@ -218,7 +247,8 @@ function renderizarIndicadores(dados) {
                     <span class="text-sm">${atingido ? 'Meta atingida' : 'Meta não atingida'}</span>
                 </div>
                 <div class="text-sm text-gray-600 mb-3">
-                    Atual: ${formatarValor(indicador.valor_atual)} / Meta: ${formatarValor(indicador.valor_meta)}
+                    Atual: ${formatarValorComTipo(indicador.valor_atual, indicador.tipo_valor)} / 
+                    Meta: ${formatarValorComTipo(indicador.valor_meta, indicador.tipo_valor)}
                 </div>
                 <div class="flex justify-end">
                     <button class="btn-detalhes bg-amber-400 hover:bg-amber-500 text-amber-900 text-xs px-3 py-1 rounded transition-colors">

@@ -63,14 +63,31 @@ function carregarIndicadores() {
           div.className = "bg-white p-4 rounded shadow-md";
 
           div.innerHTML = `
-            <h3 class="text-lg font-bold mb-1">${indicador.nome}</h3>
-            <p class="text-sm text-gray-600">${indicador.descricao || ''}</p>
-            <div class="mt-2 p-2 bg-yellow-100 text-yellow-700 text-sm rounded">
-              Preenchimento pendente de ${String(mes).padStart(2, '0')}/${ano}.
-            </div>
-            <button onclick='abrirModal(${JSON.stringify(indicador)})' class="mt-2 bg-blue-600 text-white px-4 py-1 rounded">
-              Preencher
-            </button>
+          <div class="bg-white shadow-md border-l-4 border-yellow-400 p-4 rounded-lg flex flex-col gap-3">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="text-base font-semibold text-gray-800">${indicador.nome}</h3>
+                  <p class="text-sm text-gray-500">${indicador.descricao || ''}</p>
+                </div>
+                <div class="text-yellow-500">
+                  <i class="fas fa-exclamation-triangle text-xl"></i>
+                </div>
+              </div>
+
+              <div class="bg-yellow-100 text-yellow-800 px-3 py-2 rounded-md text-sm flex items-center gap-2">
+                <i class="fas fa-clock"></i>
+                <span>Preenchimento pendente de <strong>${String(mes).padStart(2, '0')}/${ano}</strong></span>
+              </div>
+
+              <div class="flex justify-end">
+                <button 
+                  onclick='abrirModal(${JSON.stringify(indicador)})'
+                  class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-all duration-200"
+                >
+                  Preencher
+                </button>
+              </div>
+          </div>
           `;
 
           document.getElementById('indicadores-container').appendChild(div);

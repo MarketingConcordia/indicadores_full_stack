@@ -26,7 +26,7 @@ function carregarUsuarioLogado() {
         // Detalhe do perfil (Master ou Setores)
         const detalhe = perfil === "master"
             ? "Perfil Master"
-            : `Setores: ${setores.map(s => s.nome).join(", ")}`;
+            : `Setor: ${setores.map(s => s.nome).join(", ")}`;
 
         document.querySelectorAll("#campo-detalhe-perfil").forEach(el => {
             el.textContent = detalhe;
@@ -44,23 +44,64 @@ function carregarUsuarioLogado() {
 
 // 🔹 Lógica do botão de expandir/recolher sidebar
 function configurarToggleSidebar() {
-    const toggleSidebar = document.getElementById("toggle-sidebar");
     const sidebar = document.getElementById("sidebar");
     const sidebarItems = document.querySelectorAll(".sidebar-item");
     const mainContent = document.getElementById("main-content");
 
-    if (toggleSidebar && sidebar) {
-        toggleSidebar.addEventListener("click", () => {
-            sidebar.classList.toggle("sidebar-collapsed");
+    if (sidebar) {
+        // 1. Configurar o estado inicial da sidebar para estar recolhida por padrão
+        // Usaremos a classe 'sidebar-collapsed' ou 'sidebar-hover-collapsed' para o estado inicial
+        // Assumindo que 'sidebar-collapsed' já encolhe a sidebar e esconde o texto dos itens.
+        sidebar.classList.add("sidebar-collapsed"); // Adiciona a classe para iniciar recolhida
+
+        // 2. Ajustar a margem do conteúdo principal para a sidebar recolhida (se 'ml-64' for para expandida)
+        if (mainContent) {
+            mainContent.classList.remove("ml-64"); // Remove a margem da sidebar expandida
+            mainContent.classList.add("ml-20"); // Adiciona a margem para a sidebar recolhida (ajuste o valor conforme seu CSS)
+        }
+
+        // 3. Esconder o texto dos itens da sidebar no estado recolhido
+        sidebarItems.forEach(item => {
+            item.style.display = "none";
+        });
+
+
+        // 4. Adicionar evento mouseenter na sidebar
+        sidebar.addEventListener("mouseenter", () => {
+            // Remove a classe de recolhido para expandir
+            sidebar.classList.remove("sidebar-collapsed");
 
             if (mainContent) {
-                mainContent.classList.toggle("ml-64");
+                // Ajusta a margem do conteúdo principal para a sidebar expandida
+                mainContent.classList.remove("ml-20"); // Margem da sidebar recolhida
+                mainContent.classList.add("ml-64");   // Margem da sidebar expandida
             }
 
+            // Mostra o texto dos itens
             sidebarItems.forEach(item => {
-                item.style.display = sidebar.classList.contains("sidebar-collapsed") ? "none" : "inline";
+                item.style.display = "inline";
             });
         });
+
+        // 5. Adicionar evento mouseleave na sidebar
+        sidebar.addEventListener("mouseleave", () => {
+            // Adiciona a classe de recolhido
+            sidebar.classList.add("sidebar-collapsed");
+
+            if (mainContent) {
+                // Ajusta a margem do conteúdo principal para a sidebar recolhida
+                mainContent.classList.remove("ml-64"); // Margem da sidebar expandida
+                mainContent.classList.add("ml-20");   // Margem da sidebar recolhida
+            }
+
+            // Esconde o texto dos itens
+            sidebarItems.forEach(item => {
+                item.style.display = "none";
+            });
+        });
+
+        // O toggleSidebar (botão de clique) não é mais necessário para este comportamento de hover,
+        // então você pode remover o event listener de click, se houver, no toggleSidebar.
     }
 }
 
