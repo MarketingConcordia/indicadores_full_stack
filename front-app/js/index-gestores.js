@@ -279,6 +279,9 @@ function renderizarIndicadores(dados) {
 function mostrarDetalhes(indicador) {
     const modal = document.getElementById('detalhe-modal');
     const modalContent = document.getElementById('modal-content');
+    const setorGestor = localStorage.getItem("setor_usuario");
+    const podeEditar = indicador.setor_nome === setorGestor;
+
 
     // Criar conteúdo do modal (sem meta preenchida ainda)
     modalContent.innerHTML = `
@@ -335,11 +338,13 @@ function mostrarDetalhes(indicador) {
                 </thead>
                 <tbody id="corpo-historico-modal"></tbody>
             </table>
+            ${podeEditar ? `
             <div class="mt-4 flex gap-2 flex-wrap">
-                <button id="editar-meta" data-id="${indicador.id}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
+                <button id="editar-valor" data-id="${indicador.id}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
                     Editar Valor
                 </button>
             </div>
+            ` : ''}
         </div>
 
         <div class="w-full bg-white rounded p-4 border shadow">

@@ -95,6 +95,28 @@ class UsuarioViewSet(viewsets.ModelViewSet):
                 acao=f"Inativou o usuário '{usuario_antigo.first_name or usuario_antigo.username}'"
             )
 
+    @action(detail=True, methods=["post"], url_path="trocar_senha")
+    def trocar_senha(self, request, pk=None):
+        usuario = self.get_object()
+        senha_atual = request.data.get("senha_atual")
+        nova_senha = request.data.get("nova_senha")
+
+        if not senha_atual or not nova_senha:
+            return Response({"erro": "Campos obrigatórios não fornecidos."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not usuario.check_password(senha_atual):
+            return Response({"erro": "Senha atual incorreta."}, status=status.HTTP_400_BAD_REQUEST)
+
+        usuario.set_password(nova_senha)
+        usuario.save()
+
+        LogDeAcao.objects.create(
+            usuario=request.user,
+            acao=f"Alterou a senha do usuário '{usuario.first_name or usuario.username}'"
+        )
+
+        return Response({"mensagem": "Senha alterada com sucesso."}, status=status.HTTP_200_OK)
+    
 
 # 🔹 INDICADOR
 class IndicadorViewSet(viewsets.ModelViewSet):

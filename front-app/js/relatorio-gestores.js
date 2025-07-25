@@ -15,38 +15,115 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    preencherSetorGestor();
-    carregarPreenchimentos();
+    preencherIndicadoresGestor();
     configurarEventosDeFiltro();
 });
 
-
-// === SETA O SETOR FIXO DO GESTOR ===
-function preencherSetorGestor() {
-    const setor = localStorage.getItem("setor_usuario");
-    const select = document.getElementById("filter-setor");
-    select.innerHTML = `<option value="${setor}">${setor}</option>`;
-}
-
-
-// === FUNÇÕES DE FILTRO E HISTÓRICO ===
-
-function configurarEventosDeFiltro() {
-    document.getElementById("filter-data-inicial").addEventListener("change", carregarPreenchimentos);
-    document.getElementById("filter-data-final").addEventListener("change", carregarPreenchimentos);
-    document.getElementById("filter-status").addEventListener("change", carregarPreenchimentos);
-}
-
-function carregarPreenchimentos() {
+// === SETA OS INDICADORES DO GESTOR ===
+function preencherIndicadoresGestor() {
     const token = localStorage.getItem("access");
+    const select = document.getElementById("filter-indicador");
+    const setorId = parseInt(localStorage.getItem("setor_usuario_id"));
+
+    if (!setorId) {
+        console.warn("Setor do gestor não definido.");
+        return;
+    }
 
     fetch("http://127.0.0.1:8000/api/preenchimentos/", {
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
     .then(data => {
+        const lista = Array.isArray(data) ? data : data.results || [];
+
+        const indicadoresFiltrados = new Map();
+        lista.forEach(p => {
+            if (p.setor_id === setorId) {
+                indicadoresFiltrados.set(p.indicador, p.indicador_nome);
+            }
+        });
+
+        // Limpa e preenche o select
+        select.innerHTML = `<option value="">Todos os indicadores</option>`;
+        indicadoresFiltrados.forEach((nome, id) => {
+            const opt = document.createElement("option");
+            opt.value = id;
+            opt.textContent = nome;
+            select.appendChild(opt);
+        });
+    })
+    .catch(err => {
+        console.error("Erro ao carregar indicadores do gestor:", err);
+        alert("Erro ao carregar indicadores do gestor.");
+    });
+}
+
+// === EVENTOS ===
+function configurarEventosDeFiltro() {
+    document.getElementById("btn-filtrar").addEventListener("click", carregarPreenchimentos);
+}
+
+// === GERA MESES POR INDICADOR ===
+function gerarMesesDoIndicador(mesInicialStr, periodicidade) {
+    const datas = [];
+    const dataInicial = new Date(mesInicialStr);
+    let ano = dataInicial.getFullYear();
+    let mes = dataInicial.getMonth() + 1;
+
+    const hoje = new Date();
+    const anoFim = hoje.getFullYear();
+    const mesFim = hoje.getMonth() + 1;
+
+    while (ano < anoFim || (ano === anoFim && mes <= mesFim)) {
+        datas.push(`${ano}-${String(mes).padStart(2, "0")}`);
+        mes += periodicidade;
+        if (mes > 12) {
+            mes = mes % 12 || 12;
+            ano += 1;
+        }
+    }
+
+    return datas;
+}
+
+// === CARREGA DADOS API ===
+function carregarPreenchimentos() {
+    const token = localStorage.getItem("access");
+    const indicadorId = document.getElementById("filter-indicador").value;
+    const setorId = parseInt(localStorage.getItem("setor_usuario_id"));
+
+    if (!token || !setorId) {
+        alert("Erro: token ou setor não encontrado.");
+        return;
+    }
+
+    let url = "http://127.0.0.1:8000/api/preenchimentos/";
+
+    if (indicadorId) {
+        url += `?indicador=${indicadorId}`;
+    }
+
+    fetch(url, {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(async res => {
+        const text = await res.text();
+        if (!text) {
+            console.warn("Resposta vazia da API.");
+            aplicarFiltros([]);
+            return;
+        }
+
+        const data = JSON.parse(text);
         const preenchimentos = Array.isArray(data) ? data : data.results || [];
-        aplicarFiltros(preenchimentos);
+
+        // 🔎 Filtro por setor apenas se estiver em "Todos"
+        const preenchimentosFiltrados = indicadorId
+            ? preenchimentos
+            : preenchimentos.filter(p => p.setor_id === setorId);
+
+        aplicarFiltros(preenchimentosFiltrados);
     })
     .catch(err => {
         console.error("Erro ao carregar preenchimentos:", err);
@@ -55,24 +132,31 @@ function carregarPreenchimentos() {
 }
 
 
+// === FILTRA COM BASE EM ANO/MÊS ===
 function aplicarFiltros(preenchimentos) {
-    const setorSelecionado = document.getElementById("filter-setor").value;
+    const indicadorSelecionado = document.getElementById("filter-indicador").value;
     const dataInicialStr = document.getElementById("filter-data-inicial").value;
     const dataFinalStr = document.getElementById("filter-data-final").value;
     const statusSelecionado = document.getElementById("filter-status").value;
 
-    const dataInicial = dataInicialStr ? new Date(`${dataInicialStr}-01`).getTime() : null;
-    const dataFinal = dataFinalStr ? new Date(`${dataFinalStr}-01`).getTime() : null;
+    if (!dataInicialStr || !dataFinalStr || !statusSelecionado) {
+        console.warn("Preencha todos os filtros para aplicar.");
+        return;
+    }
+
+    const [anoIni, mesIni] = dataInicialStr.split("-").map(Number);
+    const [anoFim, mesFim] = dataFinalStr.split("-").map(Number);
+    const inicioTimestamp = new Date(anoIni, mesIni - 1).getTime();
+    const fimTimestamp = new Date(anoFim, mesFim - 1).getTime();
 
     const lista = Array.isArray(preenchimentos) ? preenchimentos : preenchimentos.results || [];
 
     const filtrados = lista.filter(p => {
-        const data = new Date(p.data_preenchimento);
-        const dataTimestamp = data.getTime();
+        const preenTimestamp = new Date(p.ano, p.mes - 1).getTime();
 
-        const condDataInicial = dataInicial ? dataTimestamp >= dataInicial : true;
-        const condDataFinal = dataFinal ? dataTimestamp <= dataFinal : true;
-        const condSetor = setorSelecionado ? p.setor_nome === setorSelecionado : true;
+        const condDataInicial = preenTimestamp >= inicioTimestamp;
+        const condDataFinal = preenTimestamp <= fimTimestamp;
+        const condIndicador = indicadorSelecionado ? p.indicador === parseInt(indicadorSelecionado) : true;
 
         let condStatus = true;
         if (statusSelecionado === "atingidos") {
@@ -81,27 +165,24 @@ function aplicarFiltros(preenchimentos) {
             condStatus = calcularStatus(p.valor_realizado, p.meta, p.tipo_meta) === "Não atingida";
         }
 
-        return condSetor && condDataInicial && condDataFinal && condStatus;
+        return condIndicador && condDataInicial && condDataFinal && condStatus;
     });
 
     renderizarHistorico(filtrados);
 }
 
-
+// === RENDERIZA TABELA ===
 function renderizarHistorico(preenchimentos) {
     const tbody = document.getElementById("historico-body");
     const thead = document.getElementById("historico-head");
     tbody.innerHTML = "";
     thead.innerHTML = "";
 
-    const dadosAgrupados = {};
     const mesesSet = new Set();
+    const dadosAgrupados = {};
 
     preenchimentos.forEach(p => {
-        const data = new Date(p.data_preenchimento);
-        const mes = String(data.getMonth() + 1).padStart(2, '0');
-        const ano = String(data.getFullYear());
-        const chaveMes = `${ano}-${mes}`;
+        const chaveMes = `${p.ano}-${String(p.mes).padStart(2, "0")}`;
         mesesSet.add(chaveMes);
 
         if (!dadosAgrupados[p.indicador_nome]) {
@@ -117,6 +198,7 @@ function renderizarHistorico(preenchimentos) {
 
     const mesesOrdenados = Array.from(mesesSet).sort();
 
+    // Cabeçalho
     let header = `<th class="px-4 py-2">Indicador</th>`;
     mesesOrdenados.forEach(mes => {
         const [ano, mesNum] = mes.split("-");
@@ -129,6 +211,7 @@ function renderizarHistorico(preenchimentos) {
     });
     thead.innerHTML = `<tr>${header}</tr>`;
 
+    // Corpo
     for (const indicador in dadosAgrupados) {
         let row = `<td class="px-4 py-2 font-semibold">${indicador}</td>`;
 
@@ -141,7 +224,7 @@ function renderizarHistorico(preenchimentos) {
                               dados.status === "Não atingida" ? "❌" : "📊";
 
                 row += `
-                    <td class="px-4 py-2">${formatarValor(dados.valor)}</td>
+                    <td class="px-4 py-2 border-l border-gray-300">${formatarValor(dados.valor)}</td>
                     <td class="px-4 py-2">${formatarValor(dados.meta)}</td>
                     <td class="px-4 py-2 ${corStatus}">${icone} ${dados.status}</td>
                 `;
@@ -153,7 +236,6 @@ function renderizarHistorico(preenchimentos) {
         tbody.innerHTML += `<tr>${row}</tr>`;
     }
 }
-
 
 function calcularStatus(valor, meta, tipo) {
     if (valor == null || meta == null) return "Sem dados";

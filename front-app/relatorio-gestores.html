@@ -109,9 +109,9 @@
             <div class="bg-white shadow-sm p-4 border-b">
                 <div class="flex flex-wrap items-center gap-4">
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Área/Setor</label>
-                        <select id="filter-setor" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="todos">Todos os Setores</option>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Indicador</label>
+                        <select id="filter-indicador" class="w-full border border-gray-300 rounded p-2">
+                            <option value="">Todos os indicadores</option>
                         </select>
                     </div>
 
@@ -135,8 +135,8 @@
                     </div>
 
                     <div class="flex items-end">
-                        <button onclick="carregarPreenchimentos()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-                            Ver Histórico
+                        <button id="btn-filtrar" class="bg-blue-600 text-white px-4 py-2 rounded w-full md:w-auto">
+                            Ver Historico
                         </button>
                     </div>
                 </div>

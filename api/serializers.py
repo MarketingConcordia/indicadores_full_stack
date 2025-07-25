@@ -156,14 +156,18 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
     setor_nome = serializers.CharField(source='indicador.setor.nome', read_only=True)
     tipo_meta = serializers.CharField(source='indicador.tipo_meta', read_only=True)
     tipo_valor = serializers.CharField(source='indicador.tipo_valor', read_only=True)
+    indicador_mes_inicial = serializers.DateField(source='indicador.mes_inicial', read_only=True)
+    indicador_periodicidade = serializers.IntegerField(source='indicador.periodicidade', read_only=True)
     preenchido_por = serializers.SerializerMethodField()
     meta = serializers.SerializerMethodField()
+    setor_id = serializers.IntegerField(source='indicador.setor.id', read_only=True)
 
     class Meta:
         model = Preenchimento
         fields = [
             'id', 'indicador', 'valor_realizado', 'data_preenchimento',
-            'indicador_nome', 'setor_nome', 'tipo_meta', 'tipo_valor',
+            'indicador_nome', 'setor_nome', 'setor_id', 'tipo_meta', 'tipo_valor',
+            'indicador_mes_inicial', 'indicador_periodicidade',
             'meta', 'mes', 'ano',
             'comentario', 'arquivo', 'preenchido_por'
         ]

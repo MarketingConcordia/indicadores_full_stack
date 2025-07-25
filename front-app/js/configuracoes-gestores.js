@@ -7,60 +7,112 @@ function carregarDadosUsuario() {
   document.getElementById("iniciais-usuario").textContent = nomeUsuario.charAt(0).toUpperCase();
 }
 
+// 🔐 Verifica se token expirou
+function isTokenExpired(token) {
+  if (!token) return true;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiry = payload.exp;
+    const now = Math.floor(Date.now() / 1000);
+    return now >= expiry;
+  } catch (e) {
+    console.error("Erro ao verificar token:", e);
+    return true;
+  }
+}
+
+// 🔄 Renova o token de acesso
+async function renovarToken() {
+  const refresh = localStorage.getItem("refresh");
+  if (!refresh) throw new Error("Refresh token ausente.");
+
+  const res = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh })
+  });
+
+  if (!res.ok) throw new Error("Falha ao renovar o token.");
+
+  const data = await res.json();
+  localStorage.setItem("access", data.access);
+  return data.access;
+}
+
+// 🧠 fetch automático com renovação de token
+async function fetchComTokenRenovado(url, options = {}) {
+  let token = localStorage.getItem("access");
+
+  if (!token || isTokenExpired(token)) {
+    try {
+      token = await renovarToken();
+    } catch (err) {
+      alert("Sua sessão expirou. Faça login novamente.");
+      localStorage.clear();
+      window.location.href = "login.html";
+      throw new Error("Sessão expirada");
+    }
+  }
+
+  options.headers = {
+    ...(options.headers || {}),
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+  };
+
+  return fetch(url, options);
+}
+
 // ⚙️ Lida com o formulário de conta
 function configurarFormularioConta() {
   const formConta = document.querySelectorAll("form")[0];
 
-  formConta.addEventListener("submit", (e) => {
+  formConta.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
     const senhaAtual = document.getElementById("senhaAtual").value;
     const novaSenha = document.getElementById("novaSenha").value;
     const confirmar = document.getElementById("confirmarSenha").value;
 
-    if (novaSenha && novaSenha !== confirmar) {
+    if (!senhaAtual || !novaSenha) {
+      alert("Preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    if (novaSenha !== confirmar) {
       alert("A nova senha e a confirmação não coincidem.");
       return;
     }
 
-    const token = localStorage.getItem("access");
     const usuarioId = localStorage.getItem("usuario_id");
-
-    if (!usuarioId || !token) {
+    if (!usuarioId) {
       alert("Sessão inválida. Faça login novamente.");
       localStorage.clear();
       window.location.href = "login.html";
       return;
     }
 
-    const body = {
-      email: email,
-      password: novaSenha
-    };
-
-    fetch(`http://127.0.0.1:8000/api/usuarios/${usuarioId}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(body)
-    })
-      .then(res => {
-        if (!res.ok) {
-          return res.json().then(err => { throw new Error(JSON.stringify(err)); });
-        }
-        return res.json();
-      })
-      .then(() => {
-        alert("Senha alterada com sucesso.");
-        formConta.reset();
-      })
-      .catch(err => {
-        console.error("Erro ao alterar senha:", err);
-        alert("Erro ao salvar senha. Tente novamente.");
+    try {
+      const response = await fetchComTokenRenovado(`http://127.0.0.1:8000/api/usuarios/${usuarioId}/trocar_senha/`, {
+        method: "POST",
+        body: JSON.stringify({
+          senha_atual: senhaAtual,
+          nova_senha: novaSenha
+        })
       });
+
+      if (!response.ok) {
+        const erro = await response.json();
+        throw new Error(erro.erro || "Erro ao trocar a senha.");
+      }
+
+      alert("Senha alterada com sucesso!");
+      formConta.reset();
+
+    } catch (err) {
+      console.error("Erro ao trocar senha:", err);
+      alert(err.message);
+    }
   });
 }
 
@@ -77,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const perfil = localStorage.getItem("perfil_usuario");
   if (perfil !== "gestor") {
     alert("Acesso negado. Esta página é exclusiva para gestores.");
-    window.location.href = "index.html";
+    window.location.href = "login.html";
     return;
   }
 
