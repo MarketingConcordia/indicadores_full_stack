@@ -67,11 +67,12 @@ WSGI_APPLICATION = 'indicadores.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Indicadores',
-        'USER': 'postgres',
-        'PASSWORD': 'admin123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432'),
+
     }
 }
 
@@ -163,14 +164,4 @@ SECURE_HSTS_PRELOAD = True
 
 # === OUTROS ===
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# === E-MAIL ===
-# === EMAIL (DESENVOLVIMENTO PADRÃO) ===
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config("EMAIL_HOST", default="smtp.dev.com")
-EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="teste@dev.com")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="senha123")
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="no-reply@dev.com")
 

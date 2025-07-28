@@ -96,10 +96,9 @@ function renderizarIndicadores() {
       <td class="px-4 py-2 capitalize">${ind.tipo_meta}</td>
       <td class="px-4 py-2">${ind.visibilidade ? 'Todos' : 'Restrito'}</td>
       <td class="px-4 py-2">${ind.periodicidade} mês(es)</td>
-      <td class="px-4 py-2">${ind.mes_inicial ? new Date(Date.UTC(
-      parseInt(ind.mes_inicial.slice(0, 4)),  // ano
-      parseInt(ind.mes_inicial.slice(5, 7)) - 1  // mês (0-indexado)
-      )).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : '--'}</td>
+      <td class="px-4 py-2">${ind.mes_inicial ? new Date(
+        ind.mes_inicial + 'T00:00:00'
+      ).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) : '--'}</td>
       <td class="px-4 py-2">
         <span class="${ind.status === 'Pendente' ? 'text-red-600' : 'text-green-600'} font-bold">${ind.status.toUpperCase()}</span>
       </td>
@@ -276,22 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let configuracaoId = null;
-
-// function carregarDiaLimite() {
-//   const token = localStorage.getItem("access");
-//   fetch("http://127.0.0.1:8000/api/configuracoes/", {
-//     headers: { Authorization: `Bearer ${token}` }
-//   })
-//     .then(res => res.json())
-//     .then(data => {
-//       const config = data.results ? data.results[0] : data;
-//       configuracaoId = config.id;  // salva o ID
-//       document.getElementById("input-dia-limite").value = config.dia_limite_preenchimento;
-//     })
-//     .catch(err => {
-//       console.error("Erro ao carregar configuração:", err);
-//     });
-// }
 
 function salvarDiaLimite() {
   const token = localStorage.getItem("access");

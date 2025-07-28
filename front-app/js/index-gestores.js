@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const metaValor = metaDoMes ? parseFloat(metaDoMes.valor_meta) : parseFloat(indicador.valor_meta);
 
                         return {
+                            id: p.id, // ✅ Adicione esta linha
                             data: dataReferencia,
                             valor: p.valor_realizado,
                             meta: metaValor,
@@ -223,12 +224,12 @@ function renderizarIndicadores(dados) {
         const corSetor = coresSetores[indicador.setor_nome] || "#64748b"; // cor padrão se não encontrar
 
         // Formatação do valor e meta
-        const formatarValor = (valor) => {
-            if (valor >= 1000) {
-                return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            }
-            return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-        };
+        // const formatarValor = (valor) => {
+        //     if (valor >= 1000) {
+        //         return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        //     }
+        //     return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        // };
 
         // Variação com seta
         const variacaoIcon = indicador.variacao >= 0 ? '↑' : '↓';
@@ -340,7 +341,9 @@ function mostrarDetalhes(indicador) {
             </table>
             ${podeEditar ? `
             <div class="mt-4 flex gap-2 flex-wrap">
-                <button id="editar-valor" data-id="${indicador.id}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
+                <button class="abrir-edicao-multipla bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800"
+                        data-indicador-id="${indicador.id}"
+                        data-indicador-nome="${indicador.nome}">
                     Editar Valor
                 </button>
             </div>
@@ -445,6 +448,7 @@ function mostrarDetalhes(indicador) {
 
     modal.classList.remove("hidden");
 
+    ativarEdicaoMultiplaDeValor();
 
     // 🟢 Exportar histórico em Excel
     document.getElementById('exportar-excel').addEventListener('click', () => {
@@ -556,48 +560,6 @@ function mostrarDetalhes(indicador) {
         const dataFim = document.getElementById('filtro-fim').value;
         aplicarFiltroHistorico(indicador, dataInicio, dataFim);
     });
-
-    function salvarMeta(indicadorId) {
-        const novaMeta = document.getElementById('input-nova-meta').value;
-        const token = localStorage.getItem('access');
-
-        fetch(`http://127.0.0.1:8000/api/indicadores/${indicadorId}/`, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    meta: novaMeta
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Meta atualizada com sucesso!');
-                    fecharModalMeta();
-                    // carregarIndicadores(); // 🔥 Atualiza os cards no dashboard após salvar - Removido ou alterado
-                    location.reload(); // Recarrega tudo para refletir a nova meta
-                } else {
-                    alert('Erro ao atualizar a meta.');
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro na conexão com o servidor.');
-            });
-    }
-
-    // Adicionar evento para o botão de editar meta
-    document.getElementById('editar-meta').addEventListener('click', () => {
-        const editarMetaModal = document.getElementById('editar-meta-modal');
-        document.getElementById('editar-meta-nome').value = indicador.nome;
-        document.getElementById('editar-meta-atual').value = indicador.valor_meta?.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2
-        });
-        document.getElementById('editar-meta-nova').value = indicador.valor_meta;
-        editarMetaModal.dataset.id = indicador.id; // Guardar o ID no próprio modal
-        editarMetaModal.classList.remove('hidden');
-    });
 }
 
 // Inicializar a página (este bloco é executado após o DOM ser carregado)
@@ -629,96 +591,6 @@ document.addEventListener('DOMContentLoaded', () => {
         aplicarFiltros(); // reseta os filtros
     });
 
-    // Configurar eventos do modal de edição de meta
-    const editarMetaModal = document.getElementById('editar-meta-modal');
-    const cancelarMeta = document.getElementById('cancelar-meta');
-    const salvarMeta = document.getElementById('btn-salvar-meta');
-
-    // Cancelar edição
-    cancelarMeta.addEventListener('click', () => {
-        editarMetaModal.classList.add('hidden');
-    });
-
-    // ✅ Substituindo envio para funcionar com PATCH/POST corretamente
-    salvarMeta.addEventListener('click', async () => {
-        const novaMeta = parseFloat(document.getElementById('editar-meta-nova').value);
-        const indicadorId = editarMetaModal.dataset.id;
-        const dataInicio = document.getElementById("filtro-inicio").value;
-        const dataFim = document.getElementById("filtro-fim").value;
-
-        if (isNaN(novaMeta) || !dataInicio || !dataFim) {
-            alert("Informe um valor válido e selecione o intervalo de datas.");
-            return;
-        }
-
-        const mesesIntervalo = gerarIntervaloDeMeses(dataInicio, dataFim);
-
-        // Busca metas existentes
-        let metasExistentes = [];
-        try {
-            const res = await fetch(`http://127.0.0.1:8000/api/metas-mensais/?indicador=${indicadorId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            metasExistentes = await res.json();
-        } catch (err) {
-            console.error("Erro ao buscar metas existentes:", err);
-            alert("Erro ao buscar metas já existentes.");
-            return;
-        }
-
-        const mapaMetas = {};
-        (metasExistentes.results || metasExistentes).forEach(meta => {
-            mapaMetas[meta.mes] = meta.id;
-        });
-
-        const requisicoes = mesesIntervalo.map(async mes => {
-            const mesFormatado = `${mes}`; // já vem no formato YYYY-MM-DD
-
-            const payload = {
-                indicador: parseInt(indicadorId),
-                mes: mesFormatado,
-                valor_meta: novaMeta
-            };
-
-            // Se já existe meta para esse mês, faz PATCH
-            if (mapaMetas[mesFormatado]) {
-                const metaId = mapaMetas[mesFormatado];
-                return fetch(`http://127.0.0.1:8000/api/metas-mensais/${metaId}/`, {
-                    method: "PATCH",
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ valor_meta: novaMeta })
-                });
-            }
-
-            // Senão, faz POST
-            return fetch(`http://127.0.0.1:8000/api/metas-mensais/`, {
-                method: "POST",
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-        });
-
-        Promise.all(requisicoes)
-            .then(() => {
-                alert("Meta(s) atualizada(s) para o período filtrado!");
-                editarMetaModal.classList.add("hidden");
-                document.getElementById("detalhe-modal").classList.add("hidden");
-                location.reload();
-            })
-            .catch(err => {
-                console.error("Erro ao salvar meta mensal:", err);
-                alert("Erro ao atualizar a(s) meta(s) do período.");
-            });
-    });
-
     // // Configurar evento para o botão de perfil
     // const profileButton = document.getElementById('profileButton');
     // const profileMenu = document.getElementById('profileMenu');
@@ -733,12 +605,6 @@ document.addEventListener('DOMContentLoaded', () => {
     detalheModal.addEventListener('click', (e) => {
         if (e.target === detalheModal) {
             detalheModal.classList.add('hidden');
-        }
-    });
-
-    editarMetaModal.addEventListener('click', (e) => {
-        if (e.target === editarMetaModal) {
-            editarMetaModal.classList.add('hidden');
         }
     });
 });
@@ -1090,4 +956,106 @@ function abrirProvasPopup(url) {
 
 function fecharPopupProvas() {
     document.getElementById('popup-provas').classList.add('hidden');
+}
+
+function ativarEdicaoMultiplaDeValor() {
+  document.querySelectorAll(".abrir-edicao-multipla").forEach(botao => {
+    botao.addEventListener("click", () => {
+      const indicadorId = botao.dataset.indicadorId;
+      const indicadorNome = botao.dataset.indicadorNome;
+
+      const dataInicio = document.getElementById("filtro-inicio").value;
+      const dataFim = document.getElementById("filtro-fim").value;
+
+      if (!dataInicio || !dataFim) {
+        alert("Selecione o intervalo de mês e ano para editar.");
+        return;
+      }
+
+      const mesesIntervalo = gerarIntervaloDeMeses(dataInicio, dataFim);
+      const indicador = indicadoresComValoresGlobais.find(i => i.id == indicadorId);
+
+      const form = document.getElementById("form-valores-multiplos");
+      form.innerHTML = '';
+
+      // Filtrar preenchimentos que caem no intervalo
+      const preenchimentosFiltrados = indicador.historico.filter(p => {
+        const data = new Date(p.data);
+        return mesesIntervalo.some(m => {
+            const chaveData = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
+            const chaveComparacao = m.slice(0, 7); // "YYYY-MM" de cada item do intervalo
+            return chaveData === chaveComparacao;
+        });
+      });
+
+      if (preenchimentosFiltrados.length === 0) {
+        alert("Nenhum preenchimento encontrado no período selecionado.");
+        return;
+      }
+
+      preenchimentosFiltrados.forEach(p => {
+            const data = new Date(p.data);
+            const chave = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
+            form.innerHTML += `
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">${chave}</label>
+                <input type="number" step="0.01" name="valor-${p.id}" value="${p.valor}" class="w-full border px-3 py-2 rounded" />
+            </div>
+            `;
+        });
+
+      document.getElementById("editar-valores-modal").classList.remove("hidden");
+
+      // Botão cancelar
+      document.getElementById("cancelar-edicao-valores").onclick = () => {
+        document.getElementById("editar-valores-modal").classList.add("hidden");
+      };
+
+      // Botão salvar
+      document.getElementById("salvar-valores-multiplos").onclick = async () => {
+        const token = localStorage.getItem("access");
+        const campos = document.querySelectorAll("#form-valores-multiplos input");
+        let erros = 0;
+
+        for (const campo of campos) {
+          const preenchimentoId = campo.name.split("-")[1];
+          const novoValor = parseFloat(campo.value);
+
+          if (isNaN(novoValor)) {
+            alert("Valor inválido: " + campo.value);
+            erros++;
+            continue;
+          }
+
+          try {
+            const response = await fetch(`http://127.0.0.1:8000/api/preenchimentos/${preenchimentoId}/`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ valor_realizado: novoValor })
+            });
+
+            if (!response.ok) {
+              console.error("Erro ao atualizar:", preenchimentoId);
+              erros++;
+            }
+          } catch (err) {
+            console.error("Erro:", err);
+            erros++;
+          }
+        }
+
+        if (erros === 0) {
+          alert("Todos os valores atualizados com sucesso.");
+        } else {
+          alert("Alguns valores não puderam ser atualizados. Verifique o console.");
+        }
+
+        document.getElementById("editar-valores-modal").classList.add("hidden");
+        location.reload();
+      };
+    });
+  });
 }

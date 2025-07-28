@@ -16,18 +16,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     carregarSetores();
-    carregarPreenchimentos();
+    carregarIndicadores();
     configurarEventosDeFiltro();
     carregarUsuarioLogado();
+
+    // ✅ Aciona o carregamento apenas quando clicar no botão
+    document.getElementById("btn-ver-historico").addEventListener("click", carregarPreenchimentos);
 });
 
 // === FUNÇÕES DE FILTRO E HISTÓRICO ===
 
 function configurarEventosDeFiltro() {
-    document.getElementById("filter-setor").addEventListener("change", carregarPreenchimentos);
-    document.getElementById("filter-data-inicial").addEventListener("change", carregarPreenchimentos);
-    document.getElementById("filter-data-final").addEventListener("change", carregarPreenchimentos);
-    document.getElementById("filter-status").addEventListener("change", carregarPreenchimentos);
+    document.getElementById("filter-setor").addEventListener("change", () => {
+        carregarIndicadores();
+    });
 }
 
 function carregarSetores() {
@@ -48,6 +50,27 @@ function carregarSetores() {
     });
 }
 
+function carregarIndicadores() {
+    const token = localStorage.getItem("access");
+    const setorSelecionado = document.getElementById("filter-setor").value;
+
+    fetch("http://127.0.0.1:8000/api/indicadores/", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+        const select = document.getElementById("filter-indicador");
+        select.innerHTML = `<option value="">Todos os Indicadores</option>`;
+
+        const indicadores = Array.isArray(data) ? data : data.results || [];
+        indicadores
+            .filter(i => !setorSelecionado || i.setor_nome === setorSelecionado)
+            .forEach(indicador => {
+                select.innerHTML += `<option value="${indicador.nome}">${indicador.nome}</option>`;
+            });
+    });
+}
+
 function carregarPreenchimentos() {
     const token = localStorage.getItem("access");
 
@@ -65,47 +88,54 @@ function carregarPreenchimentos() {
     });
 }
 
-
 function aplicarFiltros(preenchimentos) {
     const setorSelecionado = document.getElementById("filter-setor").value;
-    const dataInicial = document.getElementById("filter-data-inicial").value;
-    const dataFinal = document.getElementById("filter-data-final").value;
+    const indicadorSelecionado = document.getElementById("filter-indicador").value;
+    const dataInicialStr = document.getElementById("filter-data-inicial").value;
+    const dataFinalStr = document.getElementById("filter-data-final").value;
     const statusSelecionado = document.getElementById("filter-status").value;
+
+    if (!dataInicialStr || !dataFinalStr || !statusSelecionado) {
+        console.warn("Preencha todos os filtros para aplicar.");
+        document.getElementById("historico-container").classList.add("hidden");
+        return;
+    }
+
+    // ✅ Corrige a diferença de mês no UTC
+    const [anoIni, mesIni] = dataInicialStr.split("-").map(Number);
+    const [anoFim, mesFim] = dataFinalStr.split("-").map(Number);
+    const inicioTimestamp = new Date(anoIni, mesIni - 1).getTime();
+    const fimTimestamp = new Date(anoFim, mesFim - 1).getTime();
 
     const lista = Array.isArray(preenchimentos) ? preenchimentos : preenchimentos.results || [];
 
     const filtrados = lista.filter(p => {
-        const data = new Date(p.data_preenchimento);
-        const mes = String(data.getMonth() + 1).padStart(2, '0');
-        const ano = String(data.getFullYear());
-        const dataTimestamp = data.getTime();
+        const dataTimestamp = new Date(p.ano, p.mes - 1).getTime();
 
-        const dataInicialStr = document.getElementById("filter-data-inicial").value;
-        const dataFinalStr = document.getElementById("filter-data-final").value;
-
-        const dataInicial = dataInicialStr ? new Date(`${dataInicialStr}-01`).getTime() : null;
-        const dataFinal = dataFinalStr ? new Date(`${dataFinalStr}-01`).getTime() : null;
-
-        const condDataInicial = dataInicial ? dataTimestamp >= dataInicial : true;
-        const condDataFinal = dataFinal ? dataTimestamp <= dataFinal : true;
-
-
+        const condDataInicial = dataTimestamp >= inicioTimestamp;
+        const condDataFinal = dataTimestamp <= fimTimestamp;
         const condSetor = setorSelecionado ? p.setor_nome === setorSelecionado : true;
+        const condIndicador = indicadorSelecionado ? p.indicador_nome === indicadorSelecionado : true;
 
         let condStatus = true;
         if (statusSelecionado === "atingidos") {
-            condStatus = calcularStatus(p.valor_realizado, p.meta, p.tipo_meta) === "Atingido";
+            condStatus = calcularStatus(p.valor_realizado, p.meta, p.tipo_meta) === "Atingida";
         } else if (statusSelecionado === "nao-atingidos") {
-            condStatus = calcularStatus(p.valor_realizado, p.meta, p.tipo_meta) === "Não Atingido";
+            condStatus = calcularStatus(p.valor_realizado, p.meta, p.tipo_meta) === "Não atingida";
         }
 
-
-        return condSetor && condDataInicial && condDataFinal && condStatus;
+        return condSetor && condIndicador && condDataInicial && condDataFinal && condStatus;
     });
 
     renderizarHistorico(filtrados);
-}
 
+    const historicoDiv = document.getElementById("historico-container");
+    if (filtrados.length > 0) {
+        historicoDiv.classList.remove("hidden");
+    } else {
+        historicoDiv.classList.add("hidden");
+    }
+}
 
 function renderizarHistorico(preenchimentos) {
     const tbody = document.getElementById("historico-body");
@@ -113,15 +143,11 @@ function renderizarHistorico(preenchimentos) {
     tbody.innerHTML = "";
     thead.innerHTML = "";
 
-    // Agrupar por indicador
     const dadosAgrupados = {};
     const mesesSet = new Set();
 
     preenchimentos.forEach(p => {
-        const data = new Date(p.data_preenchimento);
-        const mes = String(data.getMonth() + 1).padStart(2, '0');
-        const ano = String(data.getFullYear());
-        const chaveMes = `${ano}-${mes}`;
+        const chaveMes = `${p.ano}-${String(p.mes).padStart(2, '0')}`;
         mesesSet.add(chaveMes);
 
         if (!dadosAgrupados[p.indicador_nome]) {
@@ -135,10 +161,8 @@ function renderizarHistorico(preenchimentos) {
         };
     });
 
-    // Ordenar os meses
     const mesesOrdenados = Array.from(mesesSet).sort();
 
-    // Montar cabeçalho
     let header = `<th class="px-4 py-2">Indicador</th>`;
     mesesOrdenados.forEach(mes => {
         const [ano, mesNum] = mes.split("-");
@@ -151,7 +175,6 @@ function renderizarHistorico(preenchimentos) {
     });
     thead.innerHTML = `<tr>${header}</tr>`;
 
-    // Montar corpo
     for (const indicador in dadosAgrupados) {
         let row = `<td class="px-4 py-2 font-semibold">${indicador}</td>`;
 
@@ -159,7 +182,6 @@ function renderizarHistorico(preenchimentos) {
             const dados = dadosAgrupados[indicador][mes];
             if (dados) {
                 const status = (dados.status || "").toLowerCase();
-
                 const corStatus = status === "atingida"
                     ? "text-green-600"
                     : status === "não atingida" || status === "nao atingida"
@@ -173,7 +195,7 @@ function renderizarHistorico(preenchimentos) {
                     : "📊";
 
                 row += `
-                    <td class="px-4 py-2">${formatarValor(dados.valor)}</td>
+                    <td class="px-4 py-2 border-l border-gray-300">${formatarValor(dados.valor)}</td>
                     <td class="px-4 py-2">${formatarValor(dados.meta)}</td>
                     <td class="px-4 py-2 ${corStatus}">${icone} ${dados.status}</td>
                 `;
@@ -184,7 +206,6 @@ function renderizarHistorico(preenchimentos) {
 
         tbody.innerHTML += `<tr>${row}</tr>`;
     }
-
 }
 
 function calcularStatus(valor, meta, tipo) {
@@ -193,7 +214,6 @@ function calcularStatus(valor, meta, tipo) {
     if (tipo === "decrescente") return valor <= meta ? "Atingida" : "Não atingida";
     return "Monitoramento";
 }
-
 
 function mesPtBr(mes) {
     const nomes = {

@@ -137,6 +137,13 @@
                     </div>
 
                     <div class="flex-1 min-w-[200px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Indicador</label>
+                        <select id="filter-indicador" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Todos os Indicadores</option>
+                        </select>
+                    </div>
+
+                    <div class="flex-1 min-w-[200px]">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Data Inicial</label>
                         <input type="month" id="filter-data-inicial" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
@@ -156,7 +163,8 @@
                     </div>
 
                     <div class="flex items-end">
-                        <button onclick="carregarPreenchimentos()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                        <button id="btn-ver-historico"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                             Ver Histórico
                         </button>
                     </div>
@@ -166,7 +174,7 @@
             
             <!-- Conteúdo Principal -->
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4">
-                <div class="indicadores-grid" id="indicadores-container">
+                <div class="indicadores-grid" id="historico-container">
                     <!-- Os cards de indicadores serão inseridos aqui via JavaScript -->
                 </div>
 
@@ -186,41 +194,7 @@
                 </div>
             </main>
 
-            <div id="modal-editar" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-                <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6">
-                    <h2 class="text-xl font-bold mb-4 text-blue-900">Editar Preenchimento</h2>
-            
-                    <form id="formEdicao">
-                        <div>
-                            <label>Valor:</label>
-                            <input type="number" id="edit-valor" required class="w-full border rounded px-2 py-1">
-                        </div>
-                        <div>
-                            <label>Mês (MM/AAAA):</label>
-                            <input type="text" id="edit-mes" placeholder="06/2025" required class="w-full border rounded px-2 py-1">
-                        </div>
-                        <div>
-                            <label>Comentário:</label>
-                            <input type="text" id="edit-comentario" class="w-full border rounded px-2 py-1">
-                        </div>
-                        <div>
-                            <label>Substituir Provas (arquivo):</label>
-                            <input type="file" id="edit-provas" class="w-full border rounded px-2 py-1">
-                        </div>
-            
-                        <div class="mt-4 flex justify-end gap-2">
-                            <button type="button" onclick="fecharModalEdicao()" 
-                                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
-                                Cancelar
-                            </button>
-                            <button type="submit" 
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-                                Salvar Alterações
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>    
+                
         </div>
     </div>
     
