@@ -337,9 +337,7 @@ function mostrarDetalhes(indicador) {
                 <button id="editar-meta" data-id="${indicador.id}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
                     Editar Meta
                 </button>
-                <button id="solicitar-revisao" class="bg-yellow-500 text-white px-4 py-2 rounded text-sm hover:bg-yellow-700">
-                    Solicitar Revisão
-                </button>
+                
             </div>
         </div>
 
