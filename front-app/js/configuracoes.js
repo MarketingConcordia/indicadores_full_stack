@@ -1,58 +1,124 @@
-document.addEventListener("DOMContentLoaded", () => {
-  verificarPermissaoMaster();
-  configurarFormularioConta();
-  configurarFormularioPreferencias();
-});
+function carregarDadosUsuario() {
+  const nomeUsuario = localStorage.getItem("nome_usuario") || "Usuário";
+  const perfil = localStorage.getItem("perfil_usuario") || "master";
 
-// 🔐 Verifica se o usuário tem perfil Master
-function verificarPermissaoMaster() {
-  const perfil = localStorage.getItem("perfil_usuario");
-  if (perfil !== "master") {
-    alert("Acesso negado. Esta página é exclusiva para perfil master.");
-    window.location.href = "indexgestores.html";
+  document.getElementById("campo-nome-usuario").textContent = nomeUsuario;
+  document.getElementById("campo-detalhe-perfil").textContent = `Perfil: ${perfil}`;
+  document.getElementById("iniciais-usuario").textContent = nomeUsuario.charAt(0).toUpperCase();
+}
+
+function isTokenExpired(token) {
+  if (!token) return true;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiry = payload.exp;
+    const now = Math.floor(Date.now() / 1000);
+    return now >= expiry;
+  } catch (e) {
+    console.error("Erro ao verificar token:", e);
+    return true;
   }
 }
 
-// ✉️ Formulário de alteração de conta
-function configurarFormularioConta() {
-  const formConta = document.querySelector("form");
+async function renovarToken() {
+  const refresh = localStorage.getItem("refresh");
+  if (!refresh) throw new Error("Refresh token ausente.");
 
-  formConta.addEventListener("submit", (e) => {
+  const res = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh })
+  });
+
+  if (!res.ok) throw new Error("Falha ao renovar o token.");
+
+  const data = await res.json();
+  localStorage.setItem("access", data.access);
+  return data.access;
+}
+
+async function fetchComTokenRenovado(url, options = {}) {
+  let token = localStorage.getItem("access");
+
+  if (!token || isTokenExpired(token)) {
+    try {
+      token = await renovarToken();
+    } catch (err) {
+      alert("Sua sessão expirou. Faça login novamente.");
+      localStorage.clear();
+      window.location.href = "login.html";
+      throw new Error("Sessão expirada");
+    }
+  }
+
+  options.headers = {
+    ...(options.headers || {}),
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+  };
+
+  return fetch(url, options);
+}
+
+function configurarFormularioTrocaSenhaMaster() {
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
     const senhaAtual = document.getElementById("senhaAtual").value;
     const novaSenha = document.getElementById("novaSenha").value;
     const confirmar = document.getElementById("confirmarSenha").value;
 
-    if (novaSenha && novaSenha !== confirmar) {
+    if (!senhaAtual || !novaSenha || !confirmar) {
+      alert("Preencha todos os campos.");
+      return;
+    }
+
+    if (novaSenha !== confirmar) {
       alert("A nova senha e a confirmação não coincidem.");
       return;
     }
 
-    // Aqui você pode implementar o envio para a API real se necessário
-    console.log("📧 Email:", email);
-    console.log("🔐 Senha Atual:", senhaAtual);
-    console.log("🆕 Nova Senha:", novaSenha);
+    const usuarioId = localStorage.getItem("usuario_id");
+    if (!usuarioId) {
+      alert("Sessão inválida. Faça login novamente.");
+      localStorage.clear();
+      window.location.href = "login.html";
+      return;
+    }
 
-    alert("Alterações da conta salvas com sucesso (simulado).");
-    formConta.reset();
+    try {
+      const response = await fetchComTokenRenovado(`http://127.0.0.1:8000/api/usuarios/${usuarioId}/trocar_senha/`, {
+        method: "POST",
+        body: JSON.stringify({
+          senha_atual: senhaAtual,
+          nova_senha: novaSenha
+        })
+      });
+
+      if (!response.ok) {
+        const erro = await response.json();
+        throw new Error(erro.erro || "Erro ao trocar a senha.");
+      }
+
+      alert("Senha alterada com sucesso!");
+      form.reset();
+    } catch (err) {
+      console.error("Erro:", err);
+      alert(err.message);
+    }
   });
 }
 
-// 🎨 Formulário de preferências visuais
-function configurarFormularioPreferencias() {
-  const formPreferencias = document.querySelectorAll("form")[1];
+document.addEventListener("DOMContentLoaded", () => {
+  const perfil = localStorage.getItem("perfil_usuario");
+  if (perfil !== "master") {
+    alert("Acesso negado. Esta página é exclusiva para o perfil Master.");
+    window.location.href = "login.html";
+    return;
+  }
 
-  formPreferencias.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const tema = document.getElementById("tema").value;
-    const paginaInicial = document.getElementById("paginaInicial").value;
-
-    localStorage.setItem("preferencia_tema", tema);
-    localStorage.setItem("preferencia_pagina_inicial", paginaInicial);
-
-    alert("Preferências visuais salvas!");
-  });
-}
+  carregarDadosUsuario();
+  configurarFormularioTrocaSenhaMaster();
+});

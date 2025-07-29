@@ -131,7 +131,7 @@
         <!-- Conta -->
         <div class="bg-white shadow-md rounded-lg p-6 mb-6">
           <h2 class="text-lg font-semibold text-gray-800 mb-4">Configurações da Conta</h2>
-          <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form id="form-troca-senha" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
               <input type="email" id="email" class="mt-1 w-full px-3 py-2 border rounded-md" />
@@ -150,31 +150,6 @@
             </div>
             <div class="md:col-span-2 text-right">
               <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Salvar Alterações</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Preferências Visuais -->
-        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-          <h2 class="text-lg font-semibold text-gray-800 mb-4">Preferências Visuais</h2>
-          <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label for="tema" class="block text-sm font-medium text-gray-700">Tema</label>
-              <select id="tema" class="mt-1 w-full px-3 py-2 border rounded-md">
-                <option value="claro">Claro</option>
-                <option value="escuro">Escuro</option>
-              </select>
-            </div>
-            <div>
-              <label for="paginaInicial" class="block text-sm font-medium text-gray-700">Página Inicial</label>
-              <select id="paginaInicial" class="mt-1 w-full px-3 py-2 border rounded-md">
-                <option value="dashboard">Dashboard</option>
-                <option value="relatorios">Relatórios</option>
-                <option value="equipe">Equipe</option>
-              </select>
-            </div>
-            <div class="md:col-span-2 text-right">
-              <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Salvar Preferências</button>
             </div>
           </form>
         </div>              
