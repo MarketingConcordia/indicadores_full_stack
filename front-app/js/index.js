@@ -303,18 +303,18 @@ function mostrarDetalhes(indicador) {
         </div>
 
         <div class="w-full bg-white rounded p-4 mb-6 border shadow">
-            <div class="flex gap-4 items-end">
-            <div>
-                <label for="filtro-inicio" class="block text-sm font-medium text-gray-700 mb-1">Início:</label>
-                <input type="month" id="filtro-inicio" class="border px-3 py-2 rounded w-40">
-            </div>
-            <div>
-                <label for="filtro-fim" class="block text-sm font-medium text-gray-700 mb-1">Fim:</label>
-                <input type="month" id="filtro-fim" class="border px-3 py-2 rounded w-40">
-            </div>
-            <button id="btn-aplicar-filtro-periodo" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
-                Aplicar Filtro
-            </button>
+            <div class="flex flex-col sm:flex-row sm:items-end gap-4">
+                <div>
+                    <label for="filtro-inicio" class="block text-sm font-medium text-gray-700 mb-1">Início:</label>
+                    <input type="month" id="filtro-inicio" class="border px-3 py-2 rounded w-40">
+                </div>
+                <div>
+                    <label for="filtro-fim" class="block text-sm font-medium text-gray-700 mb-1">Fim:</label>
+                    <input type="month" id="filtro-fim" class="border px-3 py-2 rounded w-40">
+                </div>
+                <button id="btn-aplicar-filtro-periodo" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
+                    Aplicar Filtro
+                </button>
             </div>
         </div>
 
@@ -594,9 +594,9 @@ function mostrarDetalhes(indicador) {
     });
 
     // Adicionar evento para o botão de solicitar revisão
-    document.getElementById('solicitar-revisao').addEventListener('click', () => {
-        alert(`Solicitação de revisão enviada para ${indicador.responsavel}`);
-    });
+    // document.getElementById('solicitar-revisao').addEventListener('click', () => {
+    //     alert(`Solicitação de revisão enviada para ${indicador.responsavel}`);
+    // });
 }
 
 // Inicializar a página (este bloco é executado após o DOM ser carregado)

@@ -142,7 +142,7 @@ function listarGestores() {
           <td class="px-4 py-2">${setores}</td>
           <td class="px-4 py-2 text-center">${statusLabel}</td>
           <td class="px-4 py-2 text-center space-x-2">
-            <button onclick="editarUsuario(${usuario.id})" class="text-blue-600 hover:underline">Editar</button>
+            <button onclick="editarGestor(${usuario.id})" class="text-blue-600 hover:underline">Editar</button>
             ${btnStatus}
           </td>
         `;
@@ -218,8 +218,8 @@ function editarGestor(id) {
       document.getElementById("edit-id").value = gestor.id;
       document.getElementById("edit-nome").value = gestor.first_name;
       document.getElementById("edit-email").value = gestor.email;
-      document.getElementById("edit-senha").value = "";
-      document.getElementById("modal-editar-gestor").classList.remove("hidden");
+
+      document.getElementById("modal-editar-gestor").classList.remove("hidden"); // ✅ Abre o modal
     });
 }
 
@@ -233,16 +233,11 @@ document.getElementById("form-editar-gestor").addEventListener("submit", functio
   const id = document.getElementById("edit-id").value;
   const nome = document.getElementById("edit-nome").value;
   const email = document.getElementById("edit-email").value;
-  const senha = document.getElementById("edit-senha").value;
 
   const payload = {
     first_name: nome,
     email: email
   };
-
-  if (senha) {
-    payload.password = senha;
-  }
 
   const token = localStorage.getItem("access");
 
