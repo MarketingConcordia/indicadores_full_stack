@@ -1,4 +1,3 @@
-const BASE_URL = "http://127.0.0.1:8000/api";
 let todosIndicadores = [];
 let indicadorEditandoId = null;
 
@@ -6,7 +5,7 @@ let indicadorEditandoId = null;
 async function carregarSetores() {
   try {
     const token = localStorage.getItem('access');
-    const response = await fetch(`${BASE_URL}/setores/`, {
+    const response = await fetch(`${window.API_BASE_URL}/api/setores/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!response.ok) throw new Error("Erro ao buscar setores");
@@ -54,7 +53,7 @@ function formatarComTipo(valor, tipo) {
 async function carregarIndicadores() {
   try {
     const token = localStorage.getItem('access');
-    const response = await fetch(`${BASE_URL}/indicadores/`, {
+    const response = await fetch(`${window.API_BASE_URL}/api/indicadores/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!response.ok) throw new Error("Erro ao carregar indicadores");
@@ -118,7 +117,7 @@ async function excluirIndicador(id) {
   if (!confirm("Deseja realmente excluir?")) return;
   try {
     const token = localStorage.getItem('access');
-    const response = await fetch(`${BASE_URL}/indicadores/${id}/`, {
+    const response = await fetch(`${window.API_BASE_URL}/api/indicadores/${id}/`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });
@@ -163,8 +162,8 @@ async function salvarIndicador(event) {
 
   try {
     const url = indicadorEditandoId
-      ? `${BASE_URL}/indicadores/${indicadorEditandoId}/`
-      : `${BASE_URL}/indicadores/`;
+      ? `${window.API_BASE_URL}/api/indicadores/${indicadorEditandoId}/`
+      : `${window.API_BASE_URL}/api/indicadores/`;
 
     const method = indicadorEditandoId ? 'PUT' : 'POST';
 
@@ -236,7 +235,7 @@ document.getElementById('form-edicao-indicador').addEventListener('submit', asyn
 
 
   try {
-    const response = await fetch(`${BASE_URL}/indicadores/${id}/`, {
+    const response = await fetch(`${window.API_BASE_URL}/api/indicadores/${id}/`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -290,7 +289,7 @@ function salvarDiaLimite() {
     return;
   }
 
-  fetch(`http://127.0.0.1:8000/api/configuracoes/${configuracaoId}/`, {
+  fetch(`${window.API_BASE_URL}/api/configuracoes/${configuracaoId}/`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

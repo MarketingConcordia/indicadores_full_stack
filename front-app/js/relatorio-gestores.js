@@ -30,7 +30,7 @@ function preencherIndicadoresGestor() {
         return;
     }
 
-    fetch("http://127.0.0.1:8000/api/preenchimentos/", {
+    fetch(`${window.API_BASE_URL}/api/preenchimentos/`, {
         headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())
@@ -98,7 +98,7 @@ function carregarPreenchimentos() {
         return;
     }
 
-    let url = "http://127.0.0.1:8000/api/preenchimentos/";
+    let url = `${window.API_BASE_URL}/api/preenchimentos/`;
 
     if (indicadorId) {
         url += `?indicador=${indicadorId}`;

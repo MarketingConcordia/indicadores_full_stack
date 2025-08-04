@@ -1,5 +1,3 @@
-const BASE_URL = "http://127.0.0.1:8000/api";
-
 // 🔹 Preenche os filtros ao carregar
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarios();
@@ -14,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 🔸 Carrega os usuários
 function carregarUsuarios() {
   const token = localStorage.getItem("access");
-  fetch(`${BASE_URL}/usuarios/`, {
+  fetch(`${window.API_BASE_URL}/api/usuarios/`, {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.json())
@@ -33,7 +31,7 @@ function carregarUsuarios() {
 // 🔸 Carrega os setores
 function carregarSetores() {
   const token = localStorage.getItem("access");
-  fetch(`${BASE_URL}/setores/`, {
+  fetch(`${window.API_BASE_URL}/api/setores/`, {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.json())
@@ -57,7 +55,7 @@ function carregarLogsComFiltros() {
   const dataInicio = document.getElementById("filtro-data-inicio").value;
   const dataFim = document.getElementById("filtro-data-fim").value;
 
-  let url = `${BASE_URL}/logs/?`;
+  let url = `${window.API_BASE_URL}/api/logs/?`;
 
   if (usuario && usuario !== "todos") url += `usuario=${usuario}&`;
   if (setor && setor !== "todos") url += `setor=${setor}&`;

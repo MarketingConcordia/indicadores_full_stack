@@ -62,17 +62,17 @@ document.addEventListener('DOMContentLoaded', () => {
     preencherSelectSetores();
 
     Promise.all([
-            fetch('http://127.0.0.1:8000/api/indicadores/', {
+            fetch(`${window.API_BASE_URL}/api/indicadores/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => res.json()),
-            fetch('http://127.0.0.1:8000/api/preenchimentos/', {
+            fetch(`${window.API_BASE_URL}/api/preenchimentos/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }).then(res => res.json()),
-            fetch('http://127.0.0.1:8000/api/metas-mensais/', {
+            fetch(`${window.API_BASE_URL}/api/metas-mensais/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -423,7 +423,7 @@ function mostrarDetalhes(indicador) {
     aplicarFiltroHistorico(indicador, "", "");
 
     // 📨 Buscar responsável do último preenchimento
-    fetch(`http://127.0.0.1:8000/api/preenchimentos/?indicador=${indicador.id}`, {
+    fetch(`${window.API_BASE_URL}/api/preenchimentos/?indicador=${indicador.id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -914,7 +914,7 @@ function preencherSelectSetores() {
 
     if (!select) return;
 
-    fetch("http://127.0.0.1:8000/api/setores/", {
+    fetch(`${window.API_BASE_URL}/api/setores/`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -1028,7 +1028,7 @@ function ativarEdicaoMultiplaDeValor() {
           }
 
           try {
-            const response = await fetch(`http://127.0.0.1:8000/api/preenchimentos/${preenchimentoId}/`, {
+            const response = await fetch(`${window.API_BASE_URL}/api/preenchimentos/${preenchimentoId}/`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

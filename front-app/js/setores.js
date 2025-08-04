@@ -24,7 +24,7 @@ function configurarFormularioSetor() {
       return;
     }
 
-    fetch("http://127.0.0.1:8000/api/setores/", {
+    fetch(`${window.API_BASE_URL}/api/setores/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ function configurarFormularioSetor() {
 function listarSetores() {
   const token = localStorage.getItem("access");
 
-  fetch("http://127.0.0.1:8000/api/setores/", {
+  fetch(`${window.API_BASE_URL}/api/setores/`, {
     headers: { Authorization: `Bearer ${token}` }
   })
   .then(res => res.ok ? res.json() : Promise.reject("Erro ao buscar setores"))
@@ -85,7 +85,7 @@ function excluirSetor(id) {
   if (!confirm("Tem certeza que deseja excluir este setor?")) return;
 
   const token = localStorage.getItem("access");
-  fetch(`http://127.0.0.1:8000/api/setores/${id}/`, {
+  fetch(`${window.API_BASE_URL}/api/setores/${id}/`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` }
   })
@@ -104,7 +104,7 @@ function editarSetor(id, nomeAtual) {
   if (!novoNome?.trim()) return;
 
   const token = localStorage.getItem("access");
-  fetch(`http://127.0.0.1:8000/api/setores/${id}/`, {
+  fetch(`${window.API_BASE_URL}/api/setores/${id}/`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

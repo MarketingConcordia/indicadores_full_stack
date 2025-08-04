@@ -1,5 +1,3 @@
-const BASE_URL = "http://127.0.0.1:8000/api";
-
 // 🔹 Inicia a página e carrega os logs
 document.addEventListener("DOMContentLoaded", () => {
   const perfil = localStorage.getItem("perfil_usuario");
@@ -21,7 +19,7 @@ function carregarLogsDoGestor() {
   const dataInicio = document.getElementById("filtro-data-inicio").value;
   const dataFim = document.getElementById("filtro-data-fim").value;
 
-  let url = `${BASE_URL}/logs/?`;
+  let url = `${window.API_BASE_URL}/api/logs/?`;
 
   if (dataInicio) url += `data_inicio=${dataInicio}&`;
   if (dataFim) url += `data_fim=${dataFim}&`;

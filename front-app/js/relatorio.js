@@ -35,7 +35,7 @@ function configurarEventosDeFiltro() {
 function carregarSetores() {
     const token = localStorage.getItem("access");
 
-    fetch("http://127.0.0.1:8000/api/setores/", {
+    fetch(`${window.API_BASE_URL}/api/setores/`, {
         headers: { "Authorization": `Bearer ${token}` }
     })
     .then(res => res.json())
@@ -54,7 +54,7 @@ function carregarIndicadores() {
     const token = localStorage.getItem("access");
     const setorSelecionado = document.getElementById("filter-setor").value;
 
-    fetch("http://127.0.0.1:8000/api/indicadores/", {
+    fetch(`${window.API_BASE_URL}/api/indicadores/`, {
         headers: { "Authorization": `Bearer ${token}` }
     })
     .then(res => res.json())
@@ -74,7 +74,7 @@ function carregarIndicadores() {
 function carregarPreenchimentos() {
     const token = localStorage.getItem("access");
 
-    fetch("http://127.0.0.1:8000/api/preenchimentos/", {
+    fetch(`${window.API_BASE_URL}/api/preenchimentos/`, {
         headers: { "Authorization": `Bearer ${token}` }
     })
     .then(res => res.json())

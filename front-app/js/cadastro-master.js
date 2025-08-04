@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             perfil: 'master'
         };
 
-        fetch('http://127.0.0.1:8000/api/usuarios/', {
+        fetch(`${window.API_BASE_URL}/api/usuarios/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       payload.setores_ids = [setorSelecionado];
     }
 
-    fetch("http://127.0.0.1:8000/api/usuarios/", {
+    fetch(`${window.API_BASE_URL}/api/usuarios/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ function listarGestores() {
   const tabela = document.getElementById("tabela-usuarios");
   if (!tabela) return;
 
-  fetch("http://127.0.0.1:8000/api/usuarios/", {
+  fetch(`${window.API_BASE_URL}/api/usuarios/`, {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.json())
@@ -162,7 +162,7 @@ function listarGestores() {
 function alterarStatusUsuario(id, novoStatus) {
   const token = localStorage.getItem("access");
 
-  fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+  fetch(`${window.API_BASE_URL}/api/usuarios/${id}/`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -187,7 +187,7 @@ function excluirGestor(id) {
 
   const token = localStorage.getItem("access");
 
-  fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+  fetch(`${window.API_BASE_URL}/api/usuarios/${id}/`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`
@@ -210,7 +210,7 @@ function excluirGestor(id) {
 function editarGestor(id) {
   const token = localStorage.getItem("access");
 
-  fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+  fetch(`${window.API_BASE_URL}/api/usuarios/${id}/`, {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => res.json())
@@ -241,7 +241,7 @@ document.getElementById("form-editar-gestor").addEventListener("submit", functio
 
   const token = localStorage.getItem("access");
 
-  fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+  fetch(`${window.API_BASE_URL}/api/usuarios/${id}/`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -266,7 +266,7 @@ function preencherSelectSetores() {
 
   if (!select) return;
 
-  fetch("http://127.0.0.1:8000/api/setores/", {
+  fetch(`${window.API_BASE_URL}/api/setores/`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

@@ -7,7 +7,7 @@ async function carregarPreenchimentos() {
   const token = localStorage.getItem('access');
 
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/preenchimentos/meus/', {
+    const res = await fetch(`${window.API_BASE_URL}/api/preenchimentos/meus/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
@@ -33,7 +33,7 @@ async function carregarPreenchimentos() {
 function carregarIndicadores() {
   const token = localStorage.getItem('access');
 
-  fetch('http://127.0.0.1:8000/api/indicadores/pendentes/', {
+  fetch(`${window.API_BASE_URL}/api/indicadores/pendentes/`, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -153,7 +153,7 @@ document.getElementById('formPreenchimento').addEventListener('submit', async fu
     if (arquivo) formData.append('arquivo', arquivo);                 
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/preenchimentos/', {
+        const response = await fetch(`${window.API_BASE_URL}/api/preenchimentos/`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`

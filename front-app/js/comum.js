@@ -35,8 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function carregarUsuarioLogado() {
     const token = localStorage.getItem("access");
     if (!token) return;
-
-    fetch("http://127.0.0.1:8000/api/meu-usuario/", {
+    fetch(`${window.API_BASE_URL}/api/meu-usuario/`, {
         headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => res.json())

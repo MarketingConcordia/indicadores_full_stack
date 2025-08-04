@@ -26,7 +26,7 @@ async function renovarToken() {
   const refresh = localStorage.getItem("refresh");
   if (!refresh) throw new Error("Refresh token ausente.");
 
-  const res = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+  const res = await fetch(`${window.API_BASE_URL}/api/token/refresh/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ refresh })
@@ -93,7 +93,7 @@ function configurarFormularioConta() {
     }
 
     try {
-      const response = await fetchComTokenRenovado(`http://127.0.0.1:8000/api/usuarios/${usuarioId}/trocar_senha/`, {
+      const response = await fetchComTokenRenovado(`${window.API_BASE_URL}/api/usuarios/${usuarioId}/trocar_senha/`, {
         method: "POST",
         body: JSON.stringify({
           senha_atual: senhaAtual,

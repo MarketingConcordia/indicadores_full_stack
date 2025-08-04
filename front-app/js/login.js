@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const password = document.getElementById("senha").value;
 
     // 🔐 Solicitar token
-    fetch("http://127.0.0.1:8000/api/token/", {
+    fetch(`${window.API_BASE_URL}/api/token/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
 
-        return fetch("http://127.0.0.1:8000/api/me/", {
+        return fetch(`${window.API_BASE_URL}/api/me/`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${data.access}`
@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("nome_usuario", nome);
         localStorage.setItem("perfil_usuario", usuario.perfil);
         localStorage.setItem("usuario_id", usuario.id);  // ✅ ESSENCIAL
+        console.log(usuario.id);
         localStorage.setItem("setores_usuario", JSON.stringify(usuario.setores || []));
 
         if (usuario.setores && usuario.setores.length > 0) {
