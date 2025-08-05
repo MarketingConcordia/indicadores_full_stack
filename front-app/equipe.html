@@ -114,7 +114,7 @@
                                 </svg>
                             </button>
                             <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
+                                <a href="configuracoes.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
                                 <div class="border-t border-gray-100"></div>
                                 <button onclick="logout()" 
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
@@ -194,32 +194,47 @@
     </div>
   </div>
 
-    <!-- ✅ MODAL DE EDIÇÃO DE GESTOR -->
-    <div id="modal-editar-gestor" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center transition-all duration-300">
-        <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6 animate-fade-in">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Editar Gestor</h2>
-            
-            <form id="form-editar-gestor" class="space-y-4">
-                <!-- ID oculto -->
-                <input type="hidden" id="edit-id" />
+    <!-- MODAL DE EDIÇÃO DE GESTOR -->
+    <div id="modal-editar-gestor" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+        <div class="bg-white p-6 rounded-lg w-full max-w-lg shadow">
+            <h2 class="text-xl font-bold mb-4">Editar Gestor</h2>
+            <form id="form-editar-gestor">
+            <input type="hidden" id="edit-id">
 
-                <!-- Nome -->
-                <div>
-                    <label for="edit-nome" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
-                    <input type="text" id="edit-nome" class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-500" required />
-                </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                <input type="text" id="edit-nome" class="w-full border px-3 py-2 rounded" required>
+            </div>
 
-                <!-- Email -->
-                <div>
-                    <label for="edit-email" class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
-                    <input type="email" id="edit-email" class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:border-blue-500" required />
-                </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="edit-email" class="w-full border px-3 py-2 rounded" required>
+            </div>
 
-                <!-- Ações -->
-                <div class="flex justify-end space-x-2 pt-2">
-                    <button type="button" onclick="fecharModalEditar()" class="text-gray-600 hover:underline">Cancelar</button>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Salvar</button>
-                </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Perfil</label>
+                <select id="edit-perfil" class="w-full border px-3 py-2 rounded" required>
+                <option value="gestor">Gestor</option>
+                <option value="master">Master</option>
+                </select>
+            </div>
+
+            <div class="mb-4" id="edit-setor-wrapper">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Setor</label>
+                <select id="edit-setor" class="w-full border px-3 py-2 rounded">
+                <option value="">Selecione o setor</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nova Senha (opcional)</label>
+                <input type="password" id="edit-senha" class="w-full border px-3 py-2 rounded">
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="fecharModalEditar()" class="text-gray-500 hover:underline">Cancelar</button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Salvar</button>
+            </div>
             </form>
         </div>
     </div>

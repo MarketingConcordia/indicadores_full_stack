@@ -16,6 +16,8 @@
             window.location.href = 'indexgestores.html'; // ou login.html se preferir
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -178,18 +180,15 @@
                     <!-- Os cards de indicadores serão inseridos aqui via JavaScript -->
                 </div>
 
-                <div class="bg-white rounded shadow p-4 mt-8">
-                    <h2 class="text-xl font-bold mb-4 text-blue-900">Histórico de Preenchimentos</h2>
-
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead id="historico-head" class="bg-blue-800 text-white text-xs uppercase">
-                                <!-- 🔵 Cabeçalho da nova tabela será inserido via JS -->
-                            </thead>
-                            <tbody id="historico-body" class="divide-y divide-gray-200">
-                                <!-- 🔥 Corpo da nova tabela será inserido via JS -->
-                            </tbody>
-                        </table>
+                <div class="flex flex-wrap justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-blue-900">Histórico de Preenchimentos</h2>
+                    <div class="flex gap-3">
+                        <button id="btn-exportar-excel" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm">
+                        Exportar Excel
+                        </button>
+                        <button id="btn-exportar-pdf" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">
+                        Exportar PDF
+                        </button>
                     </div>
                 </div>
             </main>

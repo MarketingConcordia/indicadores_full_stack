@@ -9,6 +9,7 @@ from datetime import date
 # ======================
 class Setor(models.Model):
     nome = models.CharField(max_length=100, unique=True)
+    ativo = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nome
@@ -67,6 +68,7 @@ class Indicador(models.Model):
     mes_inicial = models.DateField(null=True, blank=True)
     visibilidade = models.BooleanField(default=True, help_text="Se o indicador será visível para todos")
     extracao_indicador = models.TextField(blank=True, help_text="Instruções de como extrair esse indicador")
+    ativo = models.BooleanField(default=True, help_text="Se o indicador está ativo ou inativo")
 
     def buscar_meta_para_mes(self, ano, mes):
         data = date(ano, mes, 1)

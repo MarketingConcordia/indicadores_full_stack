@@ -68,34 +68,45 @@ function listarSetores() {
     setores.forEach(setor => {
       const item = document.createElement("div");
       item.className = "flex justify-between items-center border rounded px-3 py-2 bg-gray-50";
+      const statusLabel = setor.ativo
+        ? `<span class="text-green-600 font-medium">Ativo</span>`
+        : `<span class="text-red-600 font-medium">Inativo</span>`;
+
+      const botaoStatus = setor.ativo
+        ? `<button onclick="alterarStatusSetor(${setor.id}, false)" class="text-red-600 hover:underline">Inativar</button>`
+        : `<button onclick="alterarStatusSetor(${setor.id}, true)" class="text-green-600 hover:underline">Ativar</button>`;
+
       item.innerHTML = `
-        <span>ID ${setor.id}: ${setor.nome}</span>
+        <span>ID ${setor.id}: ${setor.nome} (${statusLabel})</span>
         <div class="space-x-2">
           <button onclick="editarSetor(${setor.id}, '${setor.nome}')" class="text-blue-600 hover:underline">Editar</button>
-          <button onclick="excluirSetor(${setor.id})" class="text-red-600 hover:underline">Excluir</button>
+          ${botaoStatus}
         </div>
       `;
-      lista.appendChild(item);
+      lista.prepend(item);
     });
   })
   .catch(err => console.error(err));
 }
 
-function excluirSetor(id) {
-  if (!confirm("Tem certeza que deseja excluir este setor?")) return;
-
+function alterarStatusSetor(id, novoStatus) {
   const token = localStorage.getItem("access");
+
   fetch(`${window.API_BASE_URL}/api/setores/${id}/`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` }
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ ativo: novoStatus })
   })
   .then(res => {
-    if (!res.ok) throw new Error("Erro ao excluir setor.");
-    listarSetores();
+    if (!res.ok) throw new Error("Erro ao alterar status do setor.");
+    listarSetores(); // Atualiza lista após alteração
   })
   .catch(err => {
-    console.error("Erro ao excluir setor:", err);
-    alert("Erro ao excluir setor.");
+    console.error("Erro ao alterar status do setor:", err);
+    alert("Erro ao alterar status.");
   });
 }
 

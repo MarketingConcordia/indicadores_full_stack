@@ -218,8 +218,28 @@ function editarGestor(id) {
       document.getElementById("edit-id").value = gestor.id;
       document.getElementById("edit-nome").value = gestor.first_name;
       document.getElementById("edit-email").value = gestor.email;
+      document.getElementById("edit-perfil").value = gestor.perfil;
+      document.getElementById("edit-senha").value = "";
 
-      document.getElementById("modal-editar-gestor").classList.remove("hidden"); // ✅ Abre o modal
+      // Habilita ou desabilita campo setor
+      const setorWrapper = document.getElementById("edit-setor-wrapper");
+      const setorSelect = document.getElementById("edit-setor");
+
+      if (gestor.perfil === "gestor") {
+        setorWrapper.classList.remove("hidden");
+        setorSelect.disabled = false;
+
+        // Selecionar o setor atual
+        if (gestor.setores && gestor.setores.length > 0) {
+          setorSelect.value = gestor.setores[0].id;
+        }
+      } else {
+        setorWrapper.classList.add("hidden");
+        setorSelect.disabled = true;
+        setorSelect.value = "";
+      }
+
+      document.getElementById("modal-editar-gestor").classList.remove("hidden");
     });
 }
 
@@ -233,11 +253,23 @@ document.getElementById("form-editar-gestor").addEventListener("submit", functio
   const id = document.getElementById("edit-id").value;
   const nome = document.getElementById("edit-nome").value;
   const email = document.getElementById("edit-email").value;
+  const perfil = document.getElementById("edit-perfil").value;
+  const setor = document.getElementById("edit-setor").value;
+  const senha = document.getElementById("edit-senha").value;
 
   const payload = {
     first_name: nome,
-    email: email
+    email: email,
+    perfil: perfil
   };
+
+  if (senha.trim()) {
+    payload.password = senha.trim();
+  }
+
+  if (perfil === "gestor" && setor) {
+    payload.setores_ids = [parseInt(setor)];
+  }
 
   const token = localStorage.getItem("access");
 
@@ -255,16 +287,19 @@ document.getElementById("form-editar-gestor").addEventListener("submit", functio
         fecharModalEditar();
         listarGestores();
       } else {
-        alert("Erro ao atualizar gestor.");
+        return res.json().then(err => {
+          console.error("Erro detalhado:", err);
+          alert("Erro ao atualizar gestor.");
+        });
       }
     });
 });
 
 function preencherSelectSetores() {
   const token = localStorage.getItem("access");
-  const select = document.getElementById("setorGestor");
 
-  if (!select) return;
+  const selectCadastro = document.getElementById("setorGestor");
+  const selectEdicao = document.getElementById("edit-setor");
 
   fetch(`${window.API_BASE_URL}/api/setores/`, {
     headers: {
@@ -277,16 +312,45 @@ function preencherSelectSetores() {
     })
     .then(data => {
       const setores = data.results;
-      select.innerHTML = '<option value="">Selecione o setor</option>';
 
-      setores.forEach(setor => {
-        const opt = document.createElement("option");
-        opt.value = setor.id;
-        opt.textContent = setor.nome;
-        select.appendChild(opt);
-      });
+      // Preenche o select de cadastro
+      if (selectCadastro) {
+        selectCadastro.innerHTML = '<option value="">Selecione o setor</option>';
+        setores.forEach(setor => {
+          const opt = document.createElement("option");
+          opt.value = setor.id;
+          opt.textContent = setor.nome;
+          selectCadastro.appendChild(opt);
+        });
+      }
+
+      // Preenche o select do modal de edição
+      if (selectEdicao) {
+        selectEdicao.innerHTML = '<option value="">Selecione o setor</option>';
+        setores.forEach(setor => {
+          const opt = document.createElement("option");
+          opt.value = setor.id;
+          opt.textContent = setor.nome;
+          selectEdicao.appendChild(opt);
+        });
+      }
+
     })
     .catch(err => {
       console.error("Erro ao preencher setores:", err);
     });
 }
+
+document.getElementById("edit-perfil").addEventListener("change", function () {
+  const setorWrapper = document.getElementById("edit-setor-wrapper");
+  const setorSelect = document.getElementById("edit-setor");
+
+  if (this.value === "master") {
+    setorWrapper.classList.add("hidden");
+    setorSelect.disabled = true;
+    setorSelect.value = "";
+  } else {
+    setorWrapper.classList.remove("hidden");
+    setorSelect.disabled = false;
+  }
+});

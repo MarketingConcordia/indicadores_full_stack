@@ -101,7 +101,7 @@ class IndicadorSerializer(serializers.ModelSerializer):
             'id', 'nome', 'setor', 'setor_nome', 'tipo_meta',
             'status', 'valor_meta', 'criado_em', 'periodicidade',
             'mes_inicial', 'visibilidade', 'extracao_indicador', 'tipo_valor',
-            'metas_mensais'
+            'metas_mensais', 'ativo'
         ]
 
     def get_status(self, obj):

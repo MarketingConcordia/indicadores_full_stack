@@ -101,33 +101,48 @@ function renderizarIndicadores() {
       <td class="px-4 py-2">
         <span class="${ind.status === 'Pendente' ? 'text-red-600' : 'text-green-600'} font-bold">${ind.status.toUpperCase()}</span>
       </td>
+      <td class="px-4 py-2 text-${ind.ativo ? 'green' : 'red'}-600 font-semibold">
+        ${ind.ativo ? 'Ativo' : 'Inativo'}
+      </td>
       <td class="px-4 py-2 text-center space-x-2">
         <button onclick='abrirModal(${JSON.stringify(ind)})' class="text-blue-600 hover:underline">Editar</button>
-        <button onclick="excluirIndicador(${ind.id})" class="text-red-600 hover:underline">Excluir</button>
+        <button onclick="toggleStatusIndicador(${ind.id}, ${ind.ativo})" class="${ind.ativo ? 'text-red-600' : 'text-green-600'} hover:underline">
+          ${ind.ativo ? 'Inativar' : 'Ativar'}
+        </button>
       </td>
     `;
-    lista.appendChild(tr);
+    lista.prepend(tr);
   });
 }
 
 
+// 🔹 Inativar indicador
+async function toggleStatusIndicador(id, statusAtual) {
+  const confirmar = confirm(`Deseja realmente ${statusAtual ? 'inativar' : 'ativar'} este indicador?`);
+  if (!confirmar) return;
 
-// 🔹 Excluir indicador
-async function excluirIndicador(id) {
-  if (!confirm("Deseja realmente excluir?")) return;
+  const token = localStorage.getItem('access');
+
   try {
-    const token = localStorage.getItem('access');
     const response = await fetch(`${window.API_BASE_URL}/api/indicadores/${id}/`, {
-      method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${token}` }
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ativo: !statusAtual })
     });
-    if (!response.ok) throw new Error("Erro ao excluir");
-    todosIndicadores = todosIndicadores.filter(i => i.id !== id);
-    renderizarIndicadores();
+
+    if (!response.ok) throw new Error("Erro ao atualizar status");
+
+    await carregarIndicadores();
+
   } catch (error) {
-    console.error("Erro ao excluir indicador:", error);
+    console.error("Erro ao mudar status:", error);
+    alert("Erro ao mudar status do indicador.");
   }
 }
+
 
 // 🔹 Salvar novo indicador
 async function salvarIndicador(event) {
