@@ -133,6 +133,11 @@ document.getElementById('formPreenchimento').addEventListener('submit', async fu
     const mesAno = document.getElementById('mes').value;
     const comentario = document.getElementById('comentario').value;
     const arquivo = document.getElementById('provas').files[0];
+    // ✅ Verificar se o arquivo excede 2MB
+    if (arquivo && arquivo.size > 2 * 1024 * 1024) {
+        alert("O arquivo é muito grande. O tamanho máximo permitido é 5MB.");
+        return;
+    }
     const origem = document.getElementById('origem').value;
 
     if (!indicadorSelecionado || !valor || !mesAno) {

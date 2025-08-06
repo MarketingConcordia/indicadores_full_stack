@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,12 +11,10 @@
 </head>
 <body>
     <div class="flex h-screen bg-gray-100">
-        <!-- Sidebar -->
         <div id="sidebar" class="sidebar bg-gradient-to-b from-blue-900 to-blue-800 text-white py-4 flex flex-col">
             <div class="px-4 py-2 flex items-center ">
                 <div class="flex items-center space-x-2">
-                    <!-- Logo e nome da empresa removidos conforme solicitado -->
-                </div>
+                    </div>
             </div>
             
             <div class="mt-8 flex-1">
@@ -72,9 +68,7 @@
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Navbar -->
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center">
@@ -108,7 +102,6 @@
                 </div>
             </header>
 
-            <!-- Filtros -->
             <div class="bg-white shadow-sm p-4 border-b">
                 <div class="flex flex-wrap items-center gap-4">
                     <div class="flex-1 min-w-[200px]">
@@ -146,40 +139,37 @@
                 </div>
             </div>
 
-            <!-- Conteúdo Principal -->
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4">
                 <div id="indicadores-container" class="indicadores-grid">
-                    <!-- Os cards serão inseridos aqui pelo JavaScript -->
-                </div>
+                    </div>
             </main>
         </div>
     </div>
 
-    <!-- Modal de Detalhes -->
     <div id="detalhe-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div class="p-6" id="modal-content">
-                <!-- Conteúdo do modal será inserido aqui via JavaScript -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- MODAL DE EDIÇÃO DE VALOR -->
-    <div id="editar-valores-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Editar Valor(es)</h2>
-            <form id="form-valores-multiplos" class="space-y-4">
-            <!-- Campos serão inseridos aqui via JS -->
+    <div id="editar-valor-unico-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Editar Valor</h2>
+            <form id="form-valor-unico" class="space-y-4">
+                <div class="mb-4">
+                    <label for="campo-novo-valor" class="block text-sm font-medium text-gray-700">Novo Valor:</label>
+                    <input type="number" step="0.01" id="campo-novo-valor" class="mt-1 w-full border px-3 py-2 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
             </form>
             <div class="mt-4 flex justify-end gap-2">
-            <button id="cancelar-edicao-valores" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
-            <button id="salvar-valores-multiplos" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
+                <button id="cancelar-edicao-unico" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+                <button id="salvar-valor-unico" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
             </div>
         </div>
     </div>
 
 
-    <!-- Pop-up de Comentário -->
     <div id="popup-comentario" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
         <button onclick="fecharPopupComentario()" class="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-xl">×</button>
@@ -188,7 +178,6 @@
     </div>
     </div>
 
-    <!-- Pop-up de Provas -->
     <div id="popup-provas" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
         <button onclick="fecharPopupProvas()" class="absolute top-2 right-3 text-gray-600 hover:text-red-600 text-xl">×</button>

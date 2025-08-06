@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const metaValor = metaDoMes ? parseFloat(metaDoMes.valor_meta) : parseFloat(indicador.valor_meta);
 
                         return {
-                            id: p.id, // ✅ Adicione esta linha
+                            id: p.id,
                             data: dataReferencia,
                             valor: p.valor_realizado,
                             meta: metaValor,
@@ -335,19 +335,11 @@ function mostrarDetalhes(indicador) {
                         <th class="px-4 py-2 border">Status</th>
                         <th class="px-4 py-2 border">Comentários</th>
                         <th class="px-4 py-2 border">Provas</th>
+                        ${podeEditar ? `<th class="px-4 py-2 border">Ações</th>` : ''}
                     </tr>
                 </thead>
                 <tbody id="corpo-historico-modal"></tbody>
             </table>
-            ${podeEditar ? `
-            <div class="mt-4 flex gap-2 flex-wrap">
-                <button class="abrir-edicao-multipla bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800"
-                        data-indicador-id="${indicador.id}"
-                        data-indicador-nome="${indicador.nome}">
-                    Editar Valor
-                </button>
-            </div>
-            ` : ''}
         </div>
 
         <div class="w-full bg-white rounded p-4 border shadow">
@@ -407,6 +399,13 @@ function mostrarDetalhes(indicador) {
                     ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
                     : '-'}
             </td>
+            ${podeEditar ? `
+            <td class="px-4 py-2 border text-center">
+                <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirModalEdicaoIndividual(${item.id}, ${item.valor}, ${indicador.id})">
+                    Editar
+                </button>
+            </td>
+            ` : ''}
         `;
         corpoTabela.appendChild(tr);
     });
@@ -447,8 +446,6 @@ function mostrarDetalhes(indicador) {
 
 
     modal.classList.remove("hidden");
-
-    ativarEdicaoMultiplaDeValor();
 
     // 🟢 Exportar histórico em Excel
     document.getElementById('exportar-excel').addEventListener('click', () => {
@@ -591,22 +588,28 @@ document.addEventListener('DOMContentLoaded', () => {
         aplicarFiltros(); // reseta os filtros
     });
 
-    // // Configurar evento para o botão de perfil
-    // const profileButton = document.getElementById('profileButton');
-    // const profileMenu = document.getElementById('profileMenu');
-
-    // profileButton.addEventListener('click', () => {
-    //     profileMenu.classList.toggle('hidden');
-    // });
-
     // Fechar modais ao clicar fora deles
     const detalheModal = document.getElementById('detalhe-modal');
+    const editarValorUnicoModal = document.getElementById('editar-valor-unico-modal');
 
     detalheModal.addEventListener('click', (e) => {
         if (e.target === detalheModal) {
             detalheModal.classList.add('hidden');
         }
     });
+
+    editarValorUnicoModal.addEventListener('click', (e) => {
+        if (e.target === editarValorUnicoModal) {
+            editarValorUnicoModal.classList.add('hidden');
+        }
+    });
+
+    // Event listeners para o novo modal de edição de valor único
+    document.getElementById('cancelar-edicao-unico').addEventListener('click', () => {
+        document.getElementById('editar-valor-unico-modal').classList.add('hidden');
+    });
+
+    document.getElementById('salvar-valor-unico').addEventListener('click', salvarValorUnico);
 });
 
 
@@ -687,6 +690,7 @@ function popularMesesDoAnoSelecionado(selectedYear) {
 function aplicarFiltroHistorico(indicador, dataInicio = "", dataFim = "") {
     const corpoTabela = document.getElementById('corpo-historico-modal');
     const canvas = document.getElementById('grafico-desempenho');
+    const podeEditar = indicador.setor_nome === localStorage.getItem("setor_usuario");
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
@@ -737,6 +741,13 @@ function aplicarFiltroHistorico(indicador, dataInicio = "", dataFim = "") {
                     ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
                     : '-'}
             </td>
+            ${podeEditar ? `
+            <td class="px-4 py-2 border text-center">
+                <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirModalEdicaoIndividual(${item.id}, ${item.valor})">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+            ` : ''}
         `;
         corpoTabela.appendChild(tr);
     });
@@ -958,104 +969,48 @@ function fecharPopupProvas() {
     document.getElementById('popup-provas').classList.add('hidden');
 }
 
-function ativarEdicaoMultiplaDeValor() {
-  document.querySelectorAll(".abrir-edicao-multipla").forEach(botao => {
-    botao.addEventListener("click", () => {
-      const indicadorId = botao.dataset.indicadorId;
-      const indicadorNome = botao.dataset.indicadorNome;
+// REMOVIDO: a função ativarEdicaoMultiplaDeValor() foi removida.
 
-      const dataInicio = document.getElementById("filtro-inicio").value;
-      const dataFim = document.getElementById("filtro-fim").value;
+// NOVA FUNÇÃO: Abre o modal de edição para um único valor
+function abrirModalEdicaoIndividual(idPreenchimento, valorAtual) {
+    const modal = document.getElementById('editar-valor-unico-modal');
+    const input = document.getElementById('campo-novo-valor');
+    input.value = valorAtual;
+    input.dataset.preenchimentoId = idPreenchimento; // Salva o ID no dataset do input
+    modal.classList.remove('hidden');
+}
 
-      if (!dataInicio || !dataFim) {
-        alert("Selecione o intervalo de mês e ano para editar.");
+// NOVA FUNÇÃO: Salva o valor único editado
+async function salvarValorUnico() {
+    const token = localStorage.getItem("access");
+    const input = document.getElementById('campo-novo-valor');
+    const idPreenchimento = input.dataset.preenchimentoId;
+    const novoValor = parseFloat(input.value);
+
+    if (isNaN(novoValor)) {
+        alert("Valor inválido.");
         return;
-      }
+    }
 
-      const mesesIntervalo = gerarIntervaloDeMeses(dataInicio, dataFim);
-      const indicador = indicadoresComValoresGlobais.find(i => i.id == indicadorId);
-
-      const form = document.getElementById("form-valores-multiplos");
-      form.innerHTML = '';
-
-      // Filtrar preenchimentos que caem no intervalo
-      const preenchimentosFiltrados = indicador.historico.filter(p => {
-        const data = new Date(p.data);
-        return mesesIntervalo.some(m => {
-            const chaveData = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
-            const chaveComparacao = m.slice(0, 7); // "YYYY-MM" de cada item do intervalo
-            return chaveData === chaveComparacao;
-        });
-      });
-
-      if (preenchimentosFiltrados.length === 0) {
-        alert("Nenhum preenchimento encontrado no período selecionado.");
-        return;
-      }
-
-      preenchimentosFiltrados.forEach(p => {
-            const data = new Date(p.data);
-            const chave = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
-            form.innerHTML += `
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">${chave}</label>
-                <input type="number" step="0.01" name="valor-${p.id}" value="${p.valor}" class="w-full border px-3 py-2 rounded" />
-            </div>
-            `;
+    try {
+        const response = await fetch(`${window.API_BASE_URL}/api/preenchimentos/${idPreenchimento}/`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ valor_realizado: novoValor })
         });
 
-      document.getElementById("editar-valores-modal").classList.remove("hidden");
-
-      // Botão cancelar
-      document.getElementById("cancelar-edicao-valores").onclick = () => {
-        document.getElementById("editar-valores-modal").classList.add("hidden");
-      };
-
-      // Botão salvar
-      document.getElementById("salvar-valores-multiplos").onclick = async () => {
-        const token = localStorage.getItem("access");
-        const campos = document.querySelectorAll("#form-valores-multiplos input");
-        let erros = 0;
-
-        for (const campo of campos) {
-          const preenchimentoId = campo.name.split("-")[1];
-          const novoValor = parseFloat(campo.value);
-
-          if (isNaN(novoValor)) {
-            alert("Valor inválido: " + campo.value);
-            erros++;
-            continue;
-          }
-
-          try {
-            const response = await fetch(`${window.API_BASE_URL}/api/preenchimentos/${preenchimentoId}/`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({ valor_realizado: novoValor })
-            });
-
-            if (!response.ok) {
-              console.error("Erro ao atualizar:", preenchimentoId);
-              erros++;
-            }
-          } catch (err) {
-            console.error("Erro:", err);
-            erros++;
-          }
+        if (!response.ok) {
+            throw new Error(`Erro na API: ${response.statusText}`);
         }
 
-        if (erros === 0) {
-          alert("Todos os valores atualizados com sucesso.");
-        } else {
-          alert("Alguns valores não puderam ser atualizados. Verifique o console.");
-        }
-
-        document.getElementById("editar-valores-modal").classList.add("hidden");
-        location.reload();
-      };
-    });
-  });
+        alert("Valor atualizado com sucesso.");
+        document.getElementById('editar-valor-unico-modal').classList.add('hidden');
+        location.reload(); // Recarrega a página para atualizar os dados
+    } catch (err) {
+        console.error("Erro ao atualizar o valor:", err);
+        alert("Erro ao atualizar o valor. Verifique o console.");
+    }
 }

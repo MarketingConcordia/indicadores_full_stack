@@ -258,10 +258,11 @@ document.getElementById("form-editar-gestor").addEventListener("submit", functio
   const senha = document.getElementById("edit-senha").value;
 
   const payload = {
-    first_name: nome,
-    email: email,
-    perfil: perfil
-  };
+  first_name: nome,
+  email: email,
+  username: email,
+  perfil: perfil
+};
 
   if (senha.trim()) {
     payload.password = senha.trim();

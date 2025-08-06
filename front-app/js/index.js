@@ -247,7 +247,7 @@ function renderizarIndicadores(dados) {
                     <span class="text-sm">${atingido ? 'Meta atingida' : 'Meta não atingida'}</span>
                 </div>
                 <div class="text-sm text-gray-600 mb-3">
-                    Atual: ${formatarValorComTipo(indicador.valor_atual, indicador.tipo_valor)} / 
+                    Atual: ${formatarValorComTipo(indicador.valor_atual, indicador.tipo_valor)} /
                     Meta: ${formatarValorComTipo(indicador.valor_meta, indicador.tipo_valor)}
                 </div>
                 <div class="flex justify-end">
@@ -329,16 +329,11 @@ function mostrarDetalhes(indicador) {
                         <th class="px-4 py-2 border">Status</th>
                         <th class="px-4 py-2 border">Comentários</th>
                         <th class="px-4 py-2 border">Provas</th>
+                        <th class="px-4 py-2 border">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="corpo-historico-modal"></tbody>
             </table>
-            <div class="mt-4 flex gap-2 flex-wrap">
-                <button id="editar-meta" data-id="${indicador.id}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-800">
-                    Editar Meta
-                </button>
-                
-            </div>
         </div>
 
         <div class="w-full bg-white rounded p-4 border shadow">
@@ -397,6 +392,11 @@ function mostrarDetalhes(indicador) {
                 ${item.provas?.length > 0
                     ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
                     : '-'}
+            </td>
+            <td class="px-4 py-2 border text-center">
+                <button class="text-blue-600 hover:text-blue-800" onclick="abrirModalEditarMeta(${indicador.id}, '${chave}', ${metaFinal})">
+                    <i class="fas fa-edit"></i>
+                </button>
             </td>
         `;
         corpoTabela.appendChild(tr);
@@ -551,52 +551,25 @@ function mostrarDetalhes(indicador) {
         aplicarFiltroHistorico(indicador, dataInicio, dataFim);
     });
 
-    function salvarMeta(indicadorId) {
-        const novaMeta = document.getElementById('input-nova-meta').value;
-        const token = localStorage.getItem('access');
+    // REMOVIDO: Evento para o botão de editar meta do período.
+    // document.getElementById('editar-meta').addEventListener('click', () => { ... });
 
-        fetch(`${window.API_BASE_URL}/api/indicadores/${indicadorId}/`, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    meta: novaMeta
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Meta atualizada com sucesso!');
-                    fecharModalMeta();
-                    // carregarIndicadores(); // 🔥 Atualiza os cards no dashboard após salvar - Removido ou alterado
-                    location.reload(); // Recarrega tudo para refletir a nova meta
-                } else {
-                    alert('Erro ao atualizar a meta.');
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro na conexão com o servidor.');
-            });
-    }
+    // REMOVIDO: Lógica para salvar a meta de um período.
+    // document.getElementById('btn-salvar-meta').addEventListener('click', async () => { ... });
 
-    // Adicionar evento para o botão de editar meta
-    document.getElementById('editar-meta').addEventListener('click', () => {
-        const editarMetaModal = document.getElementById('editar-meta-modal');
-        document.getElementById('editar-meta-nome').value = indicador.nome;
-        document.getElementById('editar-meta-atual').value = indicador.valor_meta?.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2
-        });
-        document.getElementById('editar-meta-nova').value = indicador.valor_meta;
-        editarMetaModal.dataset.id = indicador.id; // Guardar o ID no próprio modal
-        editarMetaModal.classList.remove('hidden');
-    });
-
-    // Adicionar evento para o botão de solicitar revisão
+    // // Adicionar evento para o botão de solicitar revisão
     // document.getElementById('solicitar-revisao').addEventListener('click', () => {
     //     alert(`Solicitação de revisão enviada para ${indicador.responsavel}`);
     // });
+}
+
+// Nova função para abrir o modal de edição de meta mensal
+function abrirModalEditarMeta(indicadorId, mesAno, metaAtual) {
+    const modal = document.getElementById('editar-meta-unica-modal');
+    document.getElementById('input-meta-unica').value = metaAtual;
+    modal.dataset.indicadorId = indicadorId;
+    modal.dataset.mesAno = mesAno;
+    modal.classList.remove('hidden');
 }
 
 // Inicializar a página (este bloco é executado após o DOM ser carregado)
@@ -628,103 +601,10 @@ document.addEventListener('DOMContentLoaded', () => {
         aplicarFiltros(); // reseta os filtros
     });
 
-    // Configurar eventos do modal de edição de meta
+    // Configurar eventos do modal de edição de meta (removido, substituído pela lógica de meta única)
     const editarMetaModal = document.getElementById('editar-meta-modal');
     const cancelarMeta = document.getElementById('cancelar-meta');
     const salvarMeta = document.getElementById('btn-salvar-meta');
-
-    // Cancelar edição
-    cancelarMeta.addEventListener('click', () => {
-        editarMetaModal.classList.add('hidden');
-    });
-
-    // ✅ Substituindo envio para funcionar com PATCH/POST corretamente
-    salvarMeta.addEventListener('click', async () => {
-        const novaMeta = parseFloat(document.getElementById('editar-meta-nova').value);
-        const indicadorId = editarMetaModal.dataset.id;
-        const dataInicio = document.getElementById("filtro-inicio").value;
-        const dataFim = document.getElementById("filtro-fim").value;
-
-        if (isNaN(novaMeta) || !dataInicio || !dataFim) {
-            alert("Informe um valor válido e selecione o intervalo de datas.");
-            return;
-        }
-
-        const mesesIntervalo = gerarIntervaloDeMeses(dataInicio, dataFim);
-
-        // Busca metas existentes
-        let metasExistentes = [];
-        try {
-            const res = await fetch(`${window.API_BASE_URL}/api/metas-mensais/?indicador=${indicadorId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            metasExistentes = await res.json();
-        } catch (err) {
-            console.error("Erro ao buscar metas existentes:", err);
-            alert("Erro ao buscar metas já existentes.");
-            return;
-        }
-
-        const mapaMetas = {};
-        (metasExistentes.results || metasExistentes).forEach(meta => {
-            mapaMetas[meta.mes] = meta.id;
-        });
-
-        const requisicoes = mesesIntervalo.map(async mes => {
-            const mesFormatado = `${mes}`; // já vem no formato YYYY-MM-DD
-
-            const payload = {
-                indicador: parseInt(indicadorId),
-                mes: mesFormatado,
-                valor_meta: novaMeta
-            };
-
-            // Se já existe meta para esse mês, faz PATCH
-            if (mapaMetas[mesFormatado]) {
-                const metaId = mapaMetas[mesFormatado];
-                return fetch(`${window.API_BASE_URL}/api/metas-mensais/${metaId}/`, {
-                    method: "PATCH",
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ valor_meta: novaMeta })
-                });
-            }
-
-            // Senão, faz POST
-            return fetch(`${window.API_BASE_URL}/api/metas-mensais/`, {
-                method: "POST",
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-        });
-
-        Promise.all(requisicoes)
-            .then(() => {
-                alert("Meta(s) atualizada(s) para o período filtrado!");
-                editarMetaModal.classList.add("hidden");
-                document.getElementById("detalhe-modal").classList.add("hidden");
-                location.reload();
-            })
-            .catch(err => {
-                console.error("Erro ao salvar meta mensal:", err);
-                alert("Erro ao atualizar a(s) meta(s) do período.");
-            });
-    });
-
-    // // Configurar evento para o botão de perfil
-    // const profileButton = document.getElementById('profileButton');
-    // const profileMenu = document.getElementById('profileMenu');
-
-    // profileButton.addEventListener('click', () => {
-    //     profileMenu.classList.toggle('hidden');
-    // });
 
     // Fechar modais ao clicar fora deles
     const detalheModal = document.getElementById('detalhe-modal');
@@ -733,6 +613,74 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === detalheModal) {
             detalheModal.classList.add('hidden');
         }
+    });
+
+    const editarMetaUnicaModal = document.getElementById('editar-meta-unica-modal');
+    const cancelarMetaUnica = document.getElementById('cancelar-meta-unica');
+    const salvarMetaUnica = document.getElementById('salvar-meta-unica');
+
+    cancelarMetaUnica.addEventListener('click', () => {
+        editarMetaUnicaModal.classList.add('hidden');
+    });
+
+    salvarMetaUnica.addEventListener('click', () => {
+        const indicadorId = editarMetaUnicaModal.dataset.indicadorId;
+        const mesAno = editarMetaUnicaModal.dataset.mesAno;
+        const novaMeta = document.getElementById('input-meta-unica').value;
+        const token = localStorage.getItem('access');
+
+        if (isNaN(parseFloat(novaMeta))) {
+            alert("Por favor, insira um valor numérico válido.");
+            return;
+        }
+
+        // Requisição para buscar metas existentes do indicador
+        fetch(`${window.API_BASE_URL}/api/metas-mensais/?indicador=${indicadorId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(metas => {
+            const metaExistente = (metas.results || metas).find(m => m.mes.startsWith(mesAno));
+            const payload = {
+                valor_meta: parseFloat(novaMeta)
+            };
+
+            let url = `${window.API_BASE_URL}/api/metas-mensais/`;
+            let method = 'POST';
+
+            if (metaExistente) {
+                url = `${window.API_BASE_URL}/api/metas-mensais/${metaExistente.id}/`;
+                method = 'PATCH';
+            } else {
+                payload.indicador = parseInt(indicadorId);
+                payload.mes = `${mesAno}-01`; // Adiciona o dia para formatar corretamente
+            }
+
+            return fetch(url, {
+                method: method,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+        })
+        .then(res => {
+            if (res.ok) {
+                alert("Meta atualizada com sucesso!");
+                editarMetaUnicaModal.classList.add('hidden');
+                // Recarrega a página ou os dados do modal para refletir a mudança
+                location.reload();
+            } else {
+                alert("Erro ao salvar a meta. Verifique os dados e tente novamente.");
+            }
+        })
+        .catch(err => {
+            console.error("Erro na requisição:", err);
+            alert("Erro na conexão ou no servidor. Tente novamente.");
+        });
     });
 
     editarMetaModal.addEventListener('click', (e) => {
@@ -869,6 +817,11 @@ function aplicarFiltroHistorico(indicador, dataInicio = "", dataFim = "") {
                 ${item.provas?.length > 0
                     ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
                     : '-'}
+            </td>
+            <td class="px-4 py-2 border text-center">
+                <button class="text-blue-600 hover:text-blue-800" onclick="abrirModalEditarMeta(${indicador.id}, '${chave}', ${metaFinal})">
+                    <i class="fas fa-edit"></i>
+                </button>
             </td>
         `;
         corpoTabela.appendChild(tr);

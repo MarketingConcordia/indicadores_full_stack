@@ -162,6 +162,12 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
     meta = serializers.SerializerMethodField()
     setor_id = serializers.IntegerField(source='indicador.setor.id', read_only=True)
 
+    def validate_arquivo(self, value):
+        max_size = 2 * 1024 * 1024
+        if value.size > max_size:
+            raise serializers.ValidationError("O arquivo enviado é muito grande. O tamanho máximo permitido é 2MB.")
+        return value
+
     class Meta:
         model = Preenchimento
         fields = [
@@ -189,6 +195,7 @@ class PreenchimentoSerializer(serializers.ModelSerializer):
                 "username": obj.preenchido_por.username
             }
         return None
+
 
 
 

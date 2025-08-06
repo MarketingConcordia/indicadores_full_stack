@@ -7,6 +7,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -145,13 +150,19 @@
             
             <!-- Conteúdo Principal -->
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4">
-                <div class="indicadores-grid" id="indicadores-container">
-                    <!-- Os cards de indicadores serão inseridos aqui via JavaScript -->
+                <div class="flex flex-wrap justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-blue-900">Histórico de Preenchimentos</h2>
+                    <div class="flex gap-3">
+                        <button id="btn-exportar-excel" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm">
+                        Exportar Excel
+                        </button>
+                        <button id="btn-exportar-pdf" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">
+                        Exportar PDF
+                        </button>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded shadow p-4 mt-8">
-                    <h2 class="text-xl font-bold mb-4 text-blue-900">Histórico de Preenchimentos</h2>
-
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead id="historico-head" class="bg-blue-800 text-white text-xs uppercase">

@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Aciona o carregamento apenas quando clicar no botão
     document.getElementById("btn-ver-historico").addEventListener("click", carregarPreenchimentos);
+    document.getElementById("btn-exportar-excel").addEventListener("click", exportarParaExcel);
+    document.getElementById("btn-exportar-pdf").addEventListener("click", exportarParaPDF);
 });
 
 // === FUNÇÕES DE FILTRO E HISTÓRICO ===
@@ -226,4 +228,112 @@ function mesPtBr(mes) {
 function formatarValor(valor) {
     if (valor == null) return "—";
     return Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+// === EXPORTAÇÃO PARA EXCEL ===
+function exportarParaExcel() {
+    const thead = document.getElementById("historico-head");
+    const tbody = document.getElementById("historico-body");
+
+    if (!thead || !tbody || tbody.rows.length === 0) {
+        alert("Nenhum dado para exportar.");
+        return;
+    }
+
+    // Cria a matriz de dados
+    const data = [];
+
+    // Cabeçalho
+    const headerRow = [];
+    thead.querySelectorAll("th").forEach(th => {
+        headerRow.push(th.textContent.trim());
+    });
+    data.push(headerRow);
+
+    // Linhas de dados
+    tbody.querySelectorAll("tr").forEach(tr => {
+        const row = [];
+        tr.querySelectorAll("td").forEach(td => {
+            row.push(td.textContent.trim());
+        });
+        data.push(row);
+    });
+
+    // Criação da planilha
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Histórico");
+
+    // Exporta
+    XLSX.writeFile(workbook, "relatorio-indicadores.xlsx");
+}
+
+// === EXPORTAÇÃO PARA PDF ===
+function exportarParaPDF() {
+    const container = document.getElementById("historico-container");
+
+    if (!container) {
+        alert("Nenhum conteúdo para exportar.");
+        return;
+    }
+
+    // 🔹 Salva estilo original
+    const originalStyle = {
+        width: container.style.width,
+        maxWidth: container.style.maxWidth,
+        overflowX: container.style.overflowX,
+        overflowY: container.style.overflowY,
+        height: container.style.height,
+        maxHeight: container.style.maxHeight,
+    };
+
+    // 🔹 Expande completamente
+    container.style.width = container.scrollWidth + "px";
+    container.style.overflowX = "visible";
+    container.style.overflowY = "visible";
+    container.style.maxWidth = "none";
+    container.style.height = "auto";
+    container.style.maxHeight = "none";
+
+    // Aguarda renderização
+    setTimeout(() => {
+        html2canvas(container, {
+            scrollX: -window.scrollX,
+            scrollY: -window.scrollY,
+            windowWidth: document.body.scrollWidth,
+            windowHeight: document.body.scrollHeight,
+            scale: 2 // melhora a resolução
+        }).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+
+            const pdf = new jspdf.jsPDF({
+                orientation: 'landscape',
+                unit: 'px',
+                format: [canvas.width, canvas.height]
+            });
+
+            pdf.addImage(imgData, 'PNG', 0, 0);
+            pdf.save("relatorio-indicadores.pdf");
+
+            // 🔹 Restaura estilo original
+            container.style.width = originalStyle.width;
+            container.style.maxWidth = originalStyle.maxWidth;
+            container.style.overflowX = originalStyle.overflowX;
+            container.style.overflowY = originalStyle.overflowY;
+            container.style.height = originalStyle.height;
+            container.style.maxHeight = originalStyle.maxHeight;
+
+        }).catch(err => {
+            console.error("Erro ao gerar PDF:", err);
+            alert("Erro ao gerar PDF.");
+
+            // 🔹 Restaura estilo mesmo com erro
+            container.style.width = originalStyle.width;
+            container.style.maxWidth = originalStyle.maxWidth;
+            container.style.overflowX = originalStyle.overflowX;
+            container.style.overflowY = originalStyle.overflowY;
+            container.style.height = originalStyle.height;
+            container.style.maxHeight = originalStyle.maxHeight;
+        });
+    }, 300); // Delay para garantir reflow completo
 }

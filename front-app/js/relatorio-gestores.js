@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     preencherIndicadoresGestor();
     configurarEventosDeFiltro();
+
+    document.getElementById("btn-exportar-excel").addEventListener("click", exportarParaExcel);
+    document.getElementById("btn-exportar-pdf").addEventListener("click", exportarParaPDF);
 });
 
 // === SETA OS INDICADORES DO GESTOR ===
@@ -255,4 +258,96 @@ function mesPtBr(mes) {
 function formatarValor(valor) {
     if (valor == null) return "—";
     return Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+// === EXPORTAÇÃO PARA EXCEL ===
+function exportarParaExcel() {
+    const thead = document.getElementById("historico-head");
+    const tbody = document.getElementById("historico-body");
+
+    if (!thead || !tbody || tbody.rows.length === 0) {
+        alert("Nenhum dado para exportar.");
+        return;
+    }
+
+    // Cria a matriz de dados
+    const data = [];
+
+    // Cabeçalho
+    const headerRow = [];
+    thead.querySelectorAll("th").forEach(th => {
+        headerRow.push(th.textContent.trim());
+    });
+    data.push(headerRow);
+
+    // Linhas de dados
+    tbody.querySelectorAll("tr").forEach(tr => {
+        const row = [];
+        tr.querySelectorAll("td").forEach(td => {
+            row.push(td.textContent.trim());
+        });
+        data.push(row);
+    });
+
+    // Criação da planilha
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Histórico");
+
+    // Exporta
+    XLSX.writeFile(workbook, "relatorio-indicadores.xlsx");
+}
+
+// === EXPORTAÇÃO PARA PDF ===
+function exportarParaPDF() {
+    const container = document.querySelector(".bg-white.rounded.shadow.p-4.mt-8");
+
+    if (!container) {
+        alert("Nenhum conteúdo para exportar.");
+        return;
+    }
+
+    // Pegando a div da TABELA diretamente
+    const tabelaWrapper = container.querySelector(".overflow-x-auto");
+
+    // Backup do estilo original
+    const originalStyle = {
+        width: tabelaWrapper.style.width,
+        maxWidth: tabelaWrapper.style.maxWidth,
+        overflow: tabelaWrapper.style.overflow
+    };
+
+    // ⬅️ Expandindo temporariamente
+    tabelaWrapper.style.width = tabelaWrapper.scrollWidth + "px";
+    tabelaWrapper.style.maxWidth = "none";
+    tabelaWrapper.style.overflow = "visible";
+
+    setTimeout(() => {
+        html2canvas(tabelaWrapper, {
+            scrollX: 0,
+            scrollY: 0,
+            width: tabelaWrapper.scrollWidth,
+            height: tabelaWrapper.scrollHeight,
+            scale: 2,
+            useCORS: true
+        }).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+
+            const pdf = new jspdf.jsPDF({
+                orientation: 'landscape',
+                unit: 'px',
+                format: [canvas.width, canvas.height]
+            });
+
+            pdf.addImage(imgData, 'PNG', 0, 0);
+            pdf.save("relatorio-indicadores.pdf");
+
+            // Restaurar estilos
+            Object.assign(tabelaWrapper.style, originalStyle);
+        }).catch(err => {
+            console.error("Erro ao gerar PDF:", err);
+            alert("Erro ao gerar PDF.");
+            Object.assign(tabelaWrapper.style, originalStyle);
+        });
+    }, 300);
 }
