@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const metaValor = metaDoMes ? parseFloat(metaDoMes.valor_meta) : parseFloat(indicador.valor_meta);
 
                         return {
+                            id: p.id,
                             data: dataReferencia,
                             valor: p.valor_realizado,
                             meta: metaValor,
@@ -162,7 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
 
                 })
-                .filter(indicador => indicador.ultimaAtualizacao !== null); // <- só exibe preenchidos
+                .filter(indicador => indicador.ultimaAtualizacao !== null) // <- só exibe preenchidos
+                .filter(indicador => indicador.ativo); // <- NOVO FILTRO: só mostra indicadores ativos
 
             indicadoresComValoresGlobais = indicadoresCalculados; // Atribui ao global
             preencherFiltrosAnoMes(); // Chama para popular os filtros de ano/mês
@@ -329,7 +331,6 @@ function mostrarDetalhes(indicador) {
                         <th class="px-4 py-2 border">Status</th>
                         <th class="px-4 py-2 border">Comentários</th>
                         <th class="px-4 py-2 border">Provas</th>
-                        <th class="px-4 py-2 border">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="corpo-historico-modal"></tbody>
@@ -550,17 +551,6 @@ function mostrarDetalhes(indicador) {
         const dataFim = document.getElementById('filtro-fim').value;
         aplicarFiltroHistorico(indicador, dataInicio, dataFim);
     });
-
-    // REMOVIDO: Evento para o botão de editar meta do período.
-    // document.getElementById('editar-meta').addEventListener('click', () => { ... });
-
-    // REMOVIDO: Lógica para salvar a meta de um período.
-    // document.getElementById('btn-salvar-meta').addEventListener('click', async () => { ... });
-
-    // // Adicionar evento para o botão de solicitar revisão
-    // document.getElementById('solicitar-revisao').addEventListener('click', () => {
-    //     alert(`Solicitação de revisão enviada para ${indicador.responsavel}`);
-    // });
 }
 
 // Nova função para abrir o modal de edição de meta mensal
@@ -618,6 +608,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const editarMetaUnicaModal = document.getElementById('editar-meta-unica-modal');
     const cancelarMetaUnica = document.getElementById('cancelar-meta-unica');
     const salvarMetaUnica = document.getElementById('salvar-meta-unica');
+
+    // Event listeners para o modal de edição de valor realizado (estilo do gestor)
+    document.getElementById('cancelar-edicao-unico').addEventListener('click', () => {
+        document.getElementById('editar-valor-unico-modal').classList.add('hidden');
+    });
+
+    document.getElementById('salvar-valor-unico').addEventListener('click', salvarValorUnico);
+
 
     cancelarMetaUnica.addEventListener('click', () => {
         editarMetaUnicaModal.classList.add('hidden');
@@ -681,12 +679,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Erro na requisição:", err);
             alert("Erro na conexão ou no servidor. Tente novamente.");
         });
-    });
-
-    editarMetaModal.addEventListener('click', (e) => {
-        if (e.target === editarMetaModal) {
-            editarMetaModal.classList.add('hidden');
-        }
     });
 });
 
@@ -804,24 +796,39 @@ function aplicarFiltroHistorico(indicador, dataInicio = "", dataFim = "") {
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td class="px-4 py-2 border">${new Date(item.data).toLocaleDateString('pt-BR')}</td>
-            <td class="px-4 py-2 border">${formatarValorComTipo(item.valor, indicador.tipo_valor)}</td>
-            <td class="px-4 py-2 border">${formatarValorComTipo(metaFinal, indicador.tipo_valor)}</td>
+            <td class="px-4 py-2 border">${data.toLocaleDateString('pt-BR')}</td>
+
+            <td class="px-4 py-2 border">
+                <span id="valor-realizado-${indicador.id}-${ano}-${mes}">
+                    ${formatarValorComTipo(item.valor, indicador.tipo_valor)}
+                </span>
+                <button class="text-blue-600 text-xs px-2 py-1 rounded hover:text-blue-800"
+                    onclick="abrirModalEdicaoIndividual(${item.id}, ${item.valor}, ${indicador.id})">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+
+            <td class="px-4 py-2 border">
+                ${formatarValorComTipo(metaFinal, indicador.tipo_valor)}
+                <button class="text-blue-600 text-xs px-2 py-1 rounded hover:text-blue-800"
+                    onclick="abrirModalEditarMeta(${indicador.id}, '${chave}', ${metaFinal})">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+
             <td class="px-4 py-2 border">${statusTexto}</td>
+
             <td class="px-4 py-2 border text-center">
-                <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirComentarioPopup('${item.comentario?.replace(/'/g, "\\'") || ''}')">
+                <button class="text-blue-600 underline text-sm hover:text-blue-800"
+                    onclick="abrirComentarioPopup('${item.comentario?.replace(/'/g, "\\'") || ''}')">
                     Ver
                 </button>
             </td>
+
             <td class="px-4 py-2 border text-center">
                 ${item.provas?.length > 0
                     ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
                     : '-'}
-            </td>
-            <td class="px-4 py-2 border text-center">
-                <button class="text-blue-600 hover:text-blue-800" onclick="abrirModalEditarMeta(${indicador.id}, '${chave}', ${metaFinal})">
-                    <i class="fas fa-edit"></i>
-                </button>
             </td>
         `;
         corpoTabela.appendChild(tr);
@@ -1023,6 +1030,50 @@ function preencherSelectSetores() {
         .catch(err => {
             console.error("Erro ao preencher setores:", err);
         });
+}
+
+// Função para abrir o modal e preencher com o valor atual
+function abrirModalEdicaoIndividual(idPreenchimento, valorAtual) {
+    const modal = document.getElementById('editar-valor-unico-modal');
+    const input = document.getElementById('campo-novo-valor');
+    input.value = valorAtual;
+    input.dataset.preenchimentoId = idPreenchimento; // salva ID do preenchimento
+    modal.classList.remove('hidden');
+}
+
+// Função para salvar o valor editado via PATCH
+async function salvarValorUnico() {
+    const token = localStorage.getItem("access");
+    const input = document.getElementById('campo-novo-valor');
+    const idPreenchimento = input.dataset.preenchimentoId;
+    const novoValor = parseFloat(input.value);
+
+    if (isNaN(novoValor)) {
+        alert("Valor inválido.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${window.API_BASE_URL}/api/preenchimentos/${idPreenchimento}/`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ valor_realizado: novoValor })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro na API: ${response.statusText}`);
+        }
+
+        alert("Valor atualizado com sucesso.");
+        document.getElementById('editar-valor-unico-modal').classList.add('hidden');
+        location.reload(); // Recarrega para atualizar
+    } catch (err) {
+        console.error("Erro ao atualizar o valor:", err);
+        alert("Erro ao atualizar o valor. Verifique o console.");
+    }
 }
 
 function abrirComentarioPopup(texto) {

@@ -132,21 +132,17 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">Cadastrar Indicador</h2>
             <form id="form-metrica" class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label for="nomeMetrica" class="block text-sm font-medium text-gray-700">Nome do indicador:</label>
+                <label for="nomeMetrica" class="block text-sm font-medium text-gray-700">Nome do indicador *</label>
                 <input type="text" id="nomeMetrica" name="nomeMetrica" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
               </div>
               <div>
-                <label for="setorMetrica" class="block text-sm font-medium text-gray-700">Setor:</label>
+                <label for="setorMetrica" class="block text-sm font-medium text-gray-700">Setor *</label>
                 <select id="setorMetrica" name="setorMetrica" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                   
                 </select>
               </div>
               <div>
-                <label for="metaMetrica" class="block text-sm font-medium text-gray-700">Meta:</label>
-                <input type="number" id="metaMetrica" name="metaMetrica" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-              </div>
-              <div>
-                <label for="tipo_meta" class="block text-sm font-medium text-gray-700">Análise de Meta</label>
+                <label for="tipo_meta" class="block text-sm font-medium text-gray-700">Análise de Meta *</label>
                 <select id="tipo_meta" name="tipo_meta" required
                         class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                   <option value="crescente">Para cima (quanto maior, melhor)</option>
@@ -155,7 +151,11 @@
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700">Tipo de Valor</label>
+                <label for="metaMetrica" class="block text-sm font-medium text-gray-700">Meta *</label>
+                <input type="number" id="metaMetrica" name="metaMetrica" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Tipo de Valor *</label>
                 <select id="tipo_valor" name="tipo_valor" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="numeral">Numeral</option>
                     <option value="monetario">Monetário</option>
@@ -163,7 +163,7 @@
                 </select>
               </div>
               <div>
-                <label for="periodicidade" class="block text-sm font-medium text-gray-700">Periodicidade (em meses)</label>
+                <label for="periodicidade" class="block text-sm font-medium text-gray-700">Periodicidade (em meses) *</label>
                 <select id="periodicidade" name="periodicidade" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <option value="">Selecione</option>
                     <option value="1">1 mês</option>
@@ -182,12 +182,12 @@
                 </div>
 
                 <div>
-                <label for="mesInicial" class="block text-sm font-medium text-gray-700">Mês Inicial</label>
+                <label for="mesInicial" class="block text-sm font-medium text-gray-700">Mês Inicial *</label>
                 <input type="month" id="mesInicial" name="mesInicial" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
 
                 <div>
-                <label for="visibilidade" class="block text-sm font-medium text-gray-700">Visibilidade</label>
+                <label for="visibilidade" class="block text-sm font-medium text-gray-700">Visibilidade *</label>
                 <select id="visibilidade" name="visibilidade" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <option value="true">Visível para todos</option>
                     <option value="false">Restrito (apenas gestor responsável)</option>
@@ -195,7 +195,7 @@
                 </div>
 
                 <div class="md:col-span-2">
-                <label for="extracaoIndicador" class="block text-sm font-medium text-gray-700">Como extrair este indicador</label>
+                <label for="extracaoIndicador" class="block text-sm font-medium text-gray-700">Como extrair este indicador *</label>
                 <textarea id="extracaoIndicador" name="extracaoIndicador" rows="2" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
                 </div>
 

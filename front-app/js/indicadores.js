@@ -288,6 +288,20 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-salvar-dia-limite").addEventListener("click", salvarDiaLimite);
 });
 
+// 🧠 Preenche automaticamente o campo de meta com 0 se o tipo for "monitoramento"
+document.getElementById('tipo_meta').addEventListener('change', () => {
+  const tipo = document.getElementById('tipo_meta').value;
+  const campoMeta = document.getElementById('metaMetrica');
+
+  if (tipo === 'monitoramento') {
+    campoMeta.value = 0;
+    campoMeta.disabled = true;
+  } else {
+    campoMeta.disabled = false;
+    campoMeta.value = '';
+  }
+});
+
 let configuracaoId = null;
 
 function salvarDiaLimite() {
