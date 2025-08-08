@@ -131,10 +131,17 @@ function listarGestores() {
           ? `<span class="text-green-600 font-medium">Ativo</span>`
           : `<span class="text-red-600 font-medium">Inativo</span>`;
 
-        const btnStatus = usuario.is_active
-          ? `<button onclick="alterarStatusUsuario(${usuario.id}, false)" class="text-red-600 hover:underline">Inativar</button>`
-          : `<button onclick="alterarStatusUsuario(${usuario.id}, true)" class="text-green-600 hover:underline">Ativar</button>`;
+        const usuarioLogadoId = parseInt(localStorage.getItem("usuario_id"));
+        const perfilLogado = localStorage.getItem("perfil_usuario");
 
+        let btnStatus = "";
+        // Só mostra o botão se NÃO for o próprio Master logado
+        if (!(perfilLogado === "master" && usuario.id === usuarioLogadoId)) {
+          btnStatus = usuario.is_active
+            ? `<button onclick="alterarStatusUsuario(${usuario.id}, false)" class="text-red-600 hover:underline">Inativar</button>`
+            : `<button onclick="alterarStatusUsuario(${usuario.id}, true)" class="text-green-600 hover:underline">Ativar</button>`;
+        }
+        
         tr.innerHTML = `
           <td class="px-4 py-2">${usuario.first_name}</td>
           <td class="px-4 py-2">${usuario.email}</td>
@@ -161,6 +168,14 @@ function listarGestores() {
 
 function alterarStatusUsuario(id, novoStatus) {
   const token = localStorage.getItem("access");
+  const usuarioLogadoId = parseInt(localStorage.getItem("usuario_id")); // ID salvo no login
+  const perfilLogado = localStorage.getItem("perfil_usuario");
+
+  // 🔒 Impede que o próprio Master se inative
+  if (perfilLogado === "master" && id === usuarioLogadoId && novoStatus === false) {
+    alert("Você não pode inativar a sua própria conta.");
+    return;
+  }
 
   fetch(`${window.API_BASE_URL}/api/usuarios/${id}/`, {
     method: "PATCH",

@@ -181,27 +181,13 @@ function renderizarIndicadores(dados) {
     const container = document.getElementById('indicadores-container');
     container.innerHTML = '';
 
-    // Cores para os diferentes setores
-    const coresSetores = {
-        "Financeiro": "#4f46e5", // indigo
-        "Marketing": "#ec4899", // pink
-        "Logística": "#f59e0b", // amber
-        "E-commerce": "#06b6d4", // cyan
-        "Produção": "#10b981", // emerald
-        "Pós Venda": "#8b5cf6", // violet
-        "RH": "#f43f5e", // rose
-        "Qualidade": "#0ea5e9", // sky
-        "Engenharia": "#84cc16", // lime
-        "Corporativo": "#6366f1", // indigo
-        "Revenda": "#d946ef", // fuchsia
-        "Jurídico": "#64748b", // slate
-        "Controladoria": "#0891b2", // cyan
-        "Produtos Green": "#22c55e", // green
-        "Produtos Blue": "#3b82f6", // blue
-        "Produtos RED": "#ef4444", // red
-        "Compras": "#a855f7", // purple
-        "Projetos": "#14b8a6" // teal
-    };
+    // Objeto para armazenar as cores geradas para cada setor
+    const setoresCores = {};
+
+    // Função para gerar uma cor hexadecimal aleatória
+    function gerarCorAleatoria() {
+        return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    }
 
     dados.forEach(indicador => {
         const card = document.createElement('div');
@@ -211,16 +197,26 @@ function renderizarIndicadores(dados) {
         // Barra de status (meta atingida ou não) no lado esquerdo
         const atingido = indicador.atingido;
         let statusClass = 'bg-red-500'; // padrão: não atingido
+        let statusText = 'Meta não atingida';
+        let statusIcon = '❌';
+
         if (indicador.tipo_meta === 'monitoramento') {
             statusClass = 'bg-blue-500'; // azul para monitoramento
-        } else if (indicador.atingido) {
+            statusIcon = '📊'; // ícone para monitoramento
+            statusText = 'Monitoramento';
+        } else if (atingido) {
             statusClass = 'bg-green-500'; // verde se atingido
+            statusIcon = '✅';
+            statusText = 'Meta atingida';
         }
-        const statusIcon = atingido ? '✅' : '❌';
+
         const statusBar = `<div class="trend-bar ${statusClass}"></div>`;
 
-        // Cor de fundo para o badge do setor
-        const corSetor = coresSetores[indicador.setor_nome] || "#64748b"; // cor padrão se não encontrar
+        // Atribuir uma cor aleatória ao setor se ainda não tiver uma
+        if (!setoresCores[indicador.setor_nome]) {
+            setoresCores[indicador.setor_nome] = gerarCorAleatoria();
+        }
+        const corSetor = setoresCores[indicador.setor_nome];
 
         // Formatação do valor e meta
         const formatarValor = (valor) => {
@@ -231,10 +227,22 @@ function renderizarIndicadores(dados) {
         };
 
         // Variação com seta
-        const variacaoIcon = indicador.variacao >= 0 ? '↑' : '↓';
-        const variacaoClass = indicador.variacao >= 0 ? 'text-green-500' : 'text-red-500';
-        const variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior ou meta do período</span></span>`;
+        let variacaoIcon = '';
+        let variacaoClass = '';
+        let variacaoText = '';
 
+        if (indicador.tipo_meta === 'crescente') {
+            variacaoIcon = indicador.variacao >= 0 ? '↑' : '↓';
+            variacaoClass = indicador.variacao >= 0 ? 'text-green-500' : 'text-red-500';
+            variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior ou meta do período</span></span>`;
+        } else if (indicador.tipo_meta === 'decrescente') {
+            variacaoIcon = indicador.variacao > 0 ? '↑' : '↓';
+            variacaoClass = indicador.variacao < 0 ? 'text-green-500' : 'text-red-500';
+            variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao > 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior ou meta do período</span></span>`;
+        } else if (indicador.tipo_meta === 'monitoramento') {
+            // Não exibe a variação para indicadores de monitoramento
+            variacaoText = '';
+        }
 
         card.innerHTML = `
             ${statusBar}
@@ -246,7 +254,7 @@ function renderizarIndicadores(dados) {
                 <div class="inline-block text-white text-xs px-2 py-1 rounded mb-3" style="background-color: ${corSetor}">${indicador.setor_nome}</div>
                 <div class="flex items-center mb-2">
                     <span class="mr-2">${statusIcon}</span>
-                    <span class="text-sm">${atingido ? 'Meta atingida' : 'Meta não atingida'}</span>
+                    <span class="text-sm">${statusText}</span>
                 </div>
                 <div class="text-sm text-gray-600 mb-3">
                     Atual: ${formatarValorComTipo(indicador.valor_atual, indicador.tipo_valor)} /
