@@ -176,55 +176,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// Função para renderizar os cards de indicadores
 function renderizarIndicadores(dados) {
     const container = document.getElementById('indicadores-container');
     container.innerHTML = '';
 
-    // Objeto para armazenar as cores geradas para cada setor
-    const setoresCores = {};
-
-    // Função para gerar uma cor hexadecimal aleatória
-    function gerarCorAleatoria() {
-        return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-    }
+    // 🎨 50 cores fixas mapeadas por ID de setor
+    const coresSetores = {
+        1: "#4f46e5",  // indigo
+        2: "#ec4899",  // pink
+        3: "#f59e0b",  // amber
+        4: "#06b6d4",  // cyan
+        5: "#10b981",  // emerald
+        6: "#8b5cf6",  // violet
+        7: "#f43f5e",  // rose
+        8: "#0ea5e9",  // sky
+        9: "#84cc16",  // lime
+        10: "#6366f1", // indigo
+        11: "#d946ef", // fuchsia
+        12: "#64748b", // slate
+        13: "#0891b2", // cyan
+        14: "#22c55e", // green
+        15: "#3b82f6", // blue
+        16: "#ef4444", // red
+        17: "#a855f7", // purple
+        18: "#14b8a6", // teal
+        19: "#f97316", // orange
+        20: "#0d9488", // teal dark
+        21: "#2563eb", // blue strong
+        22: "#dc2626", // red strong
+        23: "#15803d", // green dark
+        24: "#7c3aed", // purple deep
+        25: "#ca8a04", // yellow brown
+        26: "#334155", // slate dark
+        27: "#1d4ed8", // royal blue
+        28: "#facc15", // yellow
+        29: "#65a30d", // lime dark
+        30: "#c026d3", // magenta
+        31: "#f87171", // red light
+        32: "#3f6212", // olive green
+        33: "#0284c7", // blue cyan
+        34: "#9333ea", // violet strong
+        35: "#fbbf24", // amber light
+        36: "#166534", // forest green
+        37: "#9d174d", // pink deep
+        38: "#0e7490", // cyan deep
+        39: "#92400e", // brown
+        40: "#1e293b", // dark slate
+        41: "#fde047", // yellow bright
+        42: "#5b21b6", // purple dark
+        43: "#ea580c", // orange deep
+        44: "#15803d", // green intense
+        45: "#0369a1", // ocean blue
+        46: "#f43f5e", // pink/red
+        47: "#047857", // emerald deep
+        48: "#7f1d1d", // maroon
+        49: "#4338ca", // indigo deep
+        50: "#d97706"  // amber deep
+    };
 
     dados.forEach(indicador => {
         const card = document.createElement('div');
         card.className = `indicador-card bg-white rounded-lg shadow-md overflow-hidden relative`;
         card.dataset.id = indicador.id;
 
-        // Barra de status (meta atingida ou não) no lado esquerdo
+        // Barra de status
         const atingido = indicador.atingido;
-        let statusClass = 'bg-red-500'; // padrão: não atingido
+        let statusClass = 'bg-red-500';
         let statusText = 'Meta não atingida';
         let statusIcon = '❌';
 
         if (indicador.tipo_meta === 'monitoramento') {
-            statusClass = 'bg-blue-500'; // azul para monitoramento
-            statusIcon = '📊'; // ícone para monitoramento
+            statusClass = 'bg-blue-500';
+            statusIcon = '📊';
             statusText = 'Monitoramento';
         } else if (atingido) {
-            statusClass = 'bg-green-500'; // verde se atingido
+            statusClass = 'bg-green-500';
             statusIcon = '✅';
             statusText = 'Meta atingida';
         }
 
         const statusBar = `<div class="trend-bar ${statusClass}"></div>`;
 
-        // Atribuir uma cor aleatória ao setor se ainda não tiver uma
-        if (!setoresCores[indicador.setor_nome]) {
-            setoresCores[indicador.setor_nome] = gerarCorAleatoria();
-        }
-        const corSetor = setoresCores[indicador.setor_nome];
-
-        // Formatação do valor e meta
-        const formatarValor = (valor) => {
-            if (valor >= 1000) {
-                return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            }
-            return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-        };
+        // Cor do setor pelo ID
+        const corSetor = coresSetores[indicador.setor] || "#64748b";
 
         // Variação com seta
         let variacaoIcon = '';
@@ -234,14 +268,11 @@ function renderizarIndicadores(dados) {
         if (indicador.tipo_meta === 'crescente') {
             variacaoIcon = indicador.variacao >= 0 ? '↑' : '↓';
             variacaoClass = indicador.variacao >= 0 ? 'text-green-500' : 'text-red-500';
-            variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior ou meta do período</span></span>`;
+            variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao >= 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior</span></span>`;
         } else if (indicador.tipo_meta === 'decrescente') {
             variacaoIcon = indicador.variacao > 0 ? '↑' : '↓';
             variacaoClass = indicador.variacao < 0 ? 'text-green-500' : 'text-red-500';
-            variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao > 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior ou meta do período</span></span>`;
-        } else if (indicador.tipo_meta === 'monitoramento') {
-            // Não exibe a variação para indicadores de monitoramento
-            variacaoText = '';
+            variacaoText = `<span class="tooltip ${variacaoClass} font-semibold">${indicador.variacao > 0 ? '+' : ''}${indicador.variacao}% ${variacaoIcon}<span class="tooltiptext">Comparado ao mês anterior</span></span>`;
         }
 
         card.innerHTML = `
@@ -270,13 +301,12 @@ function renderizarIndicadores(dados) {
 
         container.appendChild(card);
 
-        // Adicionar evento de clique para mostrar detalhes
+        // Eventos
         card.querySelector('.btn-detalhes').addEventListener('click', (e) => {
             e.stopPropagation();
             mostrarDetalhes(indicador);
         });
 
-        // Também adicionar evento de clique ao card inteiro
         card.addEventListener('click', () => {
             mostrarDetalhes(indicador);
         });
