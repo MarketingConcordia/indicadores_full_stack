@@ -53,15 +53,20 @@ function formatarComTipo(valor, tipo) {
 async function carregarIndicadores() {
   try {
     const token = localStorage.getItem('access');
-    const response = await fetch(`${window.API_BASE_URL}/api/indicadores/`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    if (!response.ok) throw new Error("Erro ao carregar indicadores");
+    let url = `${window.API_BASE_URL}/api/indicadores/?page_size=200`;
+    let acumulado = [];
 
-    const data = await response.json();
-    todosIndicadores = data.results || data;
+    while (url) {
+      const resp = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` }});
+      if (!resp.ok) throw new Error("Erro ao carregar indicadores");
+      const data = await resp.json();
+      const page = data.results || data;         // suporta paginado e não paginado
+      acumulado = acumulado.concat(page);
+      url = data.next || null;                   // segue o "next" quando existir
+    }
+
+    todosIndicadores = acumulado;
     todosIndicadores.forEach(i => console.log("🔎 Indicador:", i));
-
     renderizarIndicadores();
   } catch (error) {
     console.error("Erro ao buscar indicadores:", error);
@@ -281,11 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('filtro-setor').addEventListener('change', renderizarIndicadores);
   document.getElementById('form-metrica').addEventListener('submit', salvarIndicador);
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  carregarDiaLimite();
-  document.getElementById("btn-salvar-dia-limite").addEventListener("click", salvarDiaLimite);
 });
 
 // 🧠 Preenche automaticamente o campo de meta com 0 se o tipo for "monitoramento"

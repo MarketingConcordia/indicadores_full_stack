@@ -11,7 +11,7 @@ FRONTEND_DIR = os.path.join(BASE_DIR, 'front-app')
 # === SEGURANÇA E DEPLOY ===
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 # === APLICAÇÕES ===
 INSTALLED_APPS = [
@@ -95,10 +95,10 @@ USE_TZ = True
 # === ARQUIVOS ESTÁTICOS E MÍDIA ===
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'front-app')]
-STATIC_ROOT = Path(BASE_DIR) / 'static'
+STATIC_ROOT = '/home/gestorkpi/www/static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = Path(BASE_DIR) / 'media'
+MEDIA_ROOT = '/home/gestorkpi/www/media'
 
 # === DJANGO REST FRAMEWORK ===
 REST_FRAMEWORK = {
@@ -106,7 +106,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': 500,
 }
 
 # === SIMPLE JWT ===

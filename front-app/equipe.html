@@ -20,12 +20,10 @@
 
 <body>
   <div class="flex h-screen bg-gray-100">
-        <!-- Sidebar -->
         <div id="sidebar" class="sidebar bg-gradient-to-b from-blue-900 to-blue-800 text-white py-4 flex flex-col">
             <div class="px-4 py-2 flex items-center ">
                 <div class="flex items-center space-x-2">
-                    <!-- Logo e nome da empresa removidos conforme solicitado -->
-                </div>
+                    </div>
             </div>
             
             <div class="mt-8 flex-1">
@@ -79,9 +77,7 @@
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Navbar -->
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="flex items-center">
@@ -115,7 +111,6 @@
             </header>
 
     <main class="flex-1 overflow-y-auto p-6">
-        <!-- Cadastro de Gestores -->
         <section class="bg-white p-6 rounded-lg shadow mb-6">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">Cadastrar Gestor</h2>
             <form id="form-gestor" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -136,30 +131,38 @@
                     </select>
                 </div>
                 <div>
-                    <label for="setorGestor" class="block text-sm font-medium text-gray-700">Setor:</label>
-                    <select id="setorGestor" name="setorGestor" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700">Setor:</label>
+                    <div class="relative mt-1" id="dropdown-setores-cadastro">
+                        </div>
                 </div>
               </div>  
               <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label for="senhaGestor" class="block text-sm font-medium text-gray-700">Senha:</label>
-                  <input type="password" id="senhaGestor" name="senhaGestor" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
-                <div>
-                  <label for="confirmarSenhaGestor" class="block text-sm font-medium text-gray-700">Confirmar Senha:</label>
-                  <input type="password" id="confirmarSenhaGestor" name="confirmarSenhaGestor" class="mt-1 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
+                    <div>
+                        <label for="senhaGestor" class="block text-sm font-medium text-gray-700">Senha:</label>
+                        <div class="relative mt-1">
+                            <input type="password" id="senhaGestor" name="senhaGestor" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10" required>
+                            <button type="button" onclick="togglePasswordVisibility('senhaGestor')" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600 focus:outline-none">
+                                <i id="toggle-senhaGestor" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="confirmarSenhaGestor" class="block text-sm font-medium text-gray-700">Confirmar Senha:</label>
+                        <div class="relative mt-1">
+                            <input type="password" id="confirmarSenhaGestor" name="confirmarSenhaGestor" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10" required>
+                            <button type="button" onclick="togglePasswordVisibility('confirmarSenhaGestor')" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600 focus:outline-none">
+                                <i id="toggle-confirmarSenhaGestor" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
               </div>
               <div class="md:col-span-2 flex justify-end">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md">Cadastrar Gestor</button>
               </div>
             </form>
 
-            <!-- TÍTULO -->
             <h2 class="text-xl font-semibold mb-4 mt-10 text-gray-800">Usuários Cadastrados</h2>
 
-            <!-- TABELA -->
             <div class="overflow-x-auto rounded shadow">
             <table class="min-w-full bg-white border border-gray-200 text-sm">
                 <thead class="bg-gray-100 text-gray-700">
@@ -173,7 +176,6 @@
                 </tr>
                 </thead>
                 <tbody id="tabela-usuarios" class="divide-y divide-gray-200">
-                <!-- Conteúdo renderizado dinamicamente pelo JS -->
                 </tbody>
             </table>
             </div>
@@ -182,7 +184,6 @@
     </div>
   </div>
 
-    <!-- MODAL DE EDIÇÃO DE GESTOR -->
     <div id="modal-editar-gestor" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
         <div class="bg-white p-6 rounded-lg w-full max-w-lg shadow">
             <h2 class="text-xl font-bold mb-4">Editar Gestor</h2>
@@ -209,14 +210,18 @@
 
             <div class="mb-4" id="edit-setor-wrapper">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Setor</label>
-                <select id="edit-setor" class="w-full border px-3 py-2 rounded">
-                <option value="">Selecione o setor</option>
-                </select>
+                <div class="relative mt-1" id="dropdown-setores-edicao">
+                    </div>
             </div>
 
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nova Senha (opcional)</label>
-                <input type="password" id="edit-senha" class="w-full border px-3 py-2 rounded">
+                <div class="relative">
+                    <input type="password" id="edit-senha" class="w-full border px-3 py-2 rounded pr-10">
+                    <button type="button" onclick="togglePasswordVisibility('edit-senha')" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600 focus:outline-none">
+                        <i id="toggle-edit-senha" class="fas fa-eye"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="flex justify-end gap-2">

@@ -358,7 +358,7 @@ function mostrarDetalhes(indicador) {
             </div>
         </div>
 
-        <div class="w-full bg-white rounded p-4 mb-6 border shadow overflow-auto max-h-[300px]">
+        <div id="historico-container" class="w-full bg-white rounded p-4 mb-6 border shadow overflow-auto max-h-[300px]">
             <h3 class="text-lg font-semibold mb-3">Histórico de Preenchimentos</h3>
             <table class="w-full text-sm text-left border">
                 <thead class="bg-gray-100 text-gray-700">
@@ -506,18 +506,26 @@ function mostrarDetalhes(indicador) {
 
     // 🔴 Exportar o conteúdo do modal completo em PDF
     document.getElementById('exportar-pdf').addEventListener('click', () => {
-
         const elemento = document.getElementById('modal-content');
+        const historicoContainer = document.getElementById('historico-container');
+        
+        // 1. Salvar os estilos originais
+        const originalMaxHeight = historicoContainer.style.maxHeight;
+        const originalOverflow = historicoContainer.style.overflow;
+        
+        // 2. Remover os estilos que causam o corte
+        historicoContainer.style.maxHeight = 'none';
+        historicoContainer.style.overflow = 'visible';
 
         const options = {
-            margin: 0.3,
+            margin: 0, // Removendo a margem para maximizar o espaço
             filename: `${indicador.nome}_detalhes.pdf`,
             image: {
                 type: 'jpeg',
                 quality: 0.98
             },
             html2canvas: {
-                scale: 2
+                scale: 3 // Aumentando a escala para tentar compactar mais conteúdo
             },
             jsPDF: {
                 unit: 'in',
@@ -526,7 +534,11 @@ function mostrarDetalhes(indicador) {
             }
         };
 
-        html2pdf().from(elemento).set(options).save();
+        html2pdf().from(elemento).set(options).save().then(() => {
+            // 3. Restaurar os estilos originais após a exportação
+            historicoContainer.style.maxHeight = originalMaxHeight;
+            historicoContainer.style.overflow = originalOverflow;
+        });
     });
 
     // ✅ AGORA SIM – O canvas já está no DOM

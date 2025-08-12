@@ -184,13 +184,59 @@ function renderizarIndicadores(dados) {
     const container = document.getElementById('indicadores-container');
     container.innerHTML = '';
 
-    // Objeto para armazenar as cores geradas para cada setor
-    const setoresCores = {};
-
-    // Função para gerar uma cor hexadecimal aleatória
-    function gerarCorAleatoria() {
-        return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-    }
+    // 🎨 50 cores fixas mapeadas por ID de setor
+    const coresSetores = {
+        1: "#4f46e5",  // indigo
+        2: "#ec4899",  // pink
+        3: "#f59e0b",  // amber
+        4: "#06b6d4",  // cyan
+        5: "#10b981",  // emerald
+        6: "#8b5cf6",  // violet
+        7: "#f43f5e",  // rose
+        8: "#0ea5e9",  // sky
+        9: "#84cc16",  // lime
+        10: "#6366f1", // indigo
+        11: "#d946ef", // fuchsia
+        12: "#64748b", // slate
+        13: "#0891b2", // cyan
+        14: "#22c55e", // green
+        15: "#3b82f6", // blue
+        16: "#ef4444", // red
+        17: "#a855f7", // purple
+        18: "#14b8a6", // teal
+        19: "#f97316", // orange
+        20: "#0d9488", // teal dark
+        21: "#2563eb", // blue strong
+        22: "#dc2626", // red strong
+        23: "#15803d", // green dark
+        24: "#7c3aed", // purple deep
+        25: "#ca8a04", // yellow brown
+        26: "#334155", // slate dark
+        27: "#1d4ed8", // royal blue
+        28: "#facc15", // yellow
+        29: "#65a30d", // lime dark
+        30: "#c026d3", // magenta
+        31: "#f87171", // red light
+        32: "#3f6212", // olive green
+        33: "#0284c7", // blue cyan
+        34: "#9333ea", // violet strong
+        35: "#fbbf24", // amber light
+        36: "#166534", // forest green
+        37: "#9d174d", // pink deep
+        38: "#0e7490", // cyan deep
+        39: "#92400e", // brown
+        40: "#1e293b", // dark slate
+        41: "#fde047", // yellow bright
+        42: "#5b21b6", // purple dark
+        43: "#ea580c", // orange deep
+        44: "#15803d", // green intense
+        45: "#0369a1", // ocean blue
+        46: "#f43f5e", // pink/red
+        47: "#047857", // emerald deep
+        48: "#7f1d1d", // maroon
+        49: "#4338ca", // indigo deep
+        50: "#d97706"  // amber deep
+    };
 
     dados.forEach(indicador => {
         const card = document.createElement('div');
@@ -215,11 +261,8 @@ function renderizarIndicadores(dados) {
 
         const statusBar = `<div class="trend-bar ${statusClass}"></div>`;
 
-        // Atribuir uma cor aleatória ao setor se ainda não tiver uma
-        if (!setoresCores[indicador.setor_nome]) {
-            setoresCores[indicador.setor_nome] = gerarCorAleatoria();
-        }
-        const corSetor = setoresCores[indicador.setor_nome];
+        // Cor do setor pelo ID
+        const corSetor = coresSetores[indicador.setor] || "#64748b";
 
         // Formatação do valor e meta
         const formatarValor = (valor) => {
@@ -334,7 +377,7 @@ function mostrarDetalhes(indicador) {
             </div>
         </div>
 
-        <div class="w-full bg-white rounded p-4 mb-6 border shadow overflow-auto max-h-[300px]">
+        <div id="historico-container" class="w-full bg-white rounded p-4 mb-6 border shadow overflow-auto max-h-[300px]">
             <h3 class="text-lg font-semibold mb-3">Histórico de Preenchimentos</h3>
             <table class="w-full text-sm text-left border">
                 <thead class="bg-gray-100 text-gray-700">
@@ -483,18 +526,26 @@ function mostrarDetalhes(indicador) {
 
     // 🔴 Exportar o conteúdo do modal completo em PDF
     document.getElementById('exportar-pdf').addEventListener('click', () => {
-
         const elemento = document.getElementById('modal-content');
+        const historicoContainer = document.getElementById('historico-container');
+        
+        // 1. Salvar os estilos originais
+        const originalMaxHeight = historicoContainer.style.maxHeight;
+        const originalOverflow = historicoContainer.style.overflow;
+        
+        // 2. Remover os estilos que causam o corte
+        historicoContainer.style.maxHeight = 'none';
+        historicoContainer.style.overflow = 'visible';
 
         const options = {
-            margin: 0.3,
+            margin: 0,
             filename: `${indicador.nome}_detalhes.pdf`,
             image: {
                 type: 'jpeg',
                 quality: 0.98
             },
             html2canvas: {
-                scale: 2
+                scale: 3
             },
             jsPDF: {
                 unit: 'in',
@@ -503,7 +554,11 @@ function mostrarDetalhes(indicador) {
             }
         };
 
-        html2pdf().from(elemento).set(options).save();
+        html2pdf().from(elemento).set(options).save().then(() => {
+            // 3. Restaurar os estilos originais após a exportação
+            historicoContainer.style.maxHeight = originalMaxHeight;
+            historicoContainer.style.overflow = originalOverflow;
+        });
     });
 
     // ✅ AGORA SIM – O canvas já está no DOM

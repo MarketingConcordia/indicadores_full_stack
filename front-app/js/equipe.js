@@ -8,20 +8,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   listarGestores();
-  preencherSelectSetores();
+  preencherDropdownSetores();
 
-    // 🧠 Controle do campo setor conforme perfil selecionado
-    const perfilSelect = document.getElementById("perfil");
-    const setorSelect = document.getElementById("setorGestor");
+  // 🧠 Controle do campo setor conforme perfil selecionado
+  const perfilSelect = document.getElementById("perfil");
+  const dropdownContainer = document.getElementById("dropdown-setores-cadastro");
 
-    perfilSelect.addEventListener("change", function () {
-      if (this.value === "master") {
-        setorSelect.disabled = true;
-        setorSelect.value = "";
-      } else {
-        setorSelect.disabled = false;
-      }
-    });
+  perfilSelect.addEventListener("change", function () {
+    if (this.value === "master") {
+      dropdownContainer.classList.add('hidden');
+    } else {
+      dropdownContainer.classList.remove('hidden');
+    }
+  });
 
 
   form.addEventListener("submit", function (e) {
@@ -31,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("emailGestor").value;
     const senha = document.getElementById("senhaGestor").value;
     const confirmarSenha = document.getElementById("confirmarSenhaGestor").value;
-    const setorSelecionado = parseInt(document.getElementById("setorGestor").value);
 
     if (senha !== confirmarSenha) {
       alert("As senhas não coincidem.");
@@ -39,9 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const perfilSelecionado = document.getElementById("perfil").value;
+    // Pega todos os IDs dos setores selecionados através dos checkboxes
+    const setoresSelecionados = Array.from(document.querySelectorAll('#dropdown-setores-cadastro input[type="checkbox"]:checked')).map(cb => parseInt(cb.value));
 
-    if (perfilSelecionado === "gestor" && isNaN(setorSelecionado)) {
-      alert("Selecione um setor válido para o gestor.");
+    if (perfilSelecionado === "gestor" && setoresSelecionados.length === 0) {
+      alert("Selecione pelo menos um setor para o gestor.");
       return;
     }
 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (perfilSelecionado === "gestor") {
-      payload.setores_ids = [setorSelecionado];
+      payload.setores_ids = setoresSelecionados;
     }
 
     fetch(`${window.API_BASE_URL}/api/usuarios/`, {
@@ -80,6 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Gestor cadastrado com sucesso!");
         form.reset();
         listarGestores();
+        // Recria os checkboxes para limpar o estado
+        preencherDropdownSetores();
       })
       .catch(error => {
         console.error("Erro completo da API:", error.message);
@@ -141,7 +143,7 @@ function listarGestores() {
             ? `<button onclick="alterarStatusUsuario(${usuario.id}, false)" class="text-red-600 hover:underline">Inativar</button>`
             : `<button onclick="alterarStatusUsuario(${usuario.id}, true)" class="text-green-600 hover:underline">Ativar</button>`;
         }
-        
+
         tr.innerHTML = `
           <td class="px-4 py-2">${usuario.first_name}</td>
           <td class="px-4 py-2">${usuario.email}</td>
@@ -224,6 +226,8 @@ function excluirGestor(id) {
 
 function editarGestor(id) {
   const token = localStorage.getItem("access");
+  const dropdownContainer = document.getElementById("dropdown-setores-edicao");
+  const setorWrapper = document.getElementById("edit-setor-wrapper");
 
   fetch(`${window.API_BASE_URL}/api/usuarios/${id}/`, {
     headers: { Authorization: `Bearer ${token}` }
@@ -236,23 +240,30 @@ function editarGestor(id) {
       document.getElementById("edit-perfil").value = gestor.perfil;
       document.getElementById("edit-senha").value = "";
 
-      // Habilita ou desabilita campo setor
-      const setorWrapper = document.getElementById("edit-setor-wrapper");
-      const setorSelect = document.getElementById("edit-setor");
-
+      // Mostra/esconde o dropdown de setores
       if (gestor.perfil === "gestor") {
         setorWrapper.classList.remove("hidden");
-        setorSelect.disabled = false;
 
-        // Selecionar o setor atual
+        // Desmarca todos os checkboxes antes de marcar os corretos
+        dropdownContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+
+        // Marca como selecionado todos os setores do gestor
         if (gestor.setores && gestor.setores.length > 0) {
-          setorSelect.value = gestor.setores[0].id;
+          const setorIds = gestor.setores.map(s => s.id);
+          setorIds.forEach(setorId => {
+            const checkbox = document.querySelector(`#dropdown-setores-edicao input[type="checkbox"][value="${setorId}"]`);
+            if (checkbox) {
+              checkbox.checked = true;
+            }
+          });
         }
       } else {
         setorWrapper.classList.add("hidden");
-        setorSelect.disabled = true;
-        setorSelect.value = "";
+        dropdownContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
       }
+      
+      // Atualiza o texto do botão do dropdown para o modal de edição
+      updateDropdownText(dropdownContainer.querySelector('.dropdown-button'));
 
       document.getElementById("modal-editar-gestor").classList.remove("hidden");
     });
@@ -269,22 +280,27 @@ document.getElementById("form-editar-gestor").addEventListener("submit", functio
   const nome = document.getElementById("edit-nome").value;
   const email = document.getElementById("edit-email").value;
   const perfil = document.getElementById("edit-perfil").value;
-  const setor = document.getElementById("edit-setor").value;
   const senha = document.getElementById("edit-senha").value;
 
+  // Pega todos os IDs dos setores selecionados através dos checkboxes
+  const setoresSelecionados = Array.from(document.querySelectorAll('#dropdown-setores-edicao input[type="checkbox"]:checked')).map(cb => parseInt(cb.value));
+
   const payload = {
-  first_name: nome,
-  email: email,
-  username: email,
-  perfil: perfil
-};
+    first_name: nome,
+    email: email,
+    username: email,
+    perfil: perfil
+  };
 
   if (senha.trim()) {
     payload.password = senha.trim();
   }
 
-  if (perfil === "gestor" && setor) {
-    payload.setores_ids = [parseInt(setor)];
+  if (perfil === "gestor") {
+    payload.setores_ids = setoresSelecionados;
+  } else {
+    // Se o perfil for 'master', garante que a lista de setores seja vazia
+    payload.setores_ids = [];
   }
 
   const token = localStorage.getItem("access");
@@ -311,11 +327,16 @@ document.getElementById("form-editar-gestor").addEventListener("submit", functio
     });
 });
 
-function preencherSelectSetores() {
+function preencherDropdownSetores() {
   const token = localStorage.getItem("access");
 
-  const selectCadastro = document.getElementById("setorGestor");
-  const selectEdicao = document.getElementById("edit-setor");
+  const containerCadastro = document.getElementById("dropdown-setores-cadastro");
+  const containerEdicao = document.getElementById("dropdown-setores-edicao");
+
+  if (!containerCadastro || !containerEdicao) {
+    console.error("Containers de setores não encontrados.");
+    return;
+  }
 
   fetch(`${window.API_BASE_URL}/api/setores/`, {
     headers: {
@@ -329,44 +350,124 @@ function preencherSelectSetores() {
     .then(data => {
       const setores = data.results;
 
-      // Preenche o select de cadastro
-      if (selectCadastro) {
-        selectCadastro.innerHTML = '<option value="">Selecione o setor</option>';
-        setores.forEach(setor => {
-          const opt = document.createElement("option");
-          opt.value = setor.id;
-          opt.textContent = setor.nome;
-          selectCadastro.appendChild(opt);
-        });
-      }
+      // Cria o dropdown para o formulário de cadastro
+      criarDropdown(containerCadastro, setores);
 
-      // Preenche o select do modal de edição
-      if (selectEdicao) {
-        selectEdicao.innerHTML = '<option value="">Selecione o setor</option>';
-        setores.forEach(setor => {
-          const opt = document.createElement("option");
-          opt.value = setor.id;
-          opt.textContent = setor.nome;
-          selectEdicao.appendChild(opt);
-        });
-      }
+      // Cria o dropdown para o modal de edição
+      criarDropdown(containerEdicao, setores, true);
 
+      // Oculta a lista de setores inicialmente
+      containerCadastro.querySelector('.dropdown-content').classList.add('hidden');
+      containerEdicao.querySelector('.dropdown-content').classList.add('hidden');
     })
     .catch(err => {
       console.error("Erro ao preencher setores:", err);
     });
 }
 
+function criarDropdown(container, setores, isEdit = false) {
+  const dropdownButtonId = isEdit ? 'edit-setor-dropdown-button' : 'setor-dropdown-button';
+  const dropdownContentId = isEdit ? 'edit-setor-dropdown-content' : 'setor-dropdown-content';
+  const checkboxPrefix = isEdit ? 'edit-setor-' : 'setor-';
+
+  // Limpa o container antes de preencher
+  container.innerHTML = `
+    <button type="button" id="${dropdownButtonId}" class="dropdown-button w-full flex items-center justify-between px-3 py-2 border rounded-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <span>Selecione os setores...</span>
+      <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+    <div id="${dropdownContentId}" class="dropdown-content absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto hidden">
+      </div>
+  `;
+
+  const dropdownButton = document.getElementById(dropdownButtonId);
+  const dropdownContent = document.getElementById(dropdownContentId);
+
+  setores.forEach(setor => {
+    const checkboxDiv = document.createElement("div");
+    checkboxDiv.className = 'flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer';
+    checkboxDiv.innerHTML = `
+      <input type="checkbox" id="${checkboxPrefix}${setor.id}" name="${checkboxPrefix}checkbox" value="${setor.id}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+      <label for="${checkboxPrefix}${setor.id}" class="ml-2 block text-sm text-gray-900 w-full cursor-pointer">${setor.nome}</label>
+    `;
+    dropdownContent.appendChild(checkboxDiv);
+  });
+
+  // Evento para abrir/fechar o dropdown
+  dropdownButton.addEventListener('click', () => {
+    dropdownContent.classList.toggle('hidden');
+    // Rotação do ícone
+    const icon = dropdownButton.querySelector('svg');
+    icon.classList.toggle('rotate-180');
+  });
+
+  // Evento para atualizar o texto do botão quando os checkboxes são clicados
+  dropdownContent.addEventListener('change', () => {
+    updateDropdownText(dropdownButton);
+  });
+  
+  // Evento para fechar o dropdown ao clicar fora
+  document.addEventListener('click', (event) => {
+    if (!container.contains(event.target)) {
+      dropdownContent.classList.add('hidden');
+      const icon = dropdownButton.querySelector('svg');
+      icon.classList.remove('rotate-180');
+    }
+  });
+
+  // Função para garantir que os labels também ativem o checkbox
+  dropdownContent.querySelectorAll('label').forEach(label => {
+    label.addEventListener('click', (event) => {
+      event.preventDefault(); // Impede o comportamento padrão
+      const checkbox = document.getElementById(label.getAttribute('for'));
+      checkbox.checked = !checkbox.checked;
+      updateDropdownText(dropdownButton);
+    });
+  });
+}
+
+function updateDropdownText(dropdownButton) {
+  const container = dropdownButton.parentElement;
+  const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+  const span = dropdownButton.querySelector('span');
+
+  if (checkboxes.length === 0) {
+    span.textContent = 'Selecione os setores...';
+  } else if (checkboxes.length === 1) {
+    span.textContent = `${container.querySelector(`#${checkboxes[0].id}`).nextElementSibling.textContent}`;
+  } else {
+    span.textContent = `${checkboxes.length} setores selecionados`;
+  }
+}
+
 document.getElementById("edit-perfil").addEventListener("change", function () {
   const setorWrapper = document.getElementById("edit-setor-wrapper");
-  const setorSelect = document.getElementById("edit-setor");
+  const dropdownContainer = document.getElementById("dropdown-setores-edicao");
+  const dropdownButton = dropdownContainer.querySelector('.dropdown-button');
 
   if (this.value === "master") {
     setorWrapper.classList.add("hidden");
-    setorSelect.disabled = true;
-    setorSelect.value = "";
+    dropdownContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
   } else {
     setorWrapper.classList.remove("hidden");
-    setorSelect.disabled = false;
   }
+  updateDropdownText(dropdownButton);
 });
+
+// Função para alternar a visibilidade da senha
+function togglePasswordVisibility(fieldId) {
+    const passwordField = document.getElementById(fieldId);
+    const toggleIcon = document.getElementById(`toggle-${fieldId}`);
+    
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+    } else {
+        passwordField.type = "password";
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+    }
+}
