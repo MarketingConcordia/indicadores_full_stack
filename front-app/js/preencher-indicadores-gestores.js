@@ -135,7 +135,7 @@ document.getElementById('formPreenchimento').addEventListener('submit', async fu
     const arquivo = document.getElementById('provas').files[0];
     // ✅ Verificar se o arquivo excede 2MB
     if (arquivo && arquivo.size > 2 * 1024 * 1024) {
-        alert("O arquivo é muito grande. O tamanho máximo permitido é 5MB.");
+        alert("O arquivo é muito grande. O tamanho máximo permitido é 2MB.");
         return;
     }
     const origem = document.getElementById('origem').value;

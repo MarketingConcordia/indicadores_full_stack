@@ -76,12 +76,19 @@ async function carregarIndicadores() {
 // 🔹 Renderizar lista de indicadores
 function renderizarIndicadores() {
   const lista = document.getElementById('indicadores-lista');
-  const filtro = document.getElementById('filtro-setor').value;
+  const filtroSetor = document.getElementById('filtro-setor').value;
+  const filtroNome = document.getElementById('filtro-nome').value.toLowerCase();
+  
+  // 🔹 Limpa a lista antes de renderizar
   lista.innerHTML = '';
 
   const filtrados = todosIndicadores
-    .filter(i => filtro === 'todos' || i.setor == filtro)
+    .filter(i => (filtroSetor === 'todos' || i.setor == filtroSetor) && i.nome.toLowerCase().includes(filtroNome))
     .sort((a, b) => (a.status === 'pendente' ? -1 : 1));
+
+  // 🔹 Atualiza o contador de indicadores
+  const contador = document.getElementById('contador-indicadores');
+  contador.textContent = `( ${filtrados.length} Indicadores )`;
 
   if (filtrados.length === 0) {
     lista.innerHTML = `
@@ -119,7 +126,6 @@ function renderizarIndicadores() {
     lista.prepend(tr);
   });
 }
-
 
 // 🔹 Inativar indicador
 async function toggleStatusIndicador(id, statusAtual) {
@@ -286,6 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('filtro-setor').addEventListener('change', renderizarIndicadores);
   document.getElementById('form-metrica').addEventListener('submit', salvarIndicador);
+  
+  // Adicione esta linha para o novo campo de pesquisa
+  document.getElementById('filtro-nome').addEventListener('input', renderizarIndicadores);
 });
 
 // 🧠 Preenche automaticamente o campo de meta com 0 se o tipo for "monitoramento"

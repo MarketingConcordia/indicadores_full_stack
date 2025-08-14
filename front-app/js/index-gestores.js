@@ -453,8 +453,14 @@ function mostrarDetalhes(indicador) {
             </td>
             ${podeEditar ? `
             <td class="px-4 py-2 border text-center">
-                <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirModalEdicaoIndividual(${item.id}, ${item.valor}, ${indicador.id})">
-                    Editar
+                <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirModalEdicaoIndividual(${item.id}, ${item.valor})">
+                    Editar Valor
+                </button>
+                <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirModalEdicaoComentario(${item.id}, '${item.comentario?.replace(/'/g, "\\'") || ''}')">
+                    Editar Comentário
+                </button>
+                <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirModalEdicaoProva(${item.id}, '${item.provas[0] || ''}')">
+                    Editar Prova
                 </button>
             </td>
             ` : ''}
@@ -614,13 +620,26 @@ function mostrarDetalhes(indicador) {
     }
 
     // Mostrar o modal
-    modal.classList.remove('hidden');
+    modal.classList.remove("hidden");
 
     document.getElementById('btn-aplicar-filtro-periodo').addEventListener('click', () => {
         const dataInicio = document.getElementById('filtro-inicio').value;
         const dataFim = document.getElementById('filtro-fim').value;
         aplicarFiltroHistorico(indicador, dataInicio, dataFim);
     });
+
+    // Event listeners para os novos modais
+    document.getElementById('cancelar-edicao-comentario').addEventListener('click', () => {
+        document.getElementById('editar-comentario-modal').classList.add('hidden');
+    });
+
+    document.getElementById('salvar-comentario').addEventListener('click', salvarComentario);
+
+    document.getElementById('cancelar-edicao-prova').addEventListener('click', () => {
+        document.getElementById('editar-prova-modal').classList.add('hidden');
+    });
+
+    document.getElementById('salvar-prova').addEventListener('click', salvarProva);
 }
 
 // Inicializar a página (este bloco é executado após o DOM ser carregado)
@@ -655,6 +674,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fechar modais ao clicar fora deles
     const detalheModal = document.getElementById('detalhe-modal');
     const editarValorUnicoModal = document.getElementById('editar-valor-unico-modal');
+    const editarComentarioModal = document.getElementById('editar-comentario-modal');
+    const editarProvaModal = document.getElementById('editar-prova-modal');
 
     detalheModal.addEventListener('click', (e) => {
         if (e.target === detalheModal) {
@@ -665,6 +686,18 @@ document.addEventListener('DOMContentLoaded', () => {
     editarValorUnicoModal.addEventListener('click', (e) => {
         if (e.target === editarValorUnicoModal) {
             editarValorUnicoModal.classList.add('hidden');
+        }
+    });
+    
+    editarComentarioModal.addEventListener('click', (e) => {
+        if (e.target === editarComentarioModal) {
+            editarComentarioModal.classList.add('hidden');
+        }
+    });
+
+    editarProvaModal.addEventListener('click', (e) => {
+        if (e.target === editarProvaModal) {
+            editarProvaModal.classList.add('hidden');
         }
     });
 
@@ -754,7 +787,9 @@ function popularMesesDoAnoSelecionado(selectedYear) {
 function aplicarFiltroHistorico(indicador, dataInicio = "", dataFim = "") {
     const corpoTabela = document.getElementById('corpo-historico-modal');
     const canvas = document.getElementById('grafico-desempenho');
-    const podeEditar = indicador.setor_nome === localStorage.getItem("setor_usuario");
+    const setorGestor = localStorage.getItem("setor_usuario");
+    const podeEditar = indicador.setor_nome === setorGestor;
+
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
@@ -806,11 +841,21 @@ function aplicarFiltroHistorico(indicador, dataInicio = "", dataFim = "") {
                 <button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirComentarioPopup('${item.comentario?.replace(/'/g, "\\'") || ''}')">
                     Ver
                 </button>
+                ${podeEditar ? `
+                    <button class="text-blue-600 text-xs px-2 py-1 ml-2 rounded hover:text-blue-800" onclick="abrirModalEdicaoComentario(${item.id}, '${item.comentario?.replace(/'/g, "\\'") || ''}')">
+                    <i class="fas fa-edit"></i>
+                    </button>` : ''
+                }
             </td>
             <td class="px-4 py-2 border text-center">
                 ${item.provas?.length > 0
                     ? `<button class="text-blue-600 underline text-sm hover:text-blue-800" onclick="abrirProvasPopup('${item.provas[0]}')">Abrir</button>`
                     : '-'}
+                ${podeEditar ? `
+                    <button class="text-blue-600 text-xs px-2 py-1 ml-2 rounded hover:text-blue-800" onclick="abrirModalEdicaoProva(${item.id}, '${item.provas[0] || ''}')">
+                    <i class="fas fa-edit"></i>
+                    </button>` : ''
+                }
             </td>
         `;
         corpoTabela.appendChild(tr);
@@ -1075,5 +1120,123 @@ async function salvarValorUnico() {
     } catch (err) {
         console.error("Erro ao atualizar o valor:", err);
         alert("Erro ao atualizar o valor. Verifique o console.");
+    }
+}
+
+// NOVO: Abre o modal de edição para o comentário
+function abrirModalEdicaoComentario(idPreenchimento, comentarioAtual) {
+    const modal = document.getElementById('editar-comentario-modal');
+    const textarea = document.getElementById('campo-novo-comentario');
+    textarea.value = comentarioAtual;
+    textarea.dataset.preenchimentoId = idPreenchimento;
+    modal.classList.remove('hidden');
+}
+
+// NOVO: Salva o comentário editado
+async function salvarComentario() {
+    const token = localStorage.getItem("access");
+    const textarea = document.getElementById('campo-novo-comentario');
+    const idPreenchimento = textarea.dataset.preenchimentoId;
+    const novoComentario = textarea.value;
+
+    try {
+        const response = await fetch(`${window.API_BASE_URL}/api/preenchimentos/${idPreenchimento}/`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ comentario: novoComentario })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro na API: ${response.statusText}`);
+        }
+
+        alert("Comentário atualizado com sucesso.");
+        document.getElementById('editar-comentario-modal').classList.add('hidden');
+        location.reload();
+    } catch (err) {
+        console.error("Erro ao atualizar o comentário:", err);
+        alert("Erro ao atualizar o comentário. Verifique o console.");
+    }
+}
+
+// Abre o modal de edição para a prova
+function abrirModalEdicaoProva(idPreenchimento, provaAtual) {
+    const modal = document.getElementById('editar-prova-modal');
+    const provaInfo = document.getElementById('prova-atual-info');
+    const nomeProva = document.getElementById('nome-prova-atual');
+    const linkProva = document.getElementById('link-prova');
+    const input = document.getElementById('campo-nova-prova');
+
+    input.value = ''; // Reseta o campo de upload para evitar problemas
+
+    if (provaAtual && provaAtual.trim() !== '') {
+        const nomeArquivo = provaAtual.split('/').pop().split('?')[0];
+        nomeProva.textContent = nomeArquivo;
+        linkProva.href = provaAtual;
+        provaInfo.classList.remove('hidden');
+    } else {
+        provaInfo.classList.add('hidden');
+    }
+
+    // Salva o ID no dataset do input para uso na função de salvar
+    input.dataset.preenchimentoId = idPreenchimento;
+
+    modal.classList.remove('hidden');
+}
+
+// Funcao corrigida, usa FormData para enviar o arquivo e simplifica a lógica
+async function salvarProva() {
+    const token = localStorage.getItem("access");
+    const input = document.getElementById('campo-nova-prova');
+    const idPreenchimento = input.dataset.preenchimentoId;
+    const file = input.files[0];
+
+    // Se nenhum arquivo for selecionado, não faz nada
+    if (!file) {
+        alert("Nenhum novo arquivo selecionado. A prova não foi alterada.");
+        document.getElementById('editar-prova-modal').classList.add('hidden');
+        return;
+    }
+
+    // ✅ Verificar se o arquivo excede 2MB
+    if (file.size > 2 * 1024 * 1024) {
+        alert("O arquivo é muito grande. O tamanho máximo permitido é 2MB.");
+        return;
+    }
+
+    // Prepara o FormData
+    let formData = new FormData();
+    formData.append('arquivo', file);
+
+    try {
+        const response = await fetch(`${window.API_BASE_URL}/api/preenchimentos/${idPreenchimento}/`, {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            let mensagemErro = `Erro na API: ${response.statusText}`;
+            try {
+                const erro = await response.json();
+                console.error("Erro da API:", erro);
+                mensagemErro = Object.values(erro).flat().join('\n');
+            } catch (e) {
+                console.error("Erro de parse do JSON:", e);
+            }
+            throw new Error(mensagemErro);
+        }
+
+        alert("Prova atualizada com sucesso.");
+        document.getElementById('editar-prova-modal').classList.add('hidden');
+        location.reload();
+    } catch (err) {
+        console.error("Erro ao atualizar a prova:", err);
+        alert("Erro ao atualizar a prova:\n" + err.message);
     }
 }
